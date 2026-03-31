@@ -22,7 +22,8 @@ export default function AdminLoginPage() {
   useEffect(() => {
     const checkSession = async () => {
       const s = getAdminSession();
-      if (s.loggedIn && Date.now() - s.loginAt <= 8 * 60 * 60 * 1000) {
+      const isExpired = s.expires ? (Date.now() > s.expires) : (Date.now() - s.loginAt > 8 * 60 * 60 * 1000);
+      if (s.loggedIn && !isExpired) {
         navigate('/admin/dashboard', { replace: true });
       } else {
         if (s.loggedIn) await adminLogout();

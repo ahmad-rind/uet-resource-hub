@@ -1,10 +1,12 @@
 import { useState, useEffect } from 'react';
 import { useSearchParams, Link } from 'react-router-dom';
 import { Search, Filter, Loader, ChevronDown, SearchX, Upload } from 'lucide-react';
-import { departmentList, resourceTypes, departments } from '../data/courses.js';
-import ResourceCard from '../components/ResourceCard';
-import ResourceDetailModal from '../components/ResourceDetailModal';
-import { searchResources } from '../lib/supabase.js';
+import { resourceTypes } from '../data/courses.js';
+import ResourceCard from '../components/ResourceCard.js';
+import ResourceDetailModal from '../components/ResourceDetailModal.js';
+import { searchResources, getLiveCoursesData } from '../lib/supabase.js';
+import { ScrollProgress } from '../components/ScrollProgress.js';
+import { Reveal } from '../components/Reveal.js';
 
 export default function SearchPage() {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -18,13 +20,24 @@ export default function SearchPage() {
   const [loading, setLoading] = useState(false);
   const [searchInput, setSearchInput] = useState(query);
   const [previewResource, setPreviewResource] = useState<any>(null);
+  const [inlineQuery, setInlineQuery] = useState('');
 
-  const semesterOptions = filterDept
-    ? Object.keys(departments[filterDept as keyof typeof departments] || {}).sort((a, b) => Number(a) - Number(b))
+  const [departments, setDepartments] = useState<any>({});
+  const [departmentList, setDepartmentList] = useState<string[]>([]);
+
+  useEffect(() => {
+    getLiveCoursesData().then(data => {
+      setDepartments(data.departments);
+      setDepartmentList(data.departmentList);
+    });
+  }, []);
+
+  const semesterOptions = filterDept && departments[filterDept]
+    ? Object.keys(departments[filterDept] || {}).sort((a, b) => Number(a) - Number(b))
     : [];
 
-  const courseOptions = filterDept && filterSemester
-    ? (departments[filterDept as keyof typeof departments] as any)?.[filterSemester] || []
+  const courseOptions = filterDept && filterSemester && departments[filterDept]
+    ? (departments[filterDept] || {})[filterSemester] || []
     : [];
 
   useEffect(() => {
@@ -49,8 +62,18 @@ export default function SearchPage() {
         setLoading(false);
       }
     }
+    setInlineQuery('');
     load();
   }, [query, filterType, filterDept, filterSemester, filterCourse]);
+
+  const filteredResults = results.filter(r => {
+    if (!inlineQuery) return true;
+    const q = inlineQuery.toLowerCase();
+    return r.title.toLowerCase().includes(q) ||
+           r.courseCode.toLowerCase().includes(q) ||
+           r.courseName.toLowerCase().includes(q) ||
+           r.description?.toLowerCase().includes(q);
+  });
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
@@ -63,7 +86,9 @@ export default function SearchPage() {
   const handleCourseChange = (course: string) => updateSearchParams({ course });
 
   const clearFilters = () => {
-    setSearchParams({ q: query });
+    const newParams = new URLSearchParams();
+    if (query) newParams.set('q', query);
+    setSearchParams(newParams);
   };
 
   const updateSearchParams = (updates: Record<string, string>) => {
@@ -77,7 +102,9 @@ export default function SearchPage() {
 
   return (
     <div className="min-h-screen bg-[#d6dae8]">
+      <ScrollProgress />
       {/* ── Hero-style Header ────────────────────────────────────────────── */}
+      <Reveal delay={0.1}>
       <section className="pt-10 pb-6 px-6 md:px-8 max-w-7xl mx-auto">
         <div className="text-left w-full mb-2">
           {/* Badge */}
@@ -131,7 +158,9 @@ export default function SearchPage() {
           </button>
         </form>
       </section>
+      </Reveal>
 
+      <Reveal delay={0.2}>
       <div className="max-w-7xl mx-auto px-6 md:px-8 pb-20">
         <div className="flex flex-col lg:flex-row gap-10">
           {/* Filters Sidebar */}
@@ -188,7 +217,7 @@ export default function SearchPage() {
                     >
                       <option value="">All Departments</option>
                       {departmentList.map((dept: string) => (
-                        <option key={dept} value={dept}>{dept}</option>
+                        <option key={dept} value={dept}>{dept.replace(/\s*\(BS[C]?\)$/i, '')}</option>
                       ))}
                     </select>
                     <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 text-[#64748B] pointer-events-none" />
@@ -245,7 +274,7 @@ export default function SearchPage() {
                     className="w-full py-3.5 rounded-2xl text-[13px] text-[#64748B] font-bold transition-all duration-300 hover:text-[#5B4FE9] hover:-translate-y-0.5"
                     style={{ boxShadow: '8px 8px 16px #b0b8cc, -8px -8px 16px #ffffff', fontFamily: "'DM Sans', sans-serif" }}
                   >
-                    Clear All
+                    Clear Filters
                   </button>
                 )}
               </div>
@@ -305,14 +334,34 @@ export default function SearchPage() {
               </div>
             ) : (
               <div className="space-y-10">
-                <div className="flex items-center justify-between mb-8">
-                  <p className="text-[17px] font-bold text-[#1a1d2e]" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
-                    Found <span className="text-[#5B4FE9]">{results.length}</span> results
-                  </p>
+                <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-6 mb-8">
+                  <div>
+                    <p className="text-[15px] font-bold text-[#1a1d2e]" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
+                      Showing <span className="text-[#5B4FE9]">{filteredResults.length}</span> results
+                    </p>
+                    {query && (
+                      <p className="text-xs text-[#64748B] font-medium" style={{ fontFamily: "'DM Sans', sans-serif" }}>
+                        For "{query}"
+                      </p>
+                    )}
+                  </div>
+                  <div className="w-full sm:w-80 relative">
+                    <div className="absolute left-4 top-1/2 -translate-y-1/2">
+                      <Search className="w-4 h-4 text-[#5B4FE9]" />
+                    </div>
+                    <input
+                      type="text"
+                      placeholder="Filter shown results..."
+                      value={inlineQuery}
+                      onChange={(e) => setInlineQuery(e.target.value)}
+                      className="w-full pl-11 pr-5 py-3.5 rounded-2xl text-sm text-[#1a1d2e] bg-[#d6dae8] outline-none focus:ring-2 focus:ring-[#5B4FE9]/20 transition-all duration-300"
+                      style={{ boxShadow: 'inset 6px 6px 12px #b0b8cc, inset -6px -6px 12px #ffffff', fontFamily: "'DM Sans', sans-serif" }}
+                    />
+                  </div>
                 </div>
                 
                 <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
-                  {results.map(resource => (
+                  {filteredResults.map(resource => (
                     <ResourceCard key={resource.id} resource={resource} onPreview={setPreviewResource} />
                   ))}
                 </div>
@@ -321,6 +370,7 @@ export default function SearchPage() {
           </main>
         </div>
       </div>
+      </Reveal>
       {previewResource && (
         <ResourceDetailModal resource={previewResource} onClose={() => setPreviewResource(null)} />
       )}

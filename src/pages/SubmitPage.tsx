@@ -6,9 +6,10 @@ import {
   Type, Link as LinkIcon, User, Send, ChevronRight, ChevronLeft, ChevronDown,
   FileText, FlaskConical, ClipboardList, PenTool, Layout, Layers
 } from 'lucide-react';
-import { submitResource } from '../lib/supabase.js';
-import { departments, departmentList, resourceTypes } from '../data/courses.js';
+import { submitResource, getLiveCoursesData } from '../lib/supabase.js';
+import { resourceTypes } from '../data/courses.js';
 import { deptIcons } from './HomePage.js';
+import { ScrollProgress } from '../components/ScrollProgress.js';
 
 interface FormData {
   department: string;
@@ -45,11 +46,7 @@ const getResourceTypeIcon = (type: string) => {
   return <Layers {...props} />;
 };
 
-const getOrdinalSuffix = (n: string) => {
-  const s = ["th", "st", "nd", "rd"];
-  const v = Number(n) % 100;
-  return n + (s[(v - 20) % 10] || s[v] || s[0]);
-};
+
 
 const resourceTypeDescriptors: Record<string, string> = {
   "Past Paper": "Official exams from previous years.",
@@ -83,17 +80,28 @@ export default function SubmitPage() {
   const [submitting, setSubmitting] = useState(false);
   const [success, setSuccess] = useState<any>(null);
   const [isAnonymous, setIsAnonymous] = useState(false);
-  const [isCourseDropdownOpen, setIsCourseDropdownOpen] = useState(false);
 
-  const semesterOptions = form.department
-    ? Object.keys((departments as any)[form.department] || {}).sort(
+  const [departments, setDepartments] = useState<any>({});
+  const [departmentList, setDepartmentList] = useState<string[]>([]);
+  const [loadingCourses, setLoadingCourses] = useState(true);
+
+  useEffect(() => {
+    getLiveCoursesData().then(data => {
+      setDepartments(data.departments);
+      setDepartmentList(data.departmentList);
+      setLoadingCourses(false);
+    });
+  }, []);
+
+  const semesterOptions = form.department && departments[form.department]
+    ? Object.keys(departments[form.department] || {}).sort(
         (a, b) => Number(a) - Number(b)
       )
     : [];
 
   const semesterCourses =
-    form.department && form.semester
-      ? ((departments as any)[form.department] || {})[form.semester] || []
+    form.department && form.semester && departments[form.department]
+      ? (departments[form.department] || {})[form.semester] || []
       : [];
 
   useEffect(() => {
@@ -105,7 +113,6 @@ export default function SubmitPage() {
 
   useEffect(() => {
     window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
-    setIsCourseDropdownOpen(false);
   }, [currentStep]);
 
   const validate = (): boolean => {
@@ -205,7 +212,7 @@ export default function SubmitPage() {
           <div className="w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6" style={outsetStyle}>
             <CheckCircle className="w-10 h-10 text-[#10B981]" />
           </div>
-          <h2 className="text-2xl font-black text-[#1a1d2e] mb-2">Resource Submitted!</h2>
+          <h2 className="text-2xl font-black text-[#1a1d2e] mb-2" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>Resource Submitted!</h2>
           <p className="text-[#64748B] text-sm mb-6">Thank you for contributing to our community.</p>
           <div className="rounded-2xl p-5 mb-8 text-left space-y-2.5" style={insetStyle}>
              <div className="text-xs text-[#64748B]"><strong>Title:</strong> {success.title}</div>
@@ -222,76 +229,99 @@ export default function SubmitPage() {
   }
 
   return (
-    <div className="min-h-screen flex flex-col justify-center bg-[#d6dae8] pt-8 pb-32 lg:pt-16 lg:pb-[240px] px-4 md:px-8">
+    <div className="min-h-screen flex flex-col items-center bg-[#d6dae8] pt-6 pb-20 lg:pt-12 lg:pb-32 px-4 md:px-8">
+      <ScrollProgress />
       <style>{`
-        @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
         @keyframes popIn { 0% { transform: scale(0); opacity: 0; } 70% { transform: scale(1.2); opacity: 1; } 100% { transform: scale(1); opacity: 1; } }
-        .animate-section { animation: fadeInUp 0.4s ease forwards; }
+        .animate-section { animation: fadeInUp 0.6s ease-out 0.05s forwards; }
         .animate-pop { animation: popIn 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) forwards; }
       `}</style>
       
-      <main className="max-w-3xl mx-auto w-full">
-        <div className="flex flex-col items-center justify-center min-h-[75vh] lg:min-h-[0] gap-6 lg:gap-8">
+      <main className="max-w-6xl mx-auto w-full">
+        <div className="flex flex-col lg:flex-row items-center lg:items-start justify-center gap-10 lg:gap-16 mt-4 lg:mt-10">
           
-          {/* Header - Centered Above Form */}
-          <div className="text-center animate-section w-full">
-            <h1 className="text-4xl md:text-5xl font-black text-[#1a1d2e] leading-tight mb-2 md:mb-3">
+          {/* Header - Left Aligned on Desktop */}
+          <div className="text-center lg:text-left animate-section lg:w-1/3 pt-4">
+            <h1 className="text-4xl md:text-5xl font-black text-[#1a1d2e] leading-tight mb-4"
+              style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
               Submit a <span className="text-[#5B4FE9]">Resource</span>
             </h1>
-            <p className="text-[#64748B] text-sm md:text-base font-medium leading-relaxed max-w-md mx-auto">
-              Join 5 steps to share your knowledge with the UET community.
+            <p className="text-[#64748B] text-sm md:text-base font-medium leading-relaxed max-w-sm mx-auto lg:mx-0">
+              Join 5 steps to share your knowledge with the UET community. We support past papers, notes, and manuals.
             </p>
           </div>
 
           {/* Form & Progress Content */}
-          <div className="w-full">
+          <div className="w-full lg:flex-1 max-w-2xl">
             {/* Minimal Progress Bar */}
             <div className="mb-6 px-1">
-              <div className="flex justify-between items-center mb-1">
+              <div className="flex justify-between items-center mb-2">
                 <span className="text-[10px] font-black text-[#5B4FE9] tracking-widest uppercase">Step {currentStep} / {totalSteps}</span>
                 <span className="text-[10px] font-black text-[#5B4FE9]">{Math.round((currentStep/totalSteps)*100)}%</span>
               </div>
-              <div className="h-0.5 w-full bg-[#b0b8cc]/40 rounded-full relative overflow-hidden">
+              <div className="h-1 w-full bg-[#b0b8cc]/40 rounded-full relative overflow-hidden">
                 <div className="absolute top-0 left-0 h-full bg-[#5B4FE9] transition-all duration-700" style={{ width: `${(currentStep/totalSteps)*100}%` }} />
               </div>
             </div>
 
             <form onSubmit={handleSubmit} noValidate>
-              <div className="rounded-[32px] p-6 lg:p-8" style={outsetStyle}>
+              <div className="rounded-[40px] p-6 lg:p-10" style={outsetStyle}>
                 
                 {/* Step 1: Department */}
                 {currentStep === 1 && (
                   <div className="space-y-4 lg:space-y-6 animate-section">
-                    <h2 className="text-lg lg:text-xl font-black text-[#1a1d2e]">Select <span className="text-[#5B4FE9]">Department</span></h2>
-                    <div className="grid grid-cols-3 sm:grid-cols-4 lg:grid-cols-5 gap-3 lg:gap-4">
-                      {departmentList.map((dept) => {
+                    <h2 className="text-lg lg:text-xl font-black text-[#1a1d2e]" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>Select <span className="text-[#5B4FE9]">Department</span></h2>
+                    {loadingCourses ? (
+                      <div className="flex justify-center items-center py-10">
+                        <div className="w-8 h-8 border-4 border-[#5B4FE9]/20 border-t-[#5B4FE9] rounded-full animate-spin" />
+                      </div>
+                    ) : (
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        {departmentList.map((dept) => {
                         const isSelected = form.department === dept;
                         return (
                           <button key={dept} type="button" onClick={() => {
                               if (dept !== form.department) {
                                 setForm(prev => ({ ...prev, department: dept, semester: '', courseCode: '', courseName: '' }));
-                              } else {
-                                handleStepSelection('department', dept, 2);
                               }
-                              setCurrentStep(2);
                             }} 
-                             className="group relative flex flex-col items-center p-3 rounded-2xl transition-all hover:-translate-y-1 focus:outline-none" style={isSelected ? insetStyle : outsetStyle}>
-                             {isSelected && <div className="absolute top-2 right-2 w-1.5 h-1.5 bg-[#5B4FE9] rounded-full animate-pop" />}
+                             className="group relative flex items-center gap-4 p-4 rounded-[20px] transition-all duration-300 hover:-translate-y-1 hover:scale-[1.02] focus:outline-none focus:ring-2 focus:ring-[#5B4FE9]/20 bg-[#d6dae8]" 
+                             style={isSelected ? insetStyle : outsetStyle}>
                              
                              <div 
-                               className="w-8 h-8 lg:w-10 lg:h-10 rounded-xl flex items-center justify-center transition-all duration-300 group-hover:scale-110 mb-2 lg:mb-3 [&>svg]:w-4 [&>svg]:h-4 lg:[&>svg]:w-5 lg:[&>svg]:h-5"
+                               className="w-12 h-12 shrink-0 rounded-[14px] flex items-center justify-center transition-all duration-300 bg-[#d6dae8] [&>svg]:w-5 [&>svg]:h-5 [&>svg]:opacity-80 group-hover:[&>svg]:opacity-100 group-hover:[&>svg]:scale-110"
                                style={isSelected ? outsetStyle : insetStyle}
                              >
-                               {deptIcons[dept] || <BookOpen className="w-5 h-5 text-[#64748B]" />}
+                               {deptIcons[dept] || <BookOpen className="text-[#64748B]" />}
                              </div>
                              
-                             <span className={`text-[9px] lg:text-[10px] font-black text-center uppercase tracking-tight leading-tight ${isSelected ? 'text-[#5B4FE9]' : 'text-[#64748B]'}`}>
-                               {dept.replace(/\s*\(BS[C]?\)$/i, '')}
-                             </span>
+                             <div className="flex-1 text-left min-w-0 pr-2">
+                               <span className={`block font-bold text-[13px] sm:text-[14px] leading-tight transition-colors duration-300 ${isSelected ? 'text-[#5B4FE9]' : 'text-[#1a1d2e]'}`}
+                                 style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
+                                 {dept.replace(/\s*\(BS[C]?\)$/i, '')}
+                               </span>
+                             </div>
+
+                             {isSelected && (
+                               <div className="shrink-0 w-5 h-5 rounded-full bg-[#5B4FE9]/10 flex items-center justify-center animate-pop">
+                                 <div className="w-2 h-2 bg-[#5B4FE9] rounded-full shadow-[0_0_8px_rgba(91,79,233,0.4)]" />
+                               </div>
+                             )}
                            </button>
                         );
-                      })}
-                    </div>
+                       })}
+                      </div>
+                    )}
+                    <button
+                      type="button"
+                      onClick={() => setCurrentStep(2)}
+                      disabled={!form.department}
+                      className="w-full h-12 rounded-xl bg-[#5B4FE9] text-white font-black text-xs lg:text-sm flex items-center justify-center gap-2 disabled:opacity-50 hover:scale-[1.01] transition-transform"
+                      style={outsetStyle}
+                    >
+                      Continue <ChevronRight className="w-4 h-4" />
+                    </button>
                   </div>
                 )}
 
@@ -300,21 +330,19 @@ export default function SubmitPage() {
               <div className="space-y-4 lg:space-y-6 animate-section">
                 <div className="flex items-center gap-3">
                   <button onClick={prevStep} type="button" className="p-2 rounded-xl transition-transform hover:scale-105 active:scale-95" style={outsetStyle}><ChevronLeft className="w-4 h-4 lg:w-5 lg:h-5 text-[#5B4FE9]" /></button>
-                  <h2 className="text-lg lg:text-xl font-black text-[#1a1d2e]"><span className="text-[#5B4FE9]">Semester</span> & Course</h2>
+                  <h2 className="text-lg lg:text-xl font-black text-[#1a1d2e]" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}><span className="text-[#5B4FE9]">Semester</span> & Course</h2>
                 </div>
 
                 <div>
                   <label className="text-[10px] lg:text-xs font-black text-[#1a1d2e] uppercase tracking-widest pl-1 block mb-3 lg:mb-4">Select <span className="text-[#5B4FE9]">Semester</span></label>
                   <div className="grid grid-cols-4 sm:grid-cols-6 lg:grid-cols-8 gap-2 lg:gap-3">
                     {semesterOptions.map((sem) => (
-                      <button key={sem} type="button" onClick={() => { setForm(f => ({ ...f, semester: sem, courseCode: '' })); setIsCourseDropdownOpen(false); }}
+                      <button key={sem} type="button" onClick={() => { setForm(f => ({ ...f, semester: sem, courseCode: '' })); }}
                         className="h-10 lg:h-12 rounded-xl flex flex-col items-center justify-center transition-all hover:-translate-y-1 active:scale-95" 
                         style={form.semester === sem ? insetStyle : outsetStyle}>
-                        <div className="flex items-baseline gap-0.5">
-                          <span className={`text-base lg:text-lg font-black leading-none ${form.semester === sem ? 'text-[#5B4FE9]' : 'text-[#1a1d2e]'}`}>{sem}</span>
-                          <span className={`text-[7px] font-black uppercase tracking-tighter ${form.semester === sem ? 'text-[#5B4FE9]' : 'text-[#64748B]'}`}>
-                            {getOrdinalSuffix(sem).slice(-2)}
-                          </span>
+                        <div className="flex flex-col items-center justify-center gap-0.5">
+                          <span className={`text-xs font-black uppercase tracking-widest ${form.semester === sem ? 'text-[#5B4FE9]' : 'text-[#64748B]'}`}>SEM</span>
+                          <span className={`text-lg font-black leading-none ${form.semester === sem ? 'text-[#5B4FE9]' : 'text-[#1a1d2e]'}`}>{sem}</span>
                         </div>
                       </button>
                     ))}
@@ -324,47 +352,29 @@ export default function SubmitPage() {
                 {form.semester && (
                   <div className="animate-section">
                     <label className="text-[10px] lg:text-xs font-black text-[#1a1d2e] uppercase tracking-widest pl-1 block mb-3 lg:mb-4">Choose <span className="text-[#5B4FE9]">Course</span></label>
-                    <div className="relative z-50">
-                      <div 
-                        onClick={() => setIsCourseDropdownOpen(!isCourseDropdownOpen)}
-                        className="w-full h-12 lg:h-[50px] pl-10 pr-6 rounded-xl bg-transparent flex items-center justify-between cursor-pointer" 
-                        style={outsetStyle}
+                    <div className="relative">
+                      <select
+                        value={form.courseCode}
+                        onChange={e => {
+                          const code = e.target.value;
+                          const course = semesterCourses.find((c: any) => c.code === code);
+                          if (course) {
+                            setForm(f => ({ ...f, courseCode: course.code, courseName: course.name }));
+                            setCurrentStep(3);
+                          } else {
+                            setForm(f => ({ ...f, courseCode: '', courseName: '' }));
+                          }
+                        }}
+                        disabled={!form.semester}
+                        className="w-full appearance-none px-4 py-3.5 rounded-2xl text-[13px] font-medium text-[#1a1d2e] bg-[#d6dae8] outline-none focus:ring-2 focus:ring-[#5B4FE9]/20 transition-all duration-300 cursor-pointer disabled:opacity-40 disabled:grayscale"
+                        style={{ boxShadow: 'inset 5px 5px 10px #b0b8cc, inset -5px -5px 10px #ffffff', fontFamily: "'DM Sans', sans-serif" }}
                       >
-                        <span className={`text-xs lg:text-sm font-bold truncate ${form.courseCode ? 'text-[#1a1d2e]' : 'text-[#64748B] opacity-80'}`}>
-                          {form.courseCode ? `${form.courseCode} - ${form.courseName}` : 'Select a course...'}
-                        </span>
-                        <ChevronDown className={`w-4 h-4 text-[#64748B] transition-transform duration-200 ${isCourseDropdownOpen ? 'rotate-180' : ''}`} />
-                      </div>
-                      <BookOpen className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-[#5B4FE9] pointer-events-none" />
-                      
-                      {isCourseDropdownOpen && (
-                        <div className="absolute top-[58px] left-0 w-full rounded-xl bg-[#d6dae8] max-h-[160px] lg:max-h-[200px] overflow-y-auto animate-section origin-top p-1.5 custom-scrollbar" style={outsetStyle}>
-                          <style>{`
-                            .custom-scrollbar { scrollbar-width: thin; scrollbar-color: #b0b8cc transparent; }
-                            .custom-scrollbar::-webkit-scrollbar { width: 6px; }
-                            .custom-scrollbar::-webkit-scrollbar-track { background: transparent; margin: 4px; }
-                            .custom-scrollbar::-webkit-scrollbar-thumb { background: #b0b8cc; border-radius: 10px; }
-                            .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: #64748B; }
-                          `}</style>
-                          {semesterCourses.map((c: any) => (
-                             <button
-                               key={c.code}
-                               type="button"
-                               className="w-full text-left px-4 py-2 text-xs md:text-sm font-semibold text-[#1a1d2e] hover:bg-[#b0b8cc]/40 transition-colors rounded-lg mb-0.5 last:mb-0 focus:outline-none focus:bg-[#c2c6d4]"
-                               onClick={() => {
-                                  const course = semesterCourses.find((x: any) => x.code === c.code);
-                                  if (course) {
-                                    handleStepSelection('courseCode', course.code); 
-                                    handleStepSelection('courseName', course.name, 3);
-                                  }
-                                  setIsCourseDropdownOpen(false);
-                               }}
-                             >
-                               <span className="font-bold">{c.code}</span> - {c.name}
-                             </button>
-                          ))}
-                        </div>
-                      )}
+                        <option value="">Select a course...</option>
+                        {semesterCourses.map((c: any) => (
+                          <option key={c.code} value={c.code}>{c.code} — {c.name}</option>
+                        ))}
+                      </select>
+                      <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 text-[#64748B] pointer-events-none" />
                     </div>
                   </div>
                 )}

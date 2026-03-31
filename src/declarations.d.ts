@@ -58,6 +58,7 @@ declare module '*/supabase.js' {
   export function adminRejectResource(id: string, note?: string): Promise<{ success: boolean; error?: string }>;
   export function adminDeleteResource(id: string): Promise<{ success: boolean; error?: string }>;
   export function adminDismissFlags(id: string): Promise<{ success: boolean; error?: string }>;
+  export function adminUpdateResource(id: string, data: Partial<ResourceData>): Promise<{ success: boolean; error?: string }>;
   export function adminGetStats(dept?: string | null): Promise<{
     pending: number;
     approved: number;

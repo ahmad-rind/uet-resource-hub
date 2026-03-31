@@ -13,11 +13,11 @@ import ContactPage from './pages/ContactPage';
 
 /** Scroll to top on route change (including query params) */
 function ScrollToTop() {
-  const { pathname, search } = useLocation();
+  const { pathname } = useLocation();
   useEffect(() => {
     // Use 'instant' behavior to avoid smooth scrolling conflicts during navigation
     window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
-  }, [pathname, search]);
+  }, [pathname]);
   return null;
 }
 

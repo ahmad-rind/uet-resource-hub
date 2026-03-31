@@ -10,6 +10,8 @@ import {
   Info
 } from 'lucide-react';
 import { submitContactRequest } from '../lib/supabase';
+import { ScrollProgress } from '../components/ScrollProgress.js';
+import { Reveal } from '../components/Reveal.js';
 
 // Neumorphic Design Tokens
 const S = {
@@ -62,7 +64,9 @@ export default function ContactPage() {
 
   return (
     <div className="min-h-screen bg-[#d6dae8] flex items-center justify-center py-12 md:py-0">
+      <ScrollProgress />
       <div className="max-w-7xl w-full mx-auto px-6 md:px-8">
+      <Reveal delay={0.15} yOffset={40}>
         <div className="flex flex-col lg:flex-row items-center gap-12 lg:gap-20 py-8 lg:py-0">
           
           {/* ── Left Column: Information ── */}
@@ -244,6 +248,7 @@ export default function ContactPage() {
             </div>
           </div>
         </div>
+      </Reveal>
       </div>
     </div>
   );

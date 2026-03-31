@@ -1,3 +1,10 @@
+// =========================================================================
+// WARNING: This file is now a LAST-RESORT FALLBACK.
+// All department and course data should be dynamically fetched from Supabase 
+// using getLiveCoursesData() in src/lib/supabase.js. 
+// Do NOT add new courses here manually unless the database is unreachable.
+// =========================================================================
+
 export const departments = {
   "Civil Engineering (BSc)": {
     "1": [

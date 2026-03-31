@@ -1,10 +1,11 @@
 import { useState, useEffect } from 'react';
 import { useSearchParams, Link } from 'react-router-dom';
-import { Filter, ChevronDown, Upload, Loader, Search, Inbox } from 'lucide-react';
-import { getResources } from '../lib/supabase.js';
-import { departments, departmentList } from '../data/courses.js';
+import { Filter, ChevronDown, Upload, Loader, Search, SearchX } from 'lucide-react';
+import { getResources, getLiveCoursesData } from '../lib/supabase.js';
 import ResourceCard from '../components/ResourceCard.js';
 import ResourceDetailModal from '../components/ResourceDetailModal.js';
+import { ScrollProgress } from '../components/ScrollProgress.js';
+import { Reveal } from '../components/Reveal.js';
 
 export default function BrowsePage() {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -16,12 +17,22 @@ export default function BrowsePage() {
   const [previewResource, setPreviewResource] = useState<any>(null);
   const [searchQuery, setSearchQuery] = useState('');
 
-  const semesterOptions = selectedDept
-    ? Object.keys(departments[selectedDept as keyof typeof departments] || {}).sort((a, b) => Number(a) - Number(b))
+  const [departments, setDepartments] = useState<any>({});
+  const [departmentList, setDepartmentList] = useState<string[]>([]);
+
+  useEffect(() => {
+    getLiveCoursesData().then(data => {
+      setDepartments(data.departments);
+      setDepartmentList(data.departmentList);
+    });
+  }, []);
+
+  const semesterOptions = selectedDept && departments[selectedDept]
+    ? Object.keys(departments[selectedDept] || {}).sort((a, b) => Number(a) - Number(b))
     : [];
 
-  const courseOptions = selectedDept && selectedSemester
-    ? (departments[selectedDept as keyof typeof departments] || {})[selectedSemester] || []
+  const courseOptions = selectedDept && selectedSemester && departments[selectedDept]
+    ? (departments[selectedDept] || {})[selectedSemester] || []
     : [];
 
   // Sync state with URL params on mount or URL change
@@ -42,12 +53,46 @@ export default function BrowsePage() {
 
   const loadResources = async (dept: string, sem: string, course: string) => {
     setLoading(true);
+
+    const cacheKey = 'resources_browse_cache';
+    const specificKey = `${dept}_${sem}_${course}`;
+
+    try {
+      const cachedString = sessionStorage.getItem(cacheKey);
+      if (cachedString) {
+        const cacheObj = JSON.parse(cachedString);
+        const cachedItem = cacheObj[specificKey];
+        // 5 minutes TTL
+        if (cachedItem && Date.now() - cachedItem.timestamp < 5 * 60 * 1000) {
+          setResources(cachedItem.data);
+          setLoading(false);
+          return;
+        }
+      }
+    } catch (e) {
+      console.warn('Cache read error:', e);
+    }
+
     const filters: Record<string, any> = {};
     if (dept) filters.department = dept;
     if (sem) filters.semester = Number(sem);
     if (course) filters.courseCode = course;
+    
     const data = await getResources(filters);
     setResources(data);
+
+    try {
+      const cachedString = sessionStorage.getItem(cacheKey);
+      const cacheObj = cachedString ? JSON.parse(cachedString) : {};
+      cacheObj[specificKey] = {
+        timestamp: Date.now(),
+        data: data
+      };
+      sessionStorage.setItem(cacheKey, JSON.stringify(cacheObj));
+    } catch (e) {
+      console.warn('Cache write error:', e);
+    }
+
     setLoading(false);
   };
 
@@ -89,7 +134,9 @@ export default function BrowsePage() {
 
   return (
     <div className="min-h-screen bg-[#d6dae8]">
+      <ScrollProgress />
       {/* ── Hero-style Header ────────────────────────────────────────────── */}
+      <Reveal delay={0.1}>
       <section className="pt-10 pb-6 px-6 md:px-8 max-w-7xl mx-auto">
         <div className="text-left w-full mb-2">
           {/* Badge — small, refined, subtle */}
@@ -111,7 +158,9 @@ export default function BrowsePage() {
           </p>
         </div>
       </section>
+      </Reveal>
 
+      <Reveal delay={0.2}>
       <div className="max-w-7xl mx-auto px-6 md:px-8 pb-20">
         <div className="flex flex-col lg:flex-row gap-10">
           {/* Filters Sidebar */}
@@ -150,7 +199,7 @@ export default function BrowsePage() {
                     >
                       <option value="">Select Department</option>
                       {departmentList.map((dept: string) => (
-                        <option key={dept} value={dept}>{dept}</option>
+                        <option key={dept} value={dept}>{dept.replace(/\s*\(BS[C]?\)$/i, '')}</option>
                       ))}
                     </select>
                     <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 text-[#64748B] pointer-events-none" />
@@ -213,7 +262,7 @@ export default function BrowsePage() {
                     className="w-full py-3.5 rounded-2xl text-[13px] text-[#64748B] font-bold transition-all duration-300 hover:text-[#5B4FE9] hover:-translate-y-0.5"
                     style={{ boxShadow: '8px 8px 16px #b0b8cc, -8px -8px 16px #ffffff', fontFamily: "'DM Sans', sans-serif" }}
                   >
-                    Clear All Filters
+                    Clear Filters
                   </button>
                 )}
               </div>
@@ -254,7 +303,7 @@ export default function BrowsePage() {
               >
                 <div className="w-24 h-24 rounded-[32px] flex items-center justify-center mx-auto mb-8 bg-[#d6dae8]"
                   style={{ boxShadow: '8px 8px 16px #b0b8cc, -8px -8px 16px #ffffff' }}>
-                  <Inbox className="w-10 h-10 text-[#5B4FE9]" />
+                  <SearchX className="w-10 h-10 text-[#5B4FE9]" />
                 </div>
                 <h3 className="font-bold text-[#1a1d2e] text-2xl mb-4" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
                   Nothing here yet
@@ -276,10 +325,10 @@ export default function BrowsePage() {
                 <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-6">
                   <div>
                     <p className="text-[15px] font-bold text-[#1a1d2e]" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
-                      Showing <span className="text-[#5B4FE9]">{filteredResources.length}</span> Results
+                      Showing <span className="text-[#5B4FE9]">{filteredResources.length}</span> results
                     </p>
                     <p className="text-xs text-[#64748B] font-medium" style={{ fontFamily: "'DM Sans', sans-serif" }}>
-                      Matched in {selectedDept}
+                      In {selectedDept.replace(/\s*\(BS[C]?\)$/i, '')}
                     </p>
                   </div>
                   
@@ -323,6 +372,7 @@ export default function BrowsePage() {
           </main>
         </div>
       </div>
+      </Reveal>
       {previewResource && (
         <ResourceDetailModal resource={previewResource} onClose={() => setPreviewResource(null)} />
       )}

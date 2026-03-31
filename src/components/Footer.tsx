@@ -123,7 +123,7 @@ export default function Footer() {
               { to: '/browse', label: 'All Resources' },
               { to: '/search?type=Past Paper', label: 'Past Papers' },
               { to: '/search?type=Notes', label: 'Academic Notes' },
-              { to: '/search?type=Study Material', label: 'Lab Manuals' },
+              { to: '/search?type=Lab Manual', label: 'Lab Manuals' },
             ].map(link => (
               <li key={link.to}>
                 <Link

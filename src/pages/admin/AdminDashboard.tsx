@@ -5,7 +5,7 @@ import {
   ExternalLink, RefreshCw, Search, BarChart3,
   Check, X, AlertTriangle, User, Calendar, BookOpen,
   Bell, ArrowUpRight, Layers, Copy, Pencil,
-  FolderTree, ChevronDown, Home, Menu, PartyPopper, Inbox, ShieldCheck, FileText
+  FolderTree, ChevronDown, Home, Menu, PartyPopper, Inbox, ShieldCheck
 } from 'lucide-react';
 import { resourceTypeBadgeColors, resourceTypes } from '../../data/courses.js';
 import {
@@ -71,9 +71,9 @@ function fmtRelative(d?: string | null) {
 function getSessionExpiry() {
   try {
     for (const key of ['uet_admin_v3', 'uet_admin_v2']) {
-      const s = JSON.parse(sessionStorage.getItem(key) || '{}');
+      const s = JSON.parse(localStorage.getItem(key) || '{}');
       if (s.loggedIn) {
-        const left = 8 * 3600000 - (Date.now() - s.loginAt);
+        const left = s.expires ? (s.expires - Date.now()) : (8 * 3600000 - (Date.now() - s.loginAt));
         if (left <= 0) continue;
         return `${Math.floor(left / 3600000)}h ${Math.floor((left % 3600000) / 60000)}m`;
       }
@@ -382,6 +382,27 @@ function EditResourceModal({ resource, onClose, onSave }: {
   );
 }
 
+const FileIcon = ({ className }: { className?: string }) => (
+  <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className={className}>
+    <path 
+      d="M13 2H9C5 2 3 4 3 8V16C3 20 5 22 9 22H15C19 22 21 20 21 16V10L13 2Z" 
+      stroke="currentColor" 
+      strokeWidth="1.8" 
+      strokeLinecap="round" 
+      strokeLinejoin="round" 
+    />
+    <path 
+      d="M13 2V7C13 9 14 10 16 10H21" 
+      stroke="currentColor" 
+      strokeWidth="1.8" 
+      strokeLinecap="round" 
+      strokeLinejoin="round" 
+    />
+    <path d="M7 13H14" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
+    <path d="M7 17H11" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
+  </svg>
+);
+
 // ── Resource Card ─────────────────────────────────────────────────────────────
 function ResourceCard({ resource, onApprove, onReject, onPreview, onDelete, onDismissFlags, onEdit, processing, deleteConfirm }: {
   resource: Resource;
@@ -423,7 +444,7 @@ function ResourceCard({ resource, onApprove, onReject, onPreview, onDelete, onDi
           style={{ boxShadow: S.smallInset }}
         >
           <div className="w-10 h-10 rounded-xl flex items-center justify-center bg-[#d6dae8] shadow-[2px_2px_5px_#b0b8cc,-2px_-2px_5px_#ffffff]">
-            <FileText className="w-6 h-6 text-[#1a1d2e] opacity-80" />
+            <FileIcon className="w-6 h-6 text-[#5B4FE9] opacity-90" />
           </div>
         </div>
 
@@ -593,7 +614,9 @@ export default function AdminDashboard() {
   useEffect(() => {
     const checkAndGuardSession = async () => {
       const session = getAdminSession();
-      if (!session.loggedIn || Date.now() - session.loginAt > 8 * 60 * 60 * 1000) {
+      const isExpired = session.expires ? (Date.now() > session.expires) : (Date.now() - session.loginAt > 8 * 60 * 60 * 1000);
+      
+      if (!session.loggedIn || isExpired) {
         await adminLogout();
         navigate('/admin/login', { replace: true });
         return;

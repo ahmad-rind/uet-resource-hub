@@ -1,4 +1,5 @@
 import { createClient } from '@supabase/supabase-js';
+import { departments as fallbackDepartments, departmentList as fallbackDepartmentList } from '../data/courses.js';
 
 // SECURITY: NEVER hardcode secrets. Always use environment variables.
 const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL;
@@ -94,6 +95,48 @@ export async function getResources(filters = {}) {
   }
 }
 
+
+let cachedCoursesData = null;
+
+export async function getLiveCoursesData(forceRefresh = false) {
+  if (cachedCoursesData && !forceRefresh) return cachedCoursesData;
+  try {
+    const { data: depts, error: dErr } = await supabase.from('departments').select('id, name').eq('is_active', true).order('sort_order').order('name');
+    if (dErr) throw dErr;
+    
+    const { data: courses, error: cErr } = await supabase.from('courses').select('department_id, department_name, semester, code, name, credit_hours').eq('is_active', true).order('semester').order('code');
+    if (cErr) throw cErr;
+
+    if (!depts?.length) {
+      return { departments: fallbackDepartments, departmentList: fallbackDepartmentList };
+    }
+
+    const result = {};
+    const deptList = [];
+    depts.forEach(d => {
+      deptList.push(d.name);
+      result[d.name] = {};
+      const deptCourses = courses.filter(c => c.department_id === d.id);
+      
+      [1,2,3,4,5,6,7,8].forEach(sem => {
+        const semCourses = deptCourses.filter(c => c.semester === sem);
+        if (semCourses.length > 0) {
+          result[d.name][sem] = semCourses.map(c => ({
+            code: c.code,
+            name: c.name,
+            ch: c.credit_hours
+          }));
+        }
+      });
+    });
+
+    cachedCoursesData = { departments: result, departmentList: deptList };
+    return cachedCoursesData;
+  } catch (err) {
+    console.error('Failed to fetch live courses data, using fallback.', err);
+    return { departments: fallbackDepartments, departmentList: fallbackDepartmentList };
+  }
+}
 
 export async function getRecentResources(count = 6) {
   try {
@@ -523,9 +566,10 @@ export async function adminLogin(email, password) {
       });
 
       if (!authError && authData?.session) {
-        sessionStorage.setItem(SESSION_KEY, JSON.stringify({
+        localStorage.setItem(SESSION_KEY, JSON.stringify({
           loggedIn: true,
           loginAt:  Date.now(),
+          expires:  Date.now() + 8 * 60 * 60 * 1000,
           role:     'super_admin',
         }));
         return { success: true };
@@ -541,9 +585,10 @@ export async function adminLogin(email, password) {
     const { data, error } = await supabase.rpc('check_moderator_key', { p_key: password });
     const parsed = typeof data === 'string' ? JSON.parse(data) : data;
     if (!error && Array.isArray(parsed) && parsed.length > 0) {
-      sessionStorage.setItem(SESSION_KEY, JSON.stringify({
+      localStorage.setItem(SESSION_KEY, JSON.stringify({
         loggedIn:   true,
         loginAt:    Date.now(),
+        expires:    Date.now() + 8 * 60 * 60 * 1000,
         role:       'moderator',
         department: parsed[0].department,
         name:       parsed[0].name,
@@ -560,14 +605,15 @@ export async function adminLogin(email, password) {
 
 export async function adminLogout() {
   await supabase.auth.signOut();
-  sessionStorage.removeItem(SESSION_KEY);
+  localStorage.removeItem(SESSION_KEY);
 }
 
 export function isAdminLoggedIn() {
   try {
-    const s = JSON.parse(sessionStorage.getItem(SESSION_KEY) || '{}');
+    const s = JSON.parse(localStorage.getItem(SESSION_KEY) || '{}');
     if (!s.loggedIn) return false;
-    if (Date.now() - s.loginAt > SESSION_TTL_MS) { adminLogout(); return false; }
+    const isExpired = s.expires ? (Date.now() > s.expires) : (Date.now() - s.loginAt > SESSION_TTL_MS);
+    if (isExpired) { adminLogout(); return false; }
     return true;
   } catch {
     return false;
@@ -576,7 +622,7 @@ export function isAdminLoggedIn() {
 
 export function getAdminSession() {
   try {
-    return JSON.parse(sessionStorage.getItem(SESSION_KEY) || '{}');
+    return JSON.parse(localStorage.getItem(SESSION_KEY) || '{}');
   } catch {
     return {};
   }

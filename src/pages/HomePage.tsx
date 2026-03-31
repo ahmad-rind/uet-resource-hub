@@ -1,8 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight, BookOpen, Users, Library, ChevronRight, Building2, Leaf, Zap, Cpu, Settings, Bot, Factory, Laptop, Brain, Monitor, Signal, Mouse, Calculator, Atom, Upload } from 'lucide-react';
-import { getRecentResources, getTotalResourceCount, getContributorCount } from '../lib/supabase.js';
-import { departmentList } from '../data/courses.js';
+import { getRecentResources, getTotalResourceCount, getContributorCount, getLiveCoursesData } from '../lib/supabase.js';
 import ResourceCard from '../components/ResourceCard.js';
 import ResourceDetailModal from '../components/ResourceDetailModal.js';
 import { Reveal } from '../components/Reveal.js';
@@ -33,21 +32,24 @@ export default function HomePage() {
     return cached ? JSON.parse(cached) : { total: 0, contributors: 0 };
   });
   const [loading, setLoading] = useState(true);
+  const [departmentList, setDepartmentList] = useState<string[]>([]);
   const [previewResource, setPreviewResource] = useState<any>(null);
 
   useEffect(() => {
     async function load() {
       try {
-        const [recent, totalCount, contributorCount] = await Promise.all([
+        const [recent, totalCount, contributorCount, coursesData] = await Promise.all([
           getRecentResources(4),
           getTotalResourceCount(),
           getContributorCount(),
+          getLiveCoursesData(),
         ]);
 
         const newStats = { total: totalCount, contributors: contributorCount };
 
         setRecentResources(recent);
         setStats(newStats);
+        setDepartmentList(coursesData.departmentList);
 
         // Cache for next load
         localStorage.setItem('uet_site_stats', JSON.stringify(newStats));
@@ -99,7 +101,7 @@ export default function HomePage() {
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 w-full max-w-4xl">
             {[
               { icon: <Library className="w-[18px] h-[18px] text-[#5B4FE9]" />, value: loading ? '—' : stats.total, label: 'Resources', glow: 'rgba(91, 79, 233, 0.15)' },
-              { icon: <BookOpen className="w-[18px] h-[18px] text-[#0EA5E9]" />, value: (departmentList as string[]).length, label: 'Departments', glow: 'rgba(14, 165, 233, 0.15)' },
+              { icon: <BookOpen className="w-[18px] h-[18px] text-[#0EA5E9]" />, value: loading ? '—' : departmentList.length, label: 'Departments', glow: 'rgba(14, 165, 233, 0.15)' },
               { icon: <Users className="w-[18px] h-[18px] text-[#8B5CF6]" />, value: loading ? '—' : stats.contributors, label: 'Contributors', glow: 'rgba(139, 92, 246, 0.15)' },
             ].map((stat, i) => (
               <div key={i}
@@ -137,8 +139,13 @@ export default function HomePage() {
             </Link>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-            {(departmentList as string[]).map((dept) => (
+          {loading ? (
+             <div className="flex justify-center w-full py-10">
+               <div className="w-8 h-8 border-4 border-[#5B4FE9]/20 border-t-[#5B4FE9] rounded-full animate-spin" />
+             </div>
+          ) : (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+              {departmentList.map((dept) => (
                 <Link
                   key={dept}
                   to={`/browse?department=${encodeURIComponent(dept)}`}
@@ -165,7 +172,8 @@ export default function HomePage() {
                   </div>
                 </Link>
               ))}
-          </div>
+            </div>
+          )}
         </section>
       </Reveal>
 

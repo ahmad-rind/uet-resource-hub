@@ -56,6 +56,7 @@ export default function Navbar() {
     { to: '/', label: 'Home' },
     { to: '/browse', label: 'Browse' },
     { to: '/submit', label: 'Submit Resource' },
+    { to: '/contact', label: 'Contact' },
   ];
 
   const isActive = (path: string) => location.pathname === path;
