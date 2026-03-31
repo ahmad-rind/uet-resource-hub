@@ -24,6 +24,7 @@ Past papers · Notes · Lab manuals · And more.
 </div>
 
 <br />
+<img src="https://github.com/user-attachments/assets/abc123..." alt="Homepage" width="90%" />
 
 ## 📖 Table of Contents
 
