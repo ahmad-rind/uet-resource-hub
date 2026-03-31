@@ -65,14 +65,11 @@ export default function ResourceCard({ resource, onPreview }: ResourceCardProps)
         className="w-[90px] md:w-[100px] shrink-0 flex flex-col items-center justify-center gap-3 py-5 px-2"
         style={{ backgroundColor: typeStyle.bg }}
       >
-        {/* Icon Container - Neuomorphic Inset */}
         <div 
-          className="w-12 h-12 rounded-2xl flex items-center justify-center shrink-0 bg-[#d6dae8]"
+          className="w-11 h-11 rounded-[20px] flex items-center justify-center shrink-0 bg-[#d6dae8]"
           style={{ boxShadow: 'inset 4px 4px 8px #b0b8cc, inset -4px -4px 8px #ffffff' }}
         >
-          <div className="w-[34px] h-[34px] rounded-xl flex items-center justify-center bg-[#d6dae8] shadow-[2px_2px_5px_#b0b8cc,-2px_-2px_5px_#ffffff]">
-            <FileIcon className="w-5 h-5 opacity-90" style={{ color: typeStyle.text }} />
-          </div>
+          <FileIcon className="w-5 h-5 opacity-90" style={{ color: typeStyle.text }} />
         </div>
 
         <span 
