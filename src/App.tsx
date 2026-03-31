@@ -53,7 +53,7 @@ function NotFound() {
           The page you're looking for doesn't exist.
         </p>
         <a
-          href="#/"
+          href="/"
           className="px-6 py-3 rounded-2xl text-white font-semibold text-sm transition-all duration-300 hover:-translate-y-0.5"
           style={{
             background: '#5B4FE9',

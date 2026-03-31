@@ -805,7 +805,7 @@ export default function AdminDashboard() {
               style={{ color: S.fg, fontFamily: "'DM Sans',sans-serif" }}>
               <FolderTree className="w-4 h-4" /> <span className="flex-1 truncate">Categories</span>
             </Link>
-            <a href="/#/" target="_blank" rel="noopener noreferrer"
+            <a href="/" target="_blank" rel="noopener noreferrer"
               className="w-full flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm font-medium transition-all duration-300 hover:translate-x-1 hover:bg-[rgba(255,255,255,0.4)]"
               style={{ color: S.fg, fontFamily: "'DM Sans',sans-serif" }}>
               <Home className="w-4 h-4" /> <span className="flex-1 truncate">Public Site</span>
