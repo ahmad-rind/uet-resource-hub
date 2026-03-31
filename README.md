@@ -65,17 +65,15 @@ Run the SQL scripts in your Supabase SQL editor in this order:
 npm run dev
 ```
 
----
-
 ## 📁 Project Structure
+```
 src/
 ├── components/     # Reusable UI components
 ├── pages/          # Route-level page components
 │   └── admin/      # Admin panel pages
 ├── lib/            # Supabase client config
 └── data/           # Static course fallback data
-
----
+```
 
 ## 🔐 Environment Variables
 
