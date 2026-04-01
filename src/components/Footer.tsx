@@ -74,7 +74,8 @@ export default function Footer() {
               <img 
                 src="/uettaxilalogo.webp" 
                 alt="UET Logo" 
-                className="w-full h-full object-contain opacity-90 group-hover:opacity-100 transition-opacity" 
+                className="w-full h-full object-contain opacity-90 group-hover:opacity-100 transition-opacity"
+                width="44" height="44"
               />
             </div>
             <div>

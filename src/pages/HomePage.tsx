@@ -69,8 +69,7 @@ export default function HomePage() {
       <ScrollProgress />
       {/* ── Hero Section ────────────────────────────────────────────── */}
       <section className="py-24 md:py-36 px-6 md:px-8 max-w-5xl mx-auto flex flex-col items-center">
-        <Reveal delay={0.1}>
-          <div className="text-center w-full mb-20">
+        <div className="text-center w-full mb-20">
 
             {/* Badge — small, refined, subtle */}
             <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full mb-10 bg-[#d6dae8]"
@@ -94,7 +93,6 @@ export default function HomePage() {
               Access past papers, notes, lab manuals &amp; study materials — curated by students, for students.
             </p>
           </div>
-        </Reveal>
 
         {/* Stat Cards — sleek, horizontal, minimal */}
         <Reveal delay={0.3} yOffset={50}>
