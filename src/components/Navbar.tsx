@@ -74,7 +74,7 @@ export default function Navbar() {
                     className="w-10 h-10 md:w-11 md:h-11 rounded-2xl flex items-center justify-center transition-all duration-300 group-hover:-translate-y-0.5 overflow-hidden p-1.5 md:p-2"
                     style={{ boxShadow: '4px 4px 8px #b0b8cc, -4px -4px 8px #ffffff', background: '#d6dae8' }}
                   >
-                    <img src="/uettaxilalogo.png" alt="UET Taxila Logo" className="w-full h-full object-contain" />
+                    <img src="/uettaxilalogo.webp" alt="UET Taxila Logo" className="w-full h-full object-contain" />
                   </div>
                   <div className="block">
                     <span className="font-bold text-[#1a1d2e] text-[12px] sm:text-sm leading-tight block uppercase tracking-tight" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>UET Taxila</span>

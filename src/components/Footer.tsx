@@ -72,7 +72,7 @@ export default function Footer() {
               }}
             >
               <img 
-                src="/uettaxilalogo.png" 
+                src="/uettaxilalogo.webp" 
                 alt="UET Logo" 
                 className="w-full h-full object-contain opacity-90 group-hover:opacity-100 transition-opacity" 
               />
