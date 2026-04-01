@@ -6,7 +6,7 @@
 **A student-built platform for sharing and discovering academic resources at UET Taxila.**
 Past papers · Notes · Lab manuals · And more.
 
-[![Live Demo](https://img.shields.io/badge/▶_Live_Demo-Visit_Site-2ea44f?style=for-the-badge&logo=vercel&logoColor=white)](https://uet-resource-huuild.vercel.app)
+[![Live Demo](https://img.shields.io/badge/▶_Live_Demo-Visit_Site-2ea44f?style=for-the-badge&logo=vercel&logoColor=white)](https://www.uetresourcehub.app)
 
 ![React](https://img.shields.io/badge/React_19-61DAFB?style=flat-square&logo=react&logoColor=black)
 ![TypeScript](https://img.shields.io/badge/TypeScript_5.9-3178C6?style=flat-square&logo=typescript&logoColor=white)
