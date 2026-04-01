@@ -111,7 +111,7 @@ export default function SearchPage() {
           <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full mb-4 bg-[#d6dae8]"
             style={{ boxShadow: '4px 4px 8px #b0b8cc, -4px -4px 8px #ffffff', border: '1px solid rgba(255,255,255,0.4)', fontFamily: "'DM Sans', sans-serif" }}>
             <span className="w-1.5 h-1.5 rounded-full bg-[#5B4FE9]" />
-            <span className="text-[10px] font-semibold tracking-[0.18em] text-[#64748B] uppercase">
+            <span className="text-[10px] font-semibold tracking-[0.18em] text-[#475569] uppercase">
               Digital Library
             </span>
           </div>
@@ -121,12 +121,12 @@ export default function SearchPage() {
             Search <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#6C63FF] to-[#A78BFA]">Results</span>
           </h1>
           {query ? (
-            <p className="text-base text-[#64748B] max-w-xl leading-relaxed"
+            <p className="text-base text-[#475569] max-w-xl leading-relaxed"
               style={{ fontFamily: "'DM Sans', sans-serif" }}>
               Showing curated matching for <strong className="text-[#1a1d2e]">"{query}"</strong> across all academic departments.
             </p>
           ) : (
-            <p className="text-base text-[#64748B] max-w-xl leading-relaxed"
+            <p className="text-base text-[#475569] max-w-xl leading-relaxed"
               style={{ fontFamily: "'DM Sans', sans-serif" }}>
               Our engine covers past papers, notes, and manuals. Start typing to explore the repository.
             </p>
@@ -139,13 +139,13 @@ export default function SearchPage() {
             className="flex-1 flex items-center gap-3 px-5 py-4 rounded-2xl bg-[#d6dae8]"
             style={{ boxShadow: 'inset 10px 10px 20px #b0b8cc, inset -10px -10px 20px #ffffff' }}
           >
-            <Search className="w-5 h-5 text-[#5B4FE9]" />
+            <Search className="w-5 h-5 text-[#4A3FD8]" />
             <input
               type="text"
               placeholder="Search by title, course, or department..."
               value={searchInput}
               onChange={e => setSearchInput(e.target.value)}
-              className="flex-1 bg-transparent text-[#1a1d2e] placeholder-[#64748B]/60 outline-none text-[15px] font-medium"
+              className="flex-1 bg-transparent text-[#1a1d2e] placeholder-[#475569]/60 outline-none text-[15px] font-medium"
               style={{ fontFamily: "'DM Sans', sans-serif" }}
             />
           </div>
@@ -174,7 +174,7 @@ export default function SearchPage() {
                   className="w-10 h-10 rounded-2xl flex items-center justify-center bg-[#d6dae8]"
                   style={{ boxShadow: 'inset 4px 4px 8px #b0b8cc, inset -4px -4px 8px #ffffff' }}
                 >
-                  <Filter className="w-5 h-5 text-[#5B4FE9]" />
+                  <Filter className="w-5 h-5 text-[#4A3FD8]" />
                 </div>
                 <h3 className="font-bold text-[#1a1d2e] text-[15px] uppercase tracking-wider" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
                   Refine
@@ -184,7 +184,7 @@ export default function SearchPage() {
               <div className="space-y-6">
                 {/* Type Filter */}
                 <div>
-                  <label className="block text-[11px] font-bold text-[#64748B] mb-3 uppercase tracking-[0.15em]" style={{ fontFamily: "'DM Sans', sans-serif" }}>
+                  <label className="block text-[11px] font-bold text-[#475569] mb-3 uppercase tracking-[0.15em]" style={{ fontFamily: "'DM Sans', sans-serif" }}>
                     Type
                   </label>
                   <div className="relative">
@@ -199,13 +199,13 @@ export default function SearchPage() {
                         <option key={t} value={t}>{t}</option>
                       ))}
                     </select>
-                    <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 text-[#64748B] pointer-events-none" />
+                    <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 text-[#475569] pointer-events-none" />
                   </div>
                 </div>
 
                 {/* Department Filter */}
                 <div>
-                  <label className="block text-[11px] font-bold text-[#64748B] mb-3 uppercase tracking-[0.15em]" style={{ fontFamily: "'DM Sans', sans-serif" }}>
+                  <label className="block text-[11px] font-bold text-[#475569] mb-3 uppercase tracking-[0.15em]" style={{ fontFamily: "'DM Sans', sans-serif" }}>
                     Department
                   </label>
                   <div className="relative">
@@ -220,13 +220,13 @@ export default function SearchPage() {
                         <option key={dept} value={dept}>{dept.replace(/\s*\(BS[C]?\)$/i, '')}</option>
                       ))}
                     </select>
-                    <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 text-[#64748B] pointer-events-none" />
+                    <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 text-[#475569] pointer-events-none" />
                   </div>
                 </div>
 
                 {/* Semester Filter */}
                 <div>
-                  <label className="block text-[11px] font-bold text-[#64748B] mb-3 uppercase tracking-[0.15em]" style={{ fontFamily: "'DM Sans', sans-serif" }}>
+                  <label className="block text-[11px] font-bold text-[#475569] mb-3 uppercase tracking-[0.15em]" style={{ fontFamily: "'DM Sans', sans-serif" }}>
                     Semester
                   </label>
                   <div className="relative">
@@ -242,13 +242,13 @@ export default function SearchPage() {
                         <option key={sem} value={sem}>Semester {sem}</option>
                       ))}
                     </select>
-                    <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 text-[#64748B] pointer-events-none" />
+                    <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 text-[#475569] pointer-events-none" />
                   </div>
                 </div>
 
                 {/* Course Filter */}
                 <div>
-                  <label className="block text-[11px] font-bold text-[#64748B] mb-3 uppercase tracking-[0.15em]" style={{ fontFamily: "'DM Sans', sans-serif" }}>
+                  <label className="block text-[11px] font-bold text-[#475569] mb-3 uppercase tracking-[0.15em]" style={{ fontFamily: "'DM Sans', sans-serif" }}>
                     Course
                   </label>
                   <div className="relative">
@@ -264,14 +264,14 @@ export default function SearchPage() {
                         <option key={c.code} value={c.code}>{c.code} — {c.name}</option>
                       ))}
                     </select>
-                    <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 text-[#64748B] pointer-events-none" />
+                    <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 text-[#475569] pointer-events-none" />
                   </div>
                 </div>
 
                 {(filterType || filterDept || filterSemester || filterCourse) && (
                   <button
                     onClick={clearFilters}
-                    className="w-full py-3.5 rounded-2xl text-[13px] text-[#64748B] font-bold transition-all duration-300 hover:text-[#5B4FE9] hover:-translate-y-0.5"
+                    className="w-full py-3.5 rounded-2xl text-[13px] text-[#475569] font-bold transition-all duration-300 hover:text-[#4A3FD8] hover:-translate-y-0.5"
                     style={{ boxShadow: '8px 8px 16px #b0b8cc, -8px -8px 16px #ffffff', fontFamily: "'DM Sans', sans-serif" }}
                   >
                     Clear Filters
@@ -289,7 +289,7 @@ export default function SearchPage() {
                   className="w-20 h-20 rounded-[28px] flex items-center justify-center bg-[#d6dae8]"
                   style={{ boxShadow: '12px 12px 24px #b0b8cc, -12px -12px 24px #ffffff' }}
                 >
-                  <Loader className="w-8 h-8 text-[#5B4FE9] animate-spin" />
+                  <Loader className="w-8 h-8 text-[#4A3FD8] animate-spin" />
                 </div>
               </div>
             ) : !query && !filterType && !filterDept ? (
@@ -299,12 +299,12 @@ export default function SearchPage() {
               >
                 <div className="w-24 h-24 rounded-[32px] flex items-center justify-center mx-auto mb-8 bg-[#d6dae8]"
                   style={{ boxShadow: '8px 8px 16px #b0b8cc, -8px -8px 16px #ffffff' }}>
-                  <Search className="w-10 h-10 text-[#5B4FE9]" />
+                  <Search className="w-10 h-10 text-[#4A3FD8]" />
                 </div>
                 <h3 className="font-bold text-[#1a1d2e] text-2xl mb-4" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
                   Ready to Search?
                 </h3>
-                <p className="text-[#64748B] text-base max-w-sm mx-auto leading-relaxed" style={{ fontFamily: "'DM Sans', sans-serif" }}>
+                <p className="text-[#475569] text-base max-w-sm mx-auto leading-relaxed" style={{ fontFamily: "'DM Sans', sans-serif" }}>
                   Enter a keyword or use the filters to explore our student-powered library.
                 </p>
               </div>
@@ -315,12 +315,12 @@ export default function SearchPage() {
               >
                 <div className="w-24 h-24 rounded-[32px] flex items-center justify-center mx-auto mb-8 bg-[#d6dae8]"
                   style={{ boxShadow: '8px 8px 16px #b0b8cc, -8px -8px 16px #ffffff' }}>
-                  <SearchX className="w-10 h-10 text-[#5B4FE9]" />
+                  <SearchX className="w-10 h-10 text-[#4A3FD8]" />
                 </div>
                 <h3 className="font-bold text-[#1a1d2e] text-2xl mb-4" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
                   No match found
                 </h3>
-                <p className="text-[#64748B] text-base mb-10 max-w-sm mx-auto leading-relaxed" style={{ fontFamily: "'DM Sans', sans-serif" }}>
+                <p className="text-[#475569] text-base mb-10 max-w-sm mx-auto leading-relaxed" style={{ fontFamily: "'DM Sans', sans-serif" }}>
                   We couldn't find items for "{query}". Try broadening your filters or contribute if you have it!
                 </p>
                 <Link
@@ -337,17 +337,17 @@ export default function SearchPage() {
                 <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-6 mb-8">
                   <div>
                     <p className="text-[15px] font-bold text-[#1a1d2e]" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
-                      Showing <span className="text-[#5B4FE9]">{filteredResults.length}</span> results
+                      Showing <span className="text-[#4A3FD8]">{filteredResults.length}</span> results
                     </p>
                     {query && (
-                      <p className="text-xs text-[#64748B] font-medium" style={{ fontFamily: "'DM Sans', sans-serif" }}>
+                      <p className="text-xs text-[#475569] font-medium" style={{ fontFamily: "'DM Sans', sans-serif" }}>
                         For "{query}"
                       </p>
                     )}
                   </div>
                   <div className="w-full sm:w-80 relative">
                     <div className="absolute left-4 top-1/2 -translate-y-1/2">
-                      <Search className="w-4 h-4 text-[#5B4FE9]" />
+                      <Search className="w-4 h-4 text-[#4A3FD8]" />
                     </div>
                     <input
                       type="text"

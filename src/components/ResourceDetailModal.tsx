@@ -100,7 +100,7 @@ export default function ResourceDetailModal({ resource, onClose }: ResourceDetai
                 {resource.title}
               </h1>
               <div className="flex items-center gap-2">
-                <span className="text-xs font-bold text-[#5B4FE9]">
+                <span className="text-xs font-bold text-[#4A3FD8]">
                   {resource.courseCode}
                 </span>
                 <span className="w-1 h-1 bg-[#1a1d2e]/20 rounded-full"></span>
@@ -112,7 +112,7 @@ export default function ResourceDetailModal({ resource, onClose }: ResourceDetai
             
             {/* Icon Badge */}
             <div 
-              className="flex-shrink-0 w-12 h-12 rounded-xl flex items-center justify-center text-[#5B4FE9] bg-[#d6dae8]"
+              className="flex-shrink-0 w-12 h-12 rounded-xl flex items-center justify-center text-[#4A3FD8] bg-[#d6dae8]"
               style={{ boxShadow: '4px 4px 10px #b0b8cc, -4px -4px 10px #ffffff' }}
             >
               <BookOpen className="w-7 h-7" />
@@ -164,7 +164,7 @@ export default function ResourceDetailModal({ resource, onClose }: ResourceDetai
 
               <button
                 onClick={handleCopy}
-                className="w-14 h-14 flex-shrink-0 flex items-center justify-center rounded-xl bg-[#d6dae8] text-[#64748B] transition-all duration-300 hover:text-[#5B4FE9] group active:scale-95"
+                className="w-14 h-14 flex-shrink-0 flex items-center justify-center rounded-xl bg-[#d6dae8] text-[#475569] transition-all duration-300 hover:text-[#4A3FD8] group active:scale-95"
                 style={{ 
                   boxShadow: '4px 4px 10px #949db2, -4px -4px 10px #ffffff'
                 }}
@@ -182,7 +182,7 @@ export default function ResourceDetailModal({ resource, onClose }: ResourceDetai
               <button
                 onClick={handleReport}
                 disabled={reported}
-                className="w-14 h-14 flex-shrink-0 flex items-center justify-center rounded-xl bg-[#d6dae8] text-[#64748B] transition-all duration-300 hover:text-[#5B4FE9] active:scale-95 disabled:opacity-50"
+                className="w-14 h-14 flex-shrink-0 flex items-center justify-center rounded-xl bg-[#d6dae8] text-[#475569] transition-all duration-300 hover:text-[#4A3FD8] active:scale-95 disabled:opacity-50"
                 style={{ 
                   boxShadow: '4px 4px 10px #949db2, -4px -4px 10px #ffffff'
                 }}

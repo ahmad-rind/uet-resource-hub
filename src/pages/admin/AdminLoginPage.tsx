@@ -182,8 +182,8 @@ export default function AdminLoginPage() {
             <div className="flex flex-col md:items-center">
               {/* University Tag - Hidden on mobile for brevity */}
               <div className="hidden md:inline-flex items-center gap-1.5 px-3 py-1 rounded-full admin-inset mb-5">
-                <Shield className="w-3 h-3 text-[#64748B]" />
-                <span className="text-[10px] font-bold tracking-widest text-[#64748B] uppercase" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
+                <Shield className="w-3 h-3 text-[#475569]" />
+                <span className="text-[10px] font-bold tracking-widest text-[#475569] uppercase" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
                   UET TAXILA
                 </span>
               </div>
@@ -195,7 +195,7 @@ export default function AdminLoginPage() {
               
               <div className="hidden md:block w-8 h-1 rounded-full bg-[#5B4FE9] my-4 shadow-[0_2px_8px_rgba(91,79,233,0.4)]" />
 
-              <p className="hidden md:block text-[13px] text-[#64748B] leading-relaxed max-w-[200px] mb-8 md:mb-0">
+              <p className="hidden md:block text-[13px] text-[#475569] leading-relaxed max-w-[200px] mb-8 md:mb-0">
                 Manage resources, review submissions, and control platform access.
               </p>
             </div>
@@ -214,10 +214,10 @@ export default function AdminLoginPage() {
                 >
                   <div className="flex items-center gap-3 w-full">
                     {r === 'admin' 
-                      ? <Shield className={`w-4 h-4 ${isActive ? 'text-[#5B4FE9]' : 'text-[#64748B]'}`} />
-                      : <Key className={`w-4 h-4 ${isActive ? 'text-[#5B4FE9]' : 'text-[#64748B]'}`} />
+                      ? <Shield className={`w-4 h-4 ${isActive ? 'text-[#4A3FD8]' : 'text-[#475569]'}`} />
+                      : <Key className={`w-4 h-4 ${isActive ? 'text-[#4A3FD8]' : 'text-[#475569]'}`} />
                     }
-                    <span className={`text-[13px] font-bold ${isActive ? 'text-[#5B4FE9]' : 'text-[#64748B]'}`} style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
+                    <span className={`text-[13px] font-bold ${isActive ? 'text-[#4A3FD8]' : 'text-[#475569]'}`} style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
                       {r === 'admin' ? 'Admin' : 'Moderator'}
                     </span>
                   </div>
@@ -236,14 +236,14 @@ export default function AdminLoginPage() {
           <div className="mb-8">
             <div className="flex items-center gap-2 mb-2">
               <div className="w-5 h-0.5 bg-[#5B4FE9] rounded-full shadow-[0_0_4px_rgba(91,79,233,0.4)]" />
-              <span className="text-[10px] font-bold tracking-[0.2em] text-[#64748B] uppercase h-4" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
+              <span className="text-[10px] font-bold tracking-[0.2em] text-[#475569] uppercase h-4" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
                 SECURE ACCESS
               </span>
             </div>
             <h2 className="text-2xl font-extrabold text-[#1a1d2e] tracking-tight mb-2" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
               Sign in to continue
             </h2>
-            <p className="text-[13px] text-[#64748B]">
+            <p className="text-[13px] text-[#475569]">
               Enter your credentials to access the dashboard.
             </p>
           </div>
@@ -255,12 +255,12 @@ export default function AdminLoginPage() {
                 <>
                   {/* Email Box */}
                   <div>
-                    <label className="block mb-2 text-[10px] font-bold tracking-[0.1em] text-[#64748B] uppercase ml-1" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
+                    <label className="block mb-2 text-[10px] font-bold tracking-[0.1em] text-[#475569] uppercase ml-1" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
                       EMAIL ADDRESS
                     </label>
                     <div className="relative">
                       <div className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 flex items-center justify-center">
-                        <Mail className="w-full h-full text-[#64748B] opacity-50" />
+                        <Mail className="w-full h-full text-[#475569] opacity-50" />
                       </div>
                       <input
                         type="email"
@@ -269,7 +269,7 @@ export default function AdminLoginPage() {
                         placeholder="admin@uettaxila.edu.pk"
                         autoComplete="email"
                         disabled={locked || loading}
-                        className="w-full h-[54px] rounded-[16px] text-[14px] bg-[#d6dae8] text-[#1a1d2e] placeholder:text-[#64748B]/70 pl-[44px] pr-4 outline-none disabled:opacity-50 transition-all focus:ring-2 focus:ring-[#5B4FE9]/30"
+                        className="w-full h-[54px] rounded-[16px] text-[14px] bg-[#d6dae8] text-[#1a1d2e] placeholder:text-[#475569]/70 pl-[44px] pr-4 outline-none disabled:opacity-50 transition-all focus:ring-2 focus:ring-[#5B4FE9]/30"
                         style={{ boxShadow: 'inset 5px 5px 10px #b0b8cc, inset -5px -5px 10px #ffffff' }}
                       />
                     </div>
@@ -277,12 +277,12 @@ export default function AdminLoginPage() {
 
                   {/* Password Box */}
                   <div>
-                    <label className="block mb-2 text-[10px] font-bold tracking-[0.1em] text-[#64748B] uppercase ml-1" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
+                    <label className="block mb-2 text-[10px] font-bold tracking-[0.1em] text-[#475569] uppercase ml-1" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
                       PASSWORD
                     </label>
                     <div className="relative">
                       <div className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 flex items-center justify-center">
-                        <Lock className="w-full h-full text-[#64748B] opacity-50" />
+                        <Lock className="w-full h-full text-[#475569] opacity-50" />
                       </div>
                       <input
                         type={showPwd ? 'text' : 'password'}
@@ -291,13 +291,13 @@ export default function AdminLoginPage() {
                         placeholder={locked ? `Locked — wait ${lockTimer}s` : 'Enter your password'}
                         autoComplete="current-password"
                         disabled={locked || loading}
-                        className="w-full h-[54px] rounded-[16px] text-[14px] bg-[#d6dae8] text-[#1a1d2e] placeholder:text-[#64748B]/70 pl-[44px] pr-12 outline-none disabled:opacity-50 transition-all focus:ring-2 focus:ring-[#5B4FE9]/30"
+                        className="w-full h-[54px] rounded-[16px] text-[14px] bg-[#d6dae8] text-[#1a1d2e] placeholder:text-[#475569]/70 pl-[44px] pr-12 outline-none disabled:opacity-50 transition-all focus:ring-2 focus:ring-[#5B4FE9]/30"
                         style={{ boxShadow: 'inset 5px 5px 10px #b0b8cc, inset -5px -5px 10px #ffffff' }}
                       />
                       <button
                         type="button"
                         onClick={() => setShowPwd(s => !s)}
-                        className="absolute right-3 top-1/2 -translate-y-1/2 w-8 h-8 rounded-xl flex items-center justify-center text-[#64748B] opacity-50 hover:opacity-100 transition-opacity focus:outline-none"
+                        className="absolute right-3 top-1/2 -translate-y-1/2 w-8 h-8 rounded-xl flex items-center justify-center text-[#475569] opacity-50 hover:opacity-100 transition-opacity focus:outline-none"
                         title={showPwd ? 'Hide password' : 'Show password'}
                       >
                         {showPwd ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
@@ -308,12 +308,12 @@ export default function AdminLoginPage() {
               ) : (
                 /* Access Key Box */
                 <div>
-                  <label className="block mb-2 text-[10px] font-bold tracking-[0.1em] text-[#64748B] uppercase ml-1" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
+                  <label className="block mb-2 text-[10px] font-bold tracking-[0.1em] text-[#475569] uppercase ml-1" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
                     MODERATOR KEY
                   </label>
                   <div className="relative">
                     <div className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 flex items-center justify-center">
-                      <Key className="w-full h-full text-[#64748B] opacity-50" />
+                      <Key className="w-full h-full text-[#475569] opacity-50" />
                     </div>
                     <input
                       type="text"
@@ -321,7 +321,7 @@ export default function AdminLoginPage() {
                       onChange={e => { setAccessKey(e.target.value); setError(''); }}
                       placeholder={locked ? `Locked — wait ${lockTimer}s` : 'MODE-XXXXXX'}
                       disabled={locked || loading}
-                      className="w-full h-[54px] rounded-[16px] text-[14px] font-mono tracking-wider bg-[#d6dae8] text-[#1a1d2e] placeholder:text-[#64748B]/50 pl-[44px] pr-4 outline-none disabled:opacity-50 transition-all focus:ring-2 focus:ring-[#5B4FE9]/30 uppercase"
+                      className="w-full h-[54px] rounded-[16px] text-[14px] font-mono tracking-wider bg-[#d6dae8] text-[#1a1d2e] placeholder:text-[#475569]/50 pl-[44px] pr-4 outline-none disabled:opacity-50 transition-all focus:ring-2 focus:ring-[#5B4FE9]/30 uppercase"
                       style={{ boxShadow: 'inset 5px 5px 10px #b0b8cc, inset -5px -5px 10px #ffffff' }}
                     />
                   </div>

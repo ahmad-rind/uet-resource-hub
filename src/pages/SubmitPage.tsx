@@ -238,11 +238,11 @@ export default function SubmitPage() {
             <CheckCircle className="w-10 h-10 text-[#10B981]" />
           </div>
           <h2 className="text-2xl font-black text-[#1a1d2e] mb-2" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>Resource Submitted!</h2>
-          <p className="text-[#64748B] text-sm mb-6">Thank you for contributing to our community.</p>
+          <p className="text-[#475569] text-sm mb-6">Thank you for contributing to our community.</p>
           <div className="rounded-2xl p-5 mb-8 text-left space-y-2.5" style={insetStyle}>
-             <div className="text-xs text-[#64748B]"><strong>Title:</strong> {success.title}</div>
-             <div className="text-xs text-[#64748B]"><strong>Course:</strong> {success.courseCode}</div>
-             <div className="text-xs text-[#64748B]"><strong>Link:</strong> <a href={success.externalLink} target="_blank" className="text-[#5B4FE9] hover:underline">View Resource</a></div>
+             <div className="text-xs text-[#475569]"><strong>Title:</strong> {success.title}</div>
+             <div className="text-xs text-[#475569]"><strong>Course:</strong> {success.courseCode}</div>
+             <div className="text-xs text-[#475569]"><strong>Link:</strong> <a href={success.externalLink} target="_blank" className="text-[#4A3FD8] hover:underline">View Resource</a></div>
           </div>
           <div className="flex gap-4">
             <button onClick={resetForm} className="flex-1 py-3 rounded-2xl font-bold" style={outsetStyle}>Submit Another</button>
@@ -286,7 +286,7 @@ export default function SubmitPage() {
                         
                         let statusClasses = 'text-[#94a3b8]';
                         if (isActive) statusClasses = 'bg-[#5B4FE9] text-white shadow-sm';
-                        else if (isCompleted) statusClasses = 'bg-[#5B4FE9]/10 text-[#5B4FE9]';
+                        else if (isCompleted) statusClasses = 'bg-[#5B4FE9]/10 text-[#4A3FD8]';
                         
                         return (
                           <div key={stepName} className={`px-4 py-1.5 rounded-full text-xs font-bold whitespace-nowrap transition-all duration-300 ${statusClasses}`}>
@@ -297,7 +297,7 @@ export default function SubmitPage() {
                     </div>
                     
                     {/* Percentage */}
-                    <div className="text-sm lg:text-base font-black text-[#5B4FE9] shrink-0 ml-4">
+                    <div className="text-sm lg:text-base font-black text-[#4A3FD8] shrink-0 ml-4">
                       {Math.round((currentStep/5)*100)}%
                     </div>
                   </div>
@@ -321,9 +321,9 @@ export default function SubmitPage() {
                     >
                     <div className="text-center sm:text-left mb-4">
                       <h2 className="text-xl lg:text-2xl font-black text-[#1a1d2e] mb-1.5" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
-                        Select <span className="text-[#5B4FE9]">Department</span>
+                        Select <span className="text-[#4A3FD8]">Department</span>
                       </h2>
-                      <p className="text-[#64748B] text-[10px] sm:text-xs font-medium">Choose the department where your resource belongs</p>
+                      <p className="text-[#475569] text-[10px] sm:text-xs font-medium">Choose the department where your resource belongs</p>
                     </div>
                       <div className="flex flex-wrap justify-center gap-x-3 gap-y-4 lg:gap-x-5 lg:gap-y-5 pt-2">
                         {departmentList.map((dept) => {
@@ -341,11 +341,11 @@ export default function SubmitPage() {
                                className={`w-12 h-12 sm:w-[60px] sm:h-[60px] shrink-0 rounded-full flex items-center justify-center transition-all duration-300 bg-[#d6dae8] [&>svg]:w-4 [&>svg]:h-4 sm:[&>svg]:w-5 sm:[&>svg]:h-5 ${isSelected ? 'ring-2 ring-[#5B4FE9] ring-offset-[3px] ring-offset-[#d6dae8]' : '[&>svg]:opacity-80 group-hover:[&>svg]:opacity-100 group-hover:[&>svg]:scale-110'}`}
                                style={isSelected ? insetStyle : outsetStyle}
                              >
-                               {deptIcons[dept] || <BookOpen className="text-[#64748B]" />}
+                               {deptIcons[dept] || <BookOpen className="text-[#475569]" />}
                              </div>
                              
                              <div className="w-full text-center">
-                               <span className={`block font-bold text-[9px] sm:text-[10px] leading-[1.1] whitespace-pre-wrap transition-colors duration-300 ${isSelected ? 'text-[#5B4FE9]' : 'text-[#1a1d2e]'}`}
+                               <span className={`block font-bold text-[9px] sm:text-[10px] leading-[1.1] whitespace-pre-wrap transition-colors duration-300 ${isSelected ? 'text-[#4A3FD8]' : 'text-[#1a1d2e]'}`}
                                  style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
                                  {formatDeptName(dept)}
                                </span>
@@ -379,20 +379,20 @@ export default function SubmitPage() {
                     className="space-y-3 sm:space-y-5"
                   >
                 <div className="flex items-center gap-3">
-                  <button onClick={prevStep} type="button" className="p-2 rounded-xl transition-transform hover:scale-105 active:scale-95" style={outsetStyle}><ChevronLeft className="w-4 h-4 lg:w-5 lg:h-5 text-[#5B4FE9]" /></button>
-                  <h2 className="text-lg lg:text-xl font-black text-[#1a1d2e]" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}><span className="text-[#5B4FE9]">Semester</span> & Course</h2>
+                  <button onClick={prevStep} type="button" className="p-2 rounded-xl transition-transform hover:scale-105 active:scale-95" style={outsetStyle}><ChevronLeft className="w-4 h-4 lg:w-5 lg:h-5 text-[#4A3FD8]" /></button>
+                  <h2 className="text-lg lg:text-xl font-black text-[#1a1d2e]" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}><span className="text-[#4A3FD8]">Semester</span> & Course</h2>
                 </div>
 
                 <div>
-                  <label className="text-[10px] lg:text-xs font-black text-[#1a1d2e] uppercase tracking-widest pl-1 block mb-3 lg:mb-4">Select <span className="text-[#5B4FE9]">Semester</span></label>
+                  <label className="text-[10px] lg:text-xs font-black text-[#1a1d2e] uppercase tracking-widest pl-1 block mb-3 lg:mb-4">Select <span className="text-[#4A3FD8]">Semester</span></label>
                   <div className="grid grid-cols-4 sm:grid-cols-6 lg:grid-cols-8 gap-2 lg:gap-3">
                     {semesterOptions.map((sem) => (
                       <button key={sem} type="button" onClick={() => { setForm(f => ({ ...f, semester: sem, courseCode: '' })); }}
                         className="h-9 lg:h-10 rounded-xl flex flex-col items-center justify-center transition-all hover:-translate-y-1 active:scale-95" 
                         style={form.semester === sem ? insetStyle : outsetStyle}>
                         <div className="flex flex-col items-center justify-center gap-0.5">
-                          <span className={`text-xs font-black uppercase tracking-widest ${form.semester === sem ? 'text-[#5B4FE9]' : 'text-[#64748B]'}`}>SEM</span>
-                          <span className={`text-lg font-black leading-none ${form.semester === sem ? 'text-[#5B4FE9]' : 'text-[#1a1d2e]'}`}>{sem}</span>
+                          <span className={`text-xs font-black uppercase tracking-widest ${form.semester === sem ? 'text-[#4A3FD8]' : 'text-[#475569]'}`}>SEM</span>
+                          <span className={`text-lg font-black leading-none ${form.semester === sem ? 'text-[#4A3FD8]' : 'text-[#1a1d2e]'}`}>{sem}</span>
                         </div>
                       </button>
                     ))}
@@ -401,7 +401,7 @@ export default function SubmitPage() {
 
                 {form.semester && (
                   <div>
-                    <label className="text-[10px] lg:text-xs font-black text-[#1a1d2e] uppercase tracking-widest pl-1 block mb-3 lg:mb-4">Choose <span className="text-[#5B4FE9]">Course</span></label>
+                    <label className="text-[10px] lg:text-xs font-black text-[#1a1d2e] uppercase tracking-widest pl-1 block mb-3 lg:mb-4">Choose <span className="text-[#4A3FD8]">Course</span></label>
                     <div className="relative">
                       <select
                         value={form.courseCode}
@@ -423,7 +423,7 @@ export default function SubmitPage() {
                           <option key={c.code} value={c.code}>{c.code} — {c.name}</option>
                         ))}
                       </select>
-                      <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 text-[#64748B] pointer-events-none" />
+                      <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 text-[#475569] pointer-events-none" />
                     </div>
                     <div className="flex justify-end mt-8">
                       <button type="button" onClick={nextStep} disabled={!form.courseCode}
@@ -448,8 +448,8 @@ export default function SubmitPage() {
                 className="space-y-3 sm:space-y-5"
               >
                 <div className="flex items-center gap-3">
-                  <button onClick={prevStep} type="button" className="p-2 rounded-xl transition-transform hover:scale-105 active:scale-95" style={outsetStyle}><ChevronLeft className="w-4 h-4 lg:w-5 lg:h-5 text-[#5B4FE9]" /></button>
-                  <h2 className="text-lg lg:text-xl font-black text-[#1a1d2e]" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>Resource <span className="text-[#5B4FE9]">Type</span></h2>
+                  <button onClick={prevStep} type="button" className="p-2 rounded-xl transition-transform hover:scale-105 active:scale-95" style={outsetStyle}><ChevronLeft className="w-4 h-4 lg:w-5 lg:h-5 text-[#4A3FD8]" /></button>
+                  <h2 className="text-lg lg:text-xl font-black text-[#1a1d2e]" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>Resource <span className="text-[#4A3FD8]">Type</span></h2>
                 </div>
                 <div className="grid grid-cols-2 lg:grid-cols-3 gap-3">
                   {resourceTypes.map((type) => (
@@ -460,7 +460,7 @@ export default function SubmitPage() {
                       </div>
                       <div className="flex-1 min-w-0">
                         <div className="text-[11px] lg:text-xs font-bold text-[#1a1d2e] truncate">{type}</div>
-                        <div className="text-[9px] leading-tight text-[#64748B] truncate">{resourceTypeDescriptors[type]}</div>
+                        <div className="text-[9px] leading-tight text-[#475569] truncate">{resourceTypeDescriptors[type]}</div>
                       </div>
                     </button>
                   ))}
@@ -486,15 +486,15 @@ export default function SubmitPage() {
                 className="space-y-3 sm:space-y-5"
               >
                 <div className="flex items-center gap-3">
-                  <button onClick={prevStep} type="button" className="p-2 rounded-xl transition-transform hover:scale-105 active:scale-95" style={outsetStyle}><ChevronLeft className="w-4 h-4 lg:w-5 lg:h-5 text-[#5B4FE9]" /></button>
-                  <h2 className="text-lg lg:text-xl font-black text-[#1a1d2e]" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>Resource <span className="text-[#5B4FE9]">Details</span></h2>
+                  <button onClick={prevStep} type="button" className="p-2 rounded-xl transition-transform hover:scale-105 active:scale-95" style={outsetStyle}><ChevronLeft className="w-4 h-4 lg:w-5 lg:h-5 text-[#4A3FD8]" /></button>
+                  <h2 className="text-lg lg:text-xl font-black text-[#1a1d2e]" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>Resource <span className="text-[#4A3FD8]">Details</span></h2>
                 </div>
                 <div className="space-y-4">
                   <div className="space-y-1">
                     <div className="relative">
                       <input type="text" placeholder="Title*" value={form.title} onChange={e => setForm(f => ({ ...f, title: e.target.value }))}
                         className={`w-full h-12 rounded-xl bg-transparent pl-10 focus:outline-none text-xs lg:text-sm font-bold ${errors.title ? 'ring-2 ring-red-500/50' : ''}`} style={outsetStyle} />
-                      <Type className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-[#5B4FE9]" />
+                      <Type className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-[#4A3FD8]" />
                     </div>
                     {errors.title && <p className="text-[9px] text-red-500 font-black tracking-wide ml-2">REQUIRED</p>}
                   </div>
@@ -502,7 +502,7 @@ export default function SubmitPage() {
                     <div className="relative">
                       <input type="url" placeholder="External Link*" value={form.externalLink} onChange={e => setForm(f => ({ ...f, externalLink: e.target.value }))}
                         className={`w-full h-12 rounded-xl bg-transparent pl-10 focus:outline-none text-xs lg:text-sm font-bold ${errors.externalLink ? 'ring-2 ring-red-500/50' : ''}`} style={outsetStyle} />
-                      <LinkIcon className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-[#5B4FE9]" />
+                      <LinkIcon className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-[#4A3FD8]" />
                     </div>
                     {errors.externalLink && <p className="text-[9px] text-red-500 font-black tracking-wide ml-2 uppercase">{errors.externalLink}</p>}
                   </div>
@@ -528,8 +528,8 @@ export default function SubmitPage() {
                 className="space-y-3 sm:space-y-5"
               >
                 <div className="flex items-center gap-3">
-                  <button onClick={prevStep} type="button" className="p-2 rounded-xl transition-transform hover:scale-105 active:scale-95" style={outsetStyle}><ChevronLeft className="w-4 h-4 lg:w-5 lg:h-5 text-[#5B4FE9]" /></button>
-                  <h2 className="text-lg lg:text-xl font-black text-[#1a1d2e]" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>Final <span className="text-[#5B4FE9]">Touches</span></h2>
+                  <button onClick={prevStep} type="button" className="p-2 rounded-xl transition-transform hover:scale-105 active:scale-95" style={outsetStyle}><ChevronLeft className="w-4 h-4 lg:w-5 lg:h-5 text-[#4A3FD8]" /></button>
+                  <h2 className="text-lg lg:text-xl font-black text-[#1a1d2e]" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>Final <span className="text-[#4A3FD8]">Touches</span></h2>
                 </div>
                 <div className="space-y-4">
                   {/* Anonymous Toggle */}
@@ -543,7 +543,7 @@ export default function SubmitPage() {
                   >
                     <div>
                       <h3 className="text-[11px] lg:text-xs font-bold text-[#1a1d2e]">Submit anonymously</h3>
-                      <p className="text-[9px] text-[#64748B] mt-0.5">Your name won't appear publicly</p>
+                      <p className="text-[9px] text-[#475569] mt-0.5">Your name won't appear publicly</p>
                     </div>
                     <div className="w-10 h-5 rounded-full relative transition-all duration-300 flex items-center p-1" style={insetStyle}>
                       <div className={`w-3 h-3 rounded-full transition-all duration-300 ${isAnonymous ? 'translate-x-5 bg-[#5B4FE9]' : 'translate-x-0 bg-[#b0b8cc]'}`} />
@@ -554,13 +554,13 @@ export default function SubmitPage() {
                     <div className="relative">
                       <input type="text" placeholder="Your Name (Optional)" value={form.contributorName} onChange={e => setForm(f => ({ ...f, contributorName: e.target.value }))}
                         className="w-full h-12 rounded-xl bg-transparent pl-10 focus:outline-none text-xs lg:text-sm font-bold" style={outsetStyle} />
-                      <User className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-[#5B4FE9]" />
+                      <User className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-[#4A3FD8]" />
                     </div>
                   )}
                   <div className="relative">
                     <textarea placeholder="Description (Optional)" value={form.description} onChange={e => setForm(f => ({ ...f, description: e.target.value }))}
                       className="w-full p-3.5 lg:p-4 pl-10 lg:pl-10 rounded-xl bg-transparent focus:outline-none min-h-[80px] text-xs lg:text-sm font-bold resize-none custom-scrollbar" style={outsetStyle} />
-                    <FileText className="absolute left-3.5 top-[14px] lg:top-[16px] w-4 h-4 text-[#5B4FE9]" />
+                    <FileText className="absolute left-3.5 top-[14px] lg:top-[16px] w-4 h-4 text-[#4A3FD8]" />
                   </div>
                 </div>
                 <div className="flex justify-end mt-6">

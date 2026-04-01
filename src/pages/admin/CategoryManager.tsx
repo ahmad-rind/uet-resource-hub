@@ -31,10 +31,10 @@ const S = {
 };
 const btn = {
   primary: 'bg-[#5B4FE9] text-white rounded-2xl px-4 py-2 text-sm font-semibold transition-all duration-300 hover:-translate-y-0.5 active:translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-[#5B4FE9] focus:ring-offset-2 focus:ring-offset-[#d6dae8]',
-  ghost:   'rounded-2xl px-3 py-2 text-sm font-medium text-[#64748B] transition-all duration-300 hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-[#5B4FE9]',
+  ghost:   'rounded-2xl px-3 py-2 text-sm font-medium text-[#475569] transition-all duration-300 hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-[#5B4FE9]',
   danger:  'bg-red-500 text-white rounded-2xl px-3 py-2 text-sm font-semibold transition-all duration-300 hover:-translate-y-0.5 active:translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-red-400',
   success: 'bg-[#10B981] text-white rounded-2xl px-3 py-2 text-sm font-semibold transition-all duration-300 hover:-translate-y-0.5 focus:outline-none',
-  icon:    'w-8 h-8 rounded-xl flex items-center justify-center text-[#64748B] hover:text-[#5B4FE9] transition-colors focus:outline-none focus:ring-2 focus:ring-[#5B4FE9]',
+  icon:    'w-8 h-8 rounded-xl flex items-center justify-center text-[#475569] hover:text-[#4A3FD8] transition-colors focus:outline-none focus:ring-2 focus:ring-[#5B4FE9]',
 };
 const SEM_COLORS = [
   'bg-blue-100 text-blue-700', 'bg-purple-100 text-purple-700',
@@ -375,9 +375,9 @@ export default function CategoryManager({ isEmbedded = false }: { isEmbedded?: b
               <AlertCircle size={24} className="text-red-500"/>
             </div>
             <h3 className="text-lg font-bold text-[#1a1d2e] text-center mb-2" style={S.display}>{confirm.title}</h3>
-            <p className="text-sm text-[#64748B] text-center mb-6">{confirm.msg}</p>
+            <p className="text-sm text-[#475569] text-center mb-6">{confirm.msg}</p>
             <div className="flex gap-3">
-              <button className="flex-1 py-2.5 rounded-2xl text-sm font-semibold text-[#64748B]" style={S.cardSm}
+              <button className="flex-1 py-2.5 rounded-2xl text-sm font-semibold text-[#475569]" style={S.cardSm}
                 onClick={() => setConfirm(p => ({ ...p, show: false }))}>Cancel</button>
               <button className={`flex-1 py-2.5 ${btn.danger}`} onClick={confirm.onConfirm}>Delete</button>
             </div>
@@ -398,7 +398,7 @@ export default function CategoryManager({ isEmbedded = false }: { isEmbedded?: b
                 <h1 className="text-xl font-extrabold text-[#1a1d2e] tracking-tight" style={S.display}>
                   Category Manager
                 </h1>
-                <p className="text-xs text-[#64748B]">
+                <p className="text-xs text-[#475569]">
                   {mergedDepts.length} departments · {mergedCourses.length || '—'} courses shown
                 </p>
               </div>
@@ -408,13 +408,13 @@ export default function CategoryManager({ isEmbedded = false }: { isEmbedded?: b
                 className={`flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-semibold transition-all`}
                 style={S.cardSm}
                 title={showInactive ? 'Hide inactive' : 'Show inactive'}>
-                {showInactive ? <Eye size={13} className="text-[#5B4FE9]"/> : <EyeOff size={13} className="text-[#A0AEC0]"/>}
-                <span className={showInactive ? 'text-[#5B4FE9]' : 'text-[#A0AEC0]'}>
+                {showInactive ? <Eye size={13} className="text-[#4A3FD8]"/> : <EyeOff size={13} className="text-[#A0AEC0]"/>}
+                <span className={showInactive ? 'text-[#4A3FD8]' : 'text-[#A0AEC0]'}>
                   {showInactive ? 'All' : 'Active only'}
                 </span>
               </button>
               <button onClick={fetchDb}
-                className={`w-10 h-10 rounded-2xl flex items-center justify-center text-[#64748B]`}
+                className={`w-10 h-10 rounded-2xl flex items-center justify-center text-[#475569]`}
                 style={S.cardSm} title="Refresh from Supabase">
                 <RefreshCw size={16} className={loading ? 'animate-spin' : ''}/>
               </button>
@@ -429,7 +429,7 @@ export default function CategoryManager({ isEmbedded = false }: { isEmbedded?: b
           {(['departments', 'courses'] as const).map(tab => (
             <button key={tab} onClick={() => setActiveTab(tab)}
               className={`px-5 py-2 rounded-xl text-sm font-semibold capitalize transition-all duration-300 ${
-                activeTab === tab ? 'text-white' : 'text-[#64748B] hover:text-[#1a1d2e]'
+                activeTab === tab ? 'text-white' : 'text-[#475569] hover:text-[#1a1d2e]'
               }`}
               style={activeTab === tab ? { background: '#5B4FE9', boxShadow: '5px 5px 10px #b0b8cc,-5px -5px 10px #ffffff' } : {}}>
               {tab === 'departments'
@@ -466,7 +466,7 @@ export default function CategoryManager({ isEmbedded = false }: { isEmbedded?: b
               ].map(s => (
                 <div key={s.label} className="p-3 rounded-[20px] text-center" style={S.cardSm}>
                   <div className="text-2xl font-extrabold" style={{ color: s.color, ...S.display }}>{s.value}</div>
-                  <div className="text-xs text-[#64748B] font-medium mt-0.5">{s.label}</div>
+                  <div className="text-xs text-[#475569] font-medium mt-0.5">{s.label}</div>
                 </div>
               ))}
             </div>
@@ -504,8 +504,8 @@ export default function CategoryManager({ isEmbedded = false }: { isEmbedded?: b
                           )}
                         </div>
                         <div className="flex items-center gap-3 mt-0.5 text-xs text-[#A0AEC0]">
-                          <span><strong className="text-[#64748B]">{totalCourses}</strong> courses</span>
-                          <span><strong className="text-[#64748B]">{Object.keys(dept.semesters).length}</strong> semesters</span>
+                          <span><strong className="text-[#475569]">{totalCourses}</strong> courses</span>
+                          <span><strong className="text-[#475569]">{Object.keys(dept.semesters).length}</strong> semesters</span>
                         </div>
                       </div>
                       <div className="flex items-center gap-1.5 flex-shrink-0">
@@ -528,7 +528,7 @@ export default function CategoryManager({ isEmbedded = false }: { isEmbedded?: b
                           </button>
                         )}
                         <button onClick={() => { setSelectedDeptName(dept.name); setActiveTab('courses'); setSelectedSemester(null); }}
-                          className="px-2.5 py-1.5 rounded-xl text-xs font-semibold text-[#5B4FE9] transition-all hover:-translate-y-0.5"
+                          className="px-2.5 py-1.5 rounded-xl text-xs font-semibold text-[#4A3FD8] transition-all hover:-translate-y-0.5"
                           style={S.cardSm} title="View courses">
                           Courses →
                         </button>
@@ -539,7 +539,7 @@ export default function CategoryManager({ isEmbedded = false }: { isEmbedded?: b
                     {isExpanded && (
                       <div className="px-4 pb-4">
                         <div className="p-3 rounded-[18px]" style={S.inset}>
-                          <p className="text-xs font-semibold text-[#64748B] uppercase tracking-wider mb-3">
+                          <p className="text-xs font-semibold text-[#475569] uppercase tracking-wider mb-3">
                             Semester Overview
                           </p>
                           <div className="grid grid-cols-4 md:grid-cols-8 gap-2">
@@ -580,7 +580,7 @@ export default function CategoryManager({ isEmbedded = false }: { isEmbedded?: b
             {/* Left: dept selector */}
             <div className="lg:w-72 flex-shrink-0">
               <div className="p-4 rounded-[24px] sticky top-24" style={S.card}>
-                <p className="text-xs font-semibold text-[#64748B] uppercase tracking-wider mb-3">
+                <p className="text-xs font-semibold text-[#475569] uppercase tracking-wider mb-3">
                   Select Department
                 </p>
                 <div className="relative mb-3">
@@ -621,7 +621,7 @@ export default function CategoryManager({ isEmbedded = false }: { isEmbedded?: b
                   <div className="w-16 h-16 rounded-[20px] flex items-center justify-center mb-4" style={S.inset}>
                     <Layers size={28} className="text-[#A0AEC0]"/>
                   </div>
-                  <p className="text-[#64748B] font-semibold">Select a department</p>
+                  <p className="text-[#475569] font-semibold">Select a department</p>
                   <p className="text-sm text-[#A0AEC0] mt-1">Choose from the left panel to view its courses</p>
                 </div>
               ) : (
@@ -667,7 +667,7 @@ export default function CategoryManager({ isEmbedded = false }: { isEmbedded?: b
                   <div className="flex gap-2 flex-wrap mb-4">
                     <button
                       onClick={() => setSelectedSemester(null)}
-                      className={`px-3 py-1.5 rounded-xl text-xs font-semibold transition-all ${selectedSemester === null ? 'text-white' : 'text-[#64748B]'}`}
+                      className={`px-3 py-1.5 rounded-xl text-xs font-semibold transition-all ${selectedSemester === null ? 'text-white' : 'text-[#475569]'}`}
                       style={selectedSemester === null
                         ? { background: '#5B4FE9', boxShadow: '4px 4px 8px #b0b8cc,-4px -4px 8px #ffffff', borderRadius: 12 }
                         : S.cardSm}>
@@ -676,7 +676,7 @@ export default function CategoryManager({ isEmbedded = false }: { isEmbedded?: b
                     {semestersForSelected.map(sem => (
                       <button key={sem}
                         onClick={() => setSelectedSemester(sem)}
-                        className={`px-3 py-1.5 rounded-xl text-xs font-semibold transition-all ${selectedSemester === sem ? 'text-white' : 'text-[#64748B]'}`}
+                        className={`px-3 py-1.5 rounded-xl text-xs font-semibold transition-all ${selectedSemester === sem ? 'text-white' : 'text-[#475569]'}`}
                         style={selectedSemester === sem
                           ? { background: '#5B4FE9', boxShadow: '4px 4px 8px #b0b8cc,-4px -4px 8px #ffffff', borderRadius: 12 }
                           : S.cardSm}>
@@ -689,7 +689,7 @@ export default function CategoryManager({ isEmbedded = false }: { isEmbedded?: b
                   {filteredCourses.length === 0 ? (
                     <div className="text-center py-12 rounded-[24px]" style={S.card}>
                       <BookOpen size={32} className="text-[#A0AEC0] mx-auto mb-2"/>
-                      <p className="text-[#64748B] font-medium">No courses found</p>
+                      <p className="text-[#475569] font-medium">No courses found</p>
                     </div>
                   ) : (
                     <div className="space-y-2">
@@ -703,12 +703,12 @@ export default function CategoryManager({ isEmbedded = false }: { isEmbedded?: b
                           </div>
                           {/* Code icon */}
                           <div className="w-8 h-8 rounded-xl flex items-center justify-center flex-shrink-0" style={S.inset}>
-                            <Hash size={12} className="text-[#5B4FE9]"/>
+                            <Hash size={12} className="text-[#4A3FD8]"/>
                           </div>
                           {/* Info */}
                           <div className="flex-1 min-w-0">
                             <div className="flex items-center gap-2 flex-wrap">
-                              <span className="text-xs font-bold text-[#5B4FE9]">{course.code}</span>
+                              <span className="text-xs font-bold text-[#4A3FD8]">{course.code}</span>
                               <span className="font-semibold text-[#1a1d2e] text-sm truncate">{course.name}</span>
                               {!course.is_active && (
                                 <span className="px-1.5 py-0.5 rounded-full text-[10px] bg-gray-200 text-gray-500">Inactive</span>
@@ -806,14 +806,14 @@ function DeptModal({ mode, initial, onSave, onClose }:
             </h2>
             {isBuiltIn && <p className="text-xs text-amber-600 mt-0.5">Built-in department — name cannot be changed</p>}
           </div>
-          <button onClick={onClose} className="w-8 h-8 rounded-xl flex items-center justify-center text-[#64748B]"
+          <button onClick={onClose} className="w-8 h-8 rounded-xl flex items-center justify-center text-[#475569]"
             style={{ borderRadius: 12, background: '#d6dae8', boxShadow: '5px 5px 10px #b0b8cc,-5px -5px 10px #ffffff' }}>
             <X size={16}/>
           </button>
         </div>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label className="block text-xs font-semibold text-[#64748B] uppercase tracking-wider mb-1.5">Department Name *</label>
+            <label className="block text-xs font-semibold text-[#475569] uppercase tracking-wider mb-1.5">Department Name *</label>
             <input value={form.name} onChange={e => setForm(p => ({ ...p, name: e.target.value }))}
               placeholder="e.g. Computer Science (BSc)" required
               disabled={isBuiltIn}
@@ -821,7 +821,7 @@ function DeptModal({ mode, initial, onSave, onClose }:
               style={InpD}/>
           </div>
           <div>
-            <label className="block text-xs font-semibold text-[#64748B] uppercase tracking-wider mb-1.5">Description</label>
+            <label className="block text-xs font-semibold text-[#475569] uppercase tracking-wider mb-1.5">Description</label>
             <input value={form.description} onChange={e => setForm(p => ({ ...p, description: e.target.value }))}
               placeholder="Brief description of the program"
               className="w-full px-4 py-2.5 text-sm text-[#1a1d2e] placeholder-[#A0AEC0] bg-[#d6dae8] border-0 outline-none focus:ring-2 focus:ring-[#5B4FE9] transition-all"
@@ -829,14 +829,14 @@ function DeptModal({ mode, initial, onSave, onClose }:
           </div>
           <div className="flex gap-4">
             <div className="flex-1">
-              <label className="block text-xs font-semibold text-[#64748B] uppercase tracking-wider mb-1.5">Sort Order</label>
+              <label className="block text-xs font-semibold text-[#475569] uppercase tracking-wider mb-1.5">Sort Order</label>
               <input type="number" value={form.sort_order} onChange={e => setForm(p => ({ ...p, sort_order: Number(e.target.value) }))}
                 className="w-full px-4 py-2.5 text-sm text-[#1a1d2e] bg-[#d6dae8] border-0 outline-none focus:ring-2 focus:ring-[#5B4FE9] transition-all"
                 style={Inp}/>
             </div>
             {mode === 'edit' && (
               <div className="flex-1">
-                <label className="block text-xs font-semibold text-[#64748B] uppercase tracking-wider mb-1.5">Status</label>
+                <label className="block text-xs font-semibold text-[#475569] uppercase tracking-wider mb-1.5">Status</label>
                 <button type="button" onClick={() => setForm(p => ({ ...p, is_active: !p.is_active }))}
                   className="w-full flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-medium transition-all"
                   style={Inp}>
@@ -852,7 +852,7 @@ function DeptModal({ mode, initial, onSave, onClose }:
           </div>
           <div className="flex gap-3 pt-2">
             <button type="button" onClick={onClose}
-              className="flex-1 py-2.5 rounded-2xl text-sm font-semibold text-[#64748B] transition-all"
+              className="flex-1 py-2.5 rounded-2xl text-sm font-semibold text-[#475569] transition-all"
               style={{ borderRadius: 16, background: '#d6dae8', boxShadow: '5px 5px 10px #b0b8cc,-5px -5px 10px #ffffff' }}>
               Cancel
             </button>
@@ -906,14 +906,14 @@ function CourseModal({ mode, initial, deptName, allDeptNames, onSave, onClose }:
               <p className="text-xs text-blue-600 mt-0.5">Editing built-in course — will save override to database</p>
             )}
           </div>
-          <button onClick={onClose} className="w-8 h-8 rounded-xl flex items-center justify-center text-[#64748B]"
+          <button onClick={onClose} className="w-8 h-8 rounded-xl flex items-center justify-center text-[#475569]"
             style={{ borderRadius: 12, background: '#d6dae8', boxShadow: '5px 5px 10px #b0b8cc,-5px -5px 10px #ffffff' }}>
             <X size={16}/>
           </button>
         </div>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label className="block text-xs font-semibold text-[#64748B] uppercase tracking-wider mb-1.5">Department *</label>
+            <label className="block text-xs font-semibold text-[#475569] uppercase tracking-wider mb-1.5">Department *</label>
             <select value={form.department_name} onChange={e => setForm(p => ({ ...p, department_name: e.target.value }))}
               disabled={mode === 'edit'}
               className="w-full px-4 py-2.5 text-sm text-[#1a1d2e] bg-[#d6dae8] border-0 outline-none focus:ring-2 focus:ring-[#5B4FE9] transition-all disabled:opacity-60"
@@ -923,7 +923,7 @@ function CourseModal({ mode, initial, deptName, allDeptNames, onSave, onClose }:
           </div>
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <label className="block text-xs font-semibold text-[#64748B] uppercase tracking-wider mb-1.5">Semester *</label>
+              <label className="block text-xs font-semibold text-[#475569] uppercase tracking-wider mb-1.5">Semester *</label>
               <select value={form.semester} onChange={e => setForm(p => ({ ...p, semester: Number(e.target.value) }))}
                 disabled={isBuiltInStatic}
                 className="w-full px-4 py-2.5 text-sm text-[#1a1d2e] bg-[#d6dae8] border-0 outline-none focus:ring-2 focus:ring-[#5B4FE9] transition-all disabled:opacity-60"
@@ -932,7 +932,7 @@ function CourseModal({ mode, initial, deptName, allDeptNames, onSave, onClose }:
               </select>
             </div>
             <div>
-              <label className="block text-xs font-semibold text-[#64748B] uppercase tracking-wider mb-1.5">Credit Hours</label>
+              <label className="block text-xs font-semibold text-[#475569] uppercase tracking-wider mb-1.5">Credit Hours</label>
               <input type="number" min={1} max={6} value={form.credit_hours}
                 onChange={e => setForm(p => ({ ...p, credit_hours: Number(e.target.value) }))}
                 className="w-full px-4 py-2.5 text-sm text-[#1a1d2e] bg-[#d6dae8] border-0 outline-none focus:ring-2 focus:ring-[#5B4FE9] transition-all"
@@ -940,7 +940,7 @@ function CourseModal({ mode, initial, deptName, allDeptNames, onSave, onClose }:
             </div>
           </div>
           <div>
-            <label className="block text-xs font-semibold text-[#64748B] uppercase tracking-wider mb-1.5">Course Code *</label>
+            <label className="block text-xs font-semibold text-[#475569] uppercase tracking-wider mb-1.5">Course Code *</label>
             <input value={form.code} onChange={e => setForm(p => ({ ...p, code: e.target.value.toUpperCase() }))}
               placeholder="e.g. CS-101" required
               disabled={isBuiltInStatic}
@@ -948,7 +948,7 @@ function CourseModal({ mode, initial, deptName, allDeptNames, onSave, onClose }:
               style={InpD}/>
           </div>
           <div>
-            <label className="block text-xs font-semibold text-[#64748B] uppercase tracking-wider mb-1.5">Course Name *</label>
+            <label className="block text-xs font-semibold text-[#475569] uppercase tracking-wider mb-1.5">Course Name *</label>
             <input value={form.name} onChange={e => setForm(p => ({ ...p, name: e.target.value }))}
               placeholder="e.g. Programming Fundamentals" required
               className="w-full px-4 py-2.5 text-sm text-[#1a1d2e] placeholder-[#A0AEC0] bg-[#d6dae8] border-0 outline-none focus:ring-2 focus:ring-[#5B4FE9] transition-all"
@@ -956,7 +956,7 @@ function CourseModal({ mode, initial, deptName, allDeptNames, onSave, onClose }:
           </div>
           {mode === 'edit' && !isBuiltInStatic && (
             <div>
-              <label className="block text-xs font-semibold text-[#64748B] uppercase tracking-wider mb-1.5">Status</label>
+              <label className="block text-xs font-semibold text-[#475569] uppercase tracking-wider mb-1.5">Status</label>
               <button type="button" onClick={() => setForm(p => ({ ...p, is_active: !p.is_active }))}
                 className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-medium transition-all"
                 style={Inp}>
@@ -971,7 +971,7 @@ function CourseModal({ mode, initial, deptName, allDeptNames, onSave, onClose }:
           )}
           <div className="flex gap-3 pt-2">
             <button type="button" onClick={onClose}
-              className="flex-1 py-2.5 rounded-2xl text-sm font-semibold text-[#64748B] transition-all"
+              className="flex-1 py-2.5 rounded-2xl text-sm font-semibold text-[#475569] transition-all"
               style={{ borderRadius: 16, background: '#d6dae8', boxShadow: '5px 5px 10px #b0b8cc,-5px -5px 10px #ffffff' }}>
               Cancel
             </button>

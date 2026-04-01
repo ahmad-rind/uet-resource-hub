@@ -26,7 +26,7 @@ import { Reveal } from '../../components/Reveal.js';
 const S = {
   bg:           '#d6dae8',
   fg:           '#1a1d2e',
-  muted:        '#64748B',
+  muted:        '#475569',
   accent:       '#5B4FE9',
   accentLight:  '#8B84FF',
   extruded:     '8px 8px 16px #b0b8cc, -8px -8px 16px #ffffff',
@@ -154,14 +154,14 @@ function PreviewModal({ resource, onClose, onApprove, onReject, onDismissFlags, 
                 className="w-12 h-12 rounded-xl flex items-center justify-center shrink-0 bg-[#d6dae8]"
                 style={{ boxShadow: 'inset 4px 4px 8px #b0b8cc, inset -4px -4px 8px #ffffff' }}
               >
-                <FileIcon className="w-6 h-6 text-[#5B4FE9]" />
+                <FileIcon className="w-6 h-6 text-[#4A3FD8]" />
               </div>
               <div className="min-w-0">
                 <h3 className="text-lg font-extrabold text-[#1a1d2e] tracking-tight leading-tight mb-0.5"
                   style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
                   {resource.title}
                 </h3>
-                <p className="text-[11px] font-bold text-[#64748B] uppercase tracking-wider">
+                <p className="text-[11px] font-bold text-[#475569] uppercase tracking-wider">
                   {resource.courseCode} · {resource.courseName}
                 </p>
               </div>
@@ -195,7 +195,7 @@ function PreviewModal({ resource, onClose, onApprove, onReject, onDismissFlags, 
             { label: 'TIME', value: fmtRelative(resource.uploadedAt) },
           ].map((item, idx) => (
             <div key={idx} className={`py-4 px-3 text-center ${idx < 3 ? 'border-r border-[#b0b8cc]/40' : ''}`}>
-              <p className="text-[8px] font-extrabold text-[#5B4FE9] uppercase tracking-[0.1em] mb-1">{item.label}</p>
+              <p className="text-[8px] font-extrabold text-[#4A3FD8] uppercase tracking-[0.1em] mb-1">{item.label}</p>
               <p className="text-[11px] font-extrabold text-[#1a1d2e] truncate">{item.value}</p>
             </div>
           ))}
@@ -205,7 +205,7 @@ function PreviewModal({ resource, onClose, onApprove, onReject, onDismissFlags, 
         <div className="p-7 space-y-6 overflow-y-auto no-scrollbar">
           {/* External Link */}
           <div>
-            <label className="block text-[9px] font-extrabold uppercase tracking-widest text-[#64748B]/70 mb-2 flex items-center gap-1.5">
+            <label className="block text-[9px] font-extrabold uppercase tracking-widest text-[#475569]/70 mb-2 flex items-center gap-1.5">
               <ArrowUpRight className="w-2.5 h-2.5" /> External Link
             </label>
             <div className="flex items-center p-1.5 rounded-xl bg-[#d6dae8]" 
@@ -214,7 +214,7 @@ function PreviewModal({ resource, onClose, onApprove, onReject, onDismissFlags, 
                 {resource.link}
               </div>
               <a href={resource.link} target="_blank" rel="noopener noreferrer"
-                className="px-4 py-1.5 rounded-lg text-[11px] font-extrabold text-[#5B4FE9] transition-all duration-300 hover:bg-white/20 active:scale-95 flex items-center gap-1.5 shrink-0"
+                className="px-4 py-1.5 rounded-lg text-[11px] font-extrabold text-[#4A3FD8] transition-all duration-300 hover:bg-white/20 active:scale-95 flex items-center gap-1.5 shrink-0"
               >
                 Open <ArrowUpRight className="w-3 h-3" />
               </a>
@@ -223,7 +223,7 @@ function PreviewModal({ resource, onClose, onApprove, onReject, onDismissFlags, 
 
           {/* Admin Note */}
           <div>
-            <label className="block text-[9px] font-extrabold uppercase tracking-widest text-[#64748B]/70 mb-2 flex items-center gap-1.5">
+            <label className="block text-[9px] font-extrabold uppercase tracking-widest text-[#475569]/70 mb-2 flex items-center gap-1.5">
                Admin Note <span className="normal-case opacity-50 ml-1 font-bold">(optional)</span>
             </label>
             <textarea 
@@ -344,14 +344,14 @@ function EditResourceModal({ resource, onClose, onSave }: {
                 className="w-12 h-12 rounded-xl flex items-center justify-center shrink-0 bg-[#d6dae8]"
                 style={{ boxShadow: 'inset 4px 4px 8px #b0b8cc, inset -4px -4px 8px #ffffff' }}
               >
-                <Pencil className="w-6 h-6 text-[#5B4FE9]" />
+                <Pencil className="w-6 h-6 text-[#4A3FD8]" />
               </div>
               <div className="min-w-0">
                 <h3 className="text-lg font-extrabold text-[#1a1d2e] tracking-tight leading-tight mb-0.5"
                   style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
                   Edit Resource
                 </h3>
-                <p className="text-[11px] font-bold text-[#64748B] uppercase tracking-wider">
+                <p className="text-[11px] font-bold text-[#475569] uppercase tracking-wider">
                   Updating details for "{resource.title}"
                 </p>
               </div>
@@ -374,7 +374,7 @@ function EditResourceModal({ resource, onClose, onSave }: {
             { label: 'TYPE', value: resource.type },
           ].map((item, idx) => (
             <div key={idx} className={`py-3 px-3 text-center ${idx < 3 ? 'border-r border-[#b0b8cc]/40' : ''}`}>
-              <p className="text-[8px] font-extrabold text-[#5B4FE9] uppercase tracking-[0.1em] mb-1">{item.label}</p>
+              <p className="text-[8px] font-extrabold text-[#4A3FD8] uppercase tracking-[0.1em] mb-1">{item.label}</p>
               <p className="text-[11px] font-extrabold text-[#1a1d2e] truncate">{item.value}</p>
             </div>
           ))}
@@ -384,7 +384,7 @@ function EditResourceModal({ resource, onClose, onSave }: {
         <form onSubmit={handleSubmit} className="flex-1 overflow-y-auto no-scrollbar p-6 space-y-4">
           {/* Title */}
           <div>
-            <label className="block text-[9px] font-extrabold uppercase tracking-widest text-[#5B4FE9] mb-1.5">Title</label>
+            <label className="block text-[9px] font-extrabold uppercase tracking-widest text-[#4A3FD8] mb-1.5">Title</label>
             <input 
               type="text"
               value={form.title} 
@@ -398,7 +398,7 @@ function EditResourceModal({ resource, onClose, onSave }: {
 
           {/* Type Selection */}
           <div>
-            <label className="block text-[9px] font-extrabold uppercase tracking-widest text-[#5B4FE9] mb-1.5">Resource Type</label>
+            <label className="block text-[9px] font-extrabold uppercase tracking-widest text-[#4A3FD8] mb-1.5">Resource Type</label>
             <div className="relative group">
               <select 
                 value={form.type} 
@@ -410,13 +410,13 @@ function EditResourceModal({ resource, onClose, onSave }: {
                   <option key={t} value={t}>{t}</option>
                 ))}
               </select>
-              <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 text-[#64748B] pointer-events-none transition-transform group-focus-within:rotate-180" />
+              <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 text-[#475569] pointer-events-none transition-transform group-focus-within:rotate-180" />
             </div>
           </div>
 
           {/* Link */}
           <div>
-            <label className="block text-[9px] font-extrabold uppercase tracking-widest text-[#5B4FE9] mb-1.5 flex items-center gap-1.5">
+            <label className="block text-[9px] font-extrabold uppercase tracking-widest text-[#4A3FD8] mb-1.5 flex items-center gap-1.5">
               <ArrowUpRight className="w-2.5 h-2.5" /> External Link
             </label>
             <input 
@@ -432,7 +432,7 @@ function EditResourceModal({ resource, onClose, onSave }: {
 
           {/* Description */}
           <div>
-             <label className="block text-[9px] font-extrabold uppercase tracking-widest text-[#5B4FE9] mb-1.5">Description</label>
+             <label className="block text-[9px] font-extrabold uppercase tracking-widest text-[#4A3FD8] mb-1.5">Description</label>
              <textarea 
                value={form.description} 
                onChange={e => setForm(f => ({ ...f, description: e.target.value }))}
@@ -550,7 +550,7 @@ function ResourceCard({ resource, onApprove, onReject, onPreview, onDelete, onDi
           className="w-11 h-11 rounded-xl flex items-center justify-center shrink-0 bg-[#d6dae8]"
           style={{ boxShadow: 'inset 4px 4px 8px #b0b8cc, inset -4px -4px 8px #ffffff' }}
         >
-          <FileIcon className="w-5.5 h-5.5 text-[#5B4FE9]" />
+          <FileIcon className="w-5.5 h-5.5 text-[#4A3FD8]" />
         </div>
 
         {/* Title & Stats Meta */}
@@ -559,7 +559,7 @@ function ResourceCard({ resource, onApprove, onReject, onPreview, onDelete, onDi
             style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
             {resource.title}
           </h3>
-          <div className="flex flex-wrap items-center gap-x-2 gap-y-0.5 text-[9px] font-bold text-[#64748B]/60 uppercase tracking-widest">
+          <div className="flex flex-wrap items-center gap-x-2 gap-y-0.5 text-[9px] font-bold text-[#475569]/60 uppercase tracking-widest">
             <span className="flex items-center gap-1"><BookOpen className="w-2.5 h-2.5" />{resource.department.split(' ')[0]}</span>
             <span className="opacity-30">•</span>
             <span className="flex items-center gap-1"><Layers className="w-2.5 h-2.5" />S{resource.semester}</span>
@@ -589,7 +589,7 @@ function ResourceCard({ resource, onApprove, onReject, onPreview, onDelete, onDi
       <div className="mb-4 flex-1">
         <button 
           onClick={() => setExpanded(!expanded)}
-          className="flex items-center gap-1 text-[9px] font-extrabold text-[#5B4FE9] uppercase tracking-widest transition-opacity hover:opacity-80"
+          className="flex items-center gap-1 text-[9px] font-extrabold text-[#4A3FD8] uppercase tracking-widest transition-opacity hover:opacity-80"
         >
           <ChevronDown className={`w-3 h-3 transition-transform duration-300 ${expanded ? 'rotate-180' : ''}`} />
           Review & note
@@ -597,7 +597,7 @@ function ResourceCard({ resource, onApprove, onReject, onPreview, onDelete, onDi
         {expanded && (
           <div className="mt-2.5 space-y-2.5 animate-in fade-in slide-in-from-top-2 duration-300">
             {resource.description && (
-              <div className="p-2.5 rounded-lg text-[11px] leading-relaxed text-[#64748B] font-medium" 
+              <div className="p-2.5 rounded-lg text-[11px] leading-relaxed text-[#475569] font-medium" 
                 style={{ background: S.bg, boxShadow: 'inset 2px 2px 4px #b0b8cc, inset -2px -2px 4px #ffffff' }}>
                 {resource.description}
               </div>
@@ -1136,7 +1136,7 @@ export default function AdminDashboard() {
           ) : filtered.length === 0 ? (
             <div className="rounded-[32px] p-16 text-center" style={{ background: S.bg, boxShadow: S.extruded }}>
               <div className="mb-4">
-                {activeTab === 'pending' ? <PartyPopper className="w-12 h-12 text-[#10B981] mx-auto" /> : activeTab === 'flagged' ? <Flag className="w-12 h-12 text-[#F97316] mx-auto" /> : searchQuery ? <Search className="w-12 h-12 text-[#5B4FE9] mx-auto" /> : <Inbox className="w-12 h-12 text-[#5B4FE9] mx-auto" />}
+                {activeTab === 'pending' ? <PartyPopper className="w-12 h-12 text-[#10B981] mx-auto" /> : activeTab === 'flagged' ? <Flag className="w-12 h-12 text-[#F97316] mx-auto" /> : searchQuery ? <Search className="w-12 h-12 text-[#4A3FD8] mx-auto" /> : <Inbox className="w-12 h-12 text-[#4A3FD8] mx-auto" />}
               </div>
               <h3 className="font-extrabold text-xl mb-2 tracking-tight" style={{ color: S.fg, fontFamily: "'Plus Jakarta Sans',sans-serif" }}>
                 {searchQuery

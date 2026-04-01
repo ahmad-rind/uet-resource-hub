@@ -78,7 +78,7 @@ export default function Navbar() {
                   </div>
                   <div className="block">
                     <span className="font-bold text-[#1a1d2e] text-[12px] sm:text-sm leading-tight block uppercase tracking-tight" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>UET Taxila</span>
-                    <span className="text-[#64748B] text-[8px] sm:text-[10px] leading-tight block opacity-80" style={{ fontFamily: "'DM Sans', sans-serif" }}>Resource Hub</span>
+                    <span className="text-[#475569] text-[8px] sm:text-[10px] leading-tight block opacity-80" style={{ fontFamily: "'DM Sans', sans-serif" }}>Resource Hub</span>
                   </div>
                 </Link>
               </div>
@@ -90,7 +90,7 @@ export default function Navbar() {
                     key={link.to}
                     to={link.to}
                     className={`h-11 px-5 flex items-center justify-center rounded-2xl text-sm font-semibold transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-[#5B4FE9] focus:ring-offset-2 focus:ring-offset-[#d6dae8] whitespace-nowrap ${isActive(link.to)
-                      ? 'text-[#5B4FE9]'
+                      ? 'text-[#4A3FD8]'
                       : 'text-[#1a1d2e] hover:-translate-y-0.5'
                       }`}
                     style={{
@@ -119,7 +119,7 @@ export default function Navbar() {
                       boxShadow: 'inset 4px 4px 8px #b0b8cc, inset -4px -4px 8px #ffffff'
                     }}
                   >
-                    <Search className="w-4 h-4 text-[#64748B] shrink-0" />
+                    <Search className="w-4 h-4 text-[#475569] shrink-0" />
                     <input
                       ref={inputRef}
                       type="text"
@@ -147,7 +147,7 @@ export default function Navbar() {
                   className="hidden md:flex w-11 h-11 items-center justify-center rounded-2xl transition-all duration-300 hover:-translate-y-0.5 active:translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-[#5B4FE9] focus:ring-offset-2 focus:ring-offset-[#d6dae8] group"
                   style={{ boxShadow: '4px 4px 8px #b0b8cc, -4px -4px 8px #ffffff', background: '#d6dae8' }}
                 >
-                  <ShieldCheck className="w-4 h-4 text-[#64748B] group-hover:text-[#5B4FE9] transition-colors duration-300" />
+                  <ShieldCheck className="w-4 h-4 text-[#475569] group-hover:text-[#4A3FD8] transition-colors duration-300" />
                 </Link>
 
                 {/* Mobile Menu Button */}
@@ -177,7 +177,7 @@ export default function Navbar() {
                   }}
                 >
                   <div className="w-8 h-8 rounded-xl flex items-center justify-center" style={{ boxShadow: 'inset 3px 3px 6px #b0b8cc, inset -3px -3px 6px #ffffff' }}>
-                    <ShieldCheck className="w-4 h-4 text-[#5B4FE9]" />
+                    <ShieldCheck className="w-4 h-4 text-[#4A3FD8]" />
                   </div>
                   Admin Panel
                 </Link>
@@ -187,7 +187,7 @@ export default function Navbar() {
                     key={link.to}
                     to={link.to}
                     onClick={() => setMenuOpen(false)}
-                    className={`block px-4 py-3 rounded-2xl text-sm font-medium transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-[#5B4FE9] ${isActive(link.to) ? 'text-[#5B4FE9]' : 'text-[#1a1d2e]'
+                    className={`block px-4 py-3 rounded-2xl text-sm font-medium transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-[#5B4FE9] ${isActive(link.to) ? 'text-[#4A3FD8]' : 'text-[#1a1d2e]'
                       }`}
                     style={{
                       fontFamily: "'DM Sans', sans-serif",

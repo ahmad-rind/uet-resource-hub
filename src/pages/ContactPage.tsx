@@ -17,7 +17,7 @@ import { Reveal } from '../components/Reveal.js';
 const S = {
   bg: '#d6dae8',
   fg: '#1a1d2e',
-  muted: '#64748B',
+  muted: '#475569',
   accent: '#5B4FE9',
   extruded: '12px 12px 24px #b0b8cc, -12px -12px 24px #ffffff',
   inset: 'inset 5px 5px 10px #b0b8cc, inset -5px -5px 10px #ffffff',
@@ -76,7 +76,7 @@ export default function ContactPage() {
               <div className="flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#d6dae8] w-fit"
                 style={{ boxShadow: '4px 4px 8px #b0b8cc, -4px -4px 8px #ffffff', border: '1px solid rgba(255,255,255,0.4)', fontFamily: "'DM Sans', sans-serif" }}>
                 <span className="w-1.5 h-1.5 rounded-full bg-[#5B4FE9]" />
-                <span className="text-[10px] font-semibold tracking-[0.18em] text-[#64748B] uppercase">
+                <span className="text-[10px] font-semibold tracking-[0.18em] text-[#475569] uppercase">
                   Support Desk
                 </span>
               </div>
@@ -86,7 +86,7 @@ export default function ContactPage() {
                 Get in <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#6C63FF] to-[#A78BFA]">Touch</span>
               </h1>
               
-              <p className="text-lg text-[#64748B] max-w-lg leading-relaxed"
+              <p className="text-lg text-[#475569] max-w-lg leading-relaxed"
                 style={{ fontFamily: "'DM Sans', sans-serif" }}>
                 Have a suggestion to improve the hub? Or found an issue that needs fixing? 
                 Our team is ready to help you thrive.
@@ -95,11 +95,11 @@ export default function ContactPage() {
 
             <div className="grid grid-cols-2 gap-6">
               <div className="p-5 rounded-3xl bg-[#d6dae8]" style={{ boxShadow: S.small }}>
-                <h4 className="text-[11px] font-bold text-[#5B4FE9] uppercase tracking-wider mb-2" style={{ fontFamily: "'DM Sans', sans-serif" }}>Response Time</h4>
+                <h4 className="text-[11px] font-bold text-[#4A3FD8] uppercase tracking-wider mb-2" style={{ fontFamily: "'DM Sans', sans-serif" }}>Response Time</h4>
                 <p className="text-sm font-semibold text-[#1a1d2e]">Under 24 Hours</p>
               </div>
               <div className="p-5 rounded-3xl bg-[#d6dae8]" style={{ boxShadow: S.small }}>
-                <h4 className="text-[11px] font-bold text-[#5B4FE9] uppercase tracking-wider mb-2" style={{ fontFamily: "'DM Sans', sans-serif" }}>Community Led</h4>
+                <h4 className="text-[11px] font-bold text-[#4A3FD8] uppercase tracking-wider mb-2" style={{ fontFamily: "'DM Sans', sans-serif" }}>Community Led</h4>
                 <p className="text-sm font-semibold text-[#1a1d2e]">Volunteer Based</p>
               </div>
             </div>
@@ -116,7 +116,7 @@ export default function ContactPage() {
                     <CheckCircle2 className="w-12 h-12 text-green-500" />
                   </div>
                   <h3 className="text-3xl font-bold mb-4 text-[#1a1d2e]" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>Success!</h3>
-                  <p className="text-[#64748B] mb-10 text-base" style={{ fontFamily: "'DM Sans', sans-serif" }}>Message received. We'll get back to you soon.</p>
+                  <p className="text-[#475569] mb-10 text-base" style={{ fontFamily: "'DM Sans', sans-serif" }}>Message received. We'll get back to you soon.</p>
                   <button 
                     onClick={() => setStatus('idle')}
                     className="px-10 py-4 rounded-2xl text-white font-bold text-[15px] transition-all duration-300 hover:-translate-y-1 active:scale-95"
@@ -129,9 +129,9 @@ export default function ContactPage() {
                 <form onSubmit={handleSubmit} className="space-y-6">
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                     <div className="space-y-2">
-                      <label className="text-[10px] font-bold uppercase tracking-[0.15em] px-1 text-[#64748B]" style={{ fontFamily: "'DM Sans', sans-serif" }}>Full Name</label>
+                      <label className="text-[10px] font-bold uppercase tracking-[0.15em] px-1 text-[#475569]" style={{ fontFamily: "'DM Sans', sans-serif" }}>Full Name</label>
                       <div className="relative group">
-                        <User className="absolute left-4 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-[#A3B1C6] transition-colors group-focus-within:text-[#5B4FE9]" />
+                        <User className="absolute left-4 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-[#A3B1C6] transition-colors group-focus-within:text-[#4A3FD8]" />
                         <input
                           required
                           type="text"
@@ -145,9 +145,9 @@ export default function ContactPage() {
                       </div>
                     </div>
                     <div className="space-y-2">
-                      <label className="text-[10px] font-bold uppercase tracking-[0.15em] px-1 text-[#64748B]" style={{ fontFamily: "'DM Sans', sans-serif" }}>Email</label>
+                      <label className="text-[10px] font-bold uppercase tracking-[0.15em] px-1 text-[#475569]" style={{ fontFamily: "'DM Sans', sans-serif" }}>Email</label>
                       <div className="relative group">
-                        <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-[#A3B1C6] transition-colors group-focus-within:text-[#5B4FE9]" />
+                        <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-[#A3B1C6] transition-colors group-focus-within:text-[#4A3FD8]" />
                         <input
                           required
                           type="email"
@@ -163,7 +163,7 @@ export default function ContactPage() {
                   </div>
 
                   <div className="space-y-2">
-                    <label className="text-[10px] font-bold uppercase tracking-[0.15em] px-1 text-[#64748B]" style={{ fontFamily: "'DM Sans', sans-serif" }}>Feedback Type</label>
+                    <label className="text-[10px] font-bold uppercase tracking-[0.15em] px-1 text-[#475569]" style={{ fontFamily: "'DM Sans', sans-serif" }}>Feedback Type</label>
                     <div className="flex gap-2">
                       {[
                         { id: 'Suggestion', icon: Lightbulb },
@@ -189,7 +189,7 @@ export default function ContactPage() {
                   </div>
 
                   <div className="space-y-2">
-                    <label className="text-[10px] font-bold uppercase tracking-[0.15em] px-1 text-[#64748B]" style={{ fontFamily: "'DM Sans', sans-serif" }}>Subject</label>
+                    <label className="text-[10px] font-bold uppercase tracking-[0.15em] px-1 text-[#475569]" style={{ fontFamily: "'DM Sans', sans-serif" }}>Subject</label>
                     <input
                       required
                       type="text"
@@ -203,7 +203,7 @@ export default function ContactPage() {
                   </div>
 
                   <div className="space-y-2">
-                    <label className="text-[10px] font-bold uppercase tracking-[0.15em] px-1 text-[#64748B]" style={{ fontFamily: "'DM Sans', sans-serif" }}>Message Details</label>
+                    <label className="text-[10px] font-bold uppercase tracking-[0.15em] px-1 text-[#475569]" style={{ fontFamily: "'DM Sans', sans-serif" }}>Message Details</label>
                     <textarea
                       required
                       name="message"

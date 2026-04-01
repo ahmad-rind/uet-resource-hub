@@ -41,7 +41,7 @@ export default function Footer() {
           display: flex;
           align-items: center;
           justify-content: center;
-          color: #64748B;
+          color: #475569;
           transition: all 0.2s ease;
         }
         .social-btn:hover {
@@ -80,12 +80,12 @@ export default function Footer() {
             <div>
               <h3 className="font-extrabold text-[#1a1d2e] text-lg tracking-tighter leading-tight" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
                 UET Taxila
-                <span className="block text-[#5B4FE9] text-xs font-bold opacity-90">Resource Hub</span>
+                <span className="block text-[#4A3FD8] text-xs font-bold opacity-90">Resource Hub</span>
               </h3>
             </div>
           </div>
 
-          <p className="text-[13px] text-[#64748B] leading-[1.6] mb-5 max-w-[280px] font-medium" style={{ fontFamily: "'DM Sans', sans-serif" }}>
+          <p className="text-[13px] text-[#475569] leading-[1.6] mb-5 max-w-[280px] font-medium" style={{ fontFamily: "'DM Sans', sans-serif" }}>
             The definitive digital ecosystem for UET Taxila students. Share, discover, and excel.
           </p>
 
@@ -108,7 +108,7 @@ export default function Footer() {
             ))}
           </div>
           
-          <p className="text-[10px] text-[#64748B] font-medium mt-5 md:mt-8 ml-1" style={{ fontFamily: "'DM Sans', sans-serif" }}>
+          <p className="text-[10px] text-[#475569] font-medium mt-5 md:mt-8 ml-1" style={{ fontFamily: "'DM Sans', sans-serif" }}>
             © {currentYear} UET Taxila Resource Hub
           </p>
         </div>
@@ -128,7 +128,7 @@ export default function Footer() {
               <li key={link.to}>
                 <Link
                   to={link.to}
-                  className="group flex items-center gap-3 text-[13px] text-[#64748B] hover:text-[#1a1d2e] transition-all duration-300 font-medium"
+                  className="group flex items-center gap-3 text-[13px] text-[#475569] hover:text-[#1a1d2e] transition-all duration-300 font-medium"
                   style={{ fontFamily: "'DM Sans', sans-serif" }}
                 >
                   <span className="w-1.5 h-1.5 rounded-full bg-[#b0b8cc] transition-all duration-300 group-hover:w-3 group-hover:bg-[#5B4FE9] group-hover:shadow-[0_0_8px_rgba(91,79,233,0.4)]" />
@@ -151,9 +151,9 @@ export default function Footer() {
             <div className="flex items-start gap-3">
               <div className="w-8 h-8 rounded-[10px] flex items-center justify-center shrink-0 bg-[#d6dae8]"
                 style={{ boxShadow: '3px 3px 6px #b0b8cc, -3px -3px 6px #ffffff' }}>
-                <MessageSquare className="w-4 h-4 text-[#5B4FE9]" />
+                <MessageSquare className="w-4 h-4 text-[#4A3FD8]" />
               </div>
-              <p className="text-xs text-[#64748B] leading-snug font-medium">
+              <p className="text-xs text-[#475569] leading-snug font-medium">
                 Contribute your knowledge or get technical support directly from our student team.
               </p>
             </div>

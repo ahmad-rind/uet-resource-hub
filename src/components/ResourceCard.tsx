@@ -90,7 +90,7 @@ export default function ResourceCard({ resource, onPreview }: ResourceCardProps)
         </h3>
         
         <div className="flex flex-col gap-0.5 mb-2">
-          <span className="text-[12px] font-medium text-[#64748B] line-clamp-2 leading-snug">
+          <span className="text-[12px] font-medium text-[#475569] line-clamp-2 leading-snug">
             {resource.courseName}
           </span>
         </div>
@@ -114,7 +114,7 @@ export default function ResourceCard({ resource, onPreview }: ResourceCardProps)
 
       {/* Hover Arrow Overlay */}
       <div className="absolute top-5 right-5 opacity-0 group-hover:opacity-100 transition-all duration-300 translate-x-1 group-hover:translate-x-0">
-        <ArrowUpRight className="w-4 h-4 text-[#5B4FE9]" />
+        <ArrowUpRight className="w-4 h-4 text-[#4A3FD8]" />
       </div>
     </div>
   );

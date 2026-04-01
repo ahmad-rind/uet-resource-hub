@@ -1,14 +1,27 @@
-import { useEffect } from 'react';
+import { lazy, Suspense, useEffect } from 'react';
 import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import HomePage from './pages/HomePage';
-import BrowsePage from './pages/BrowsePage';
-import SubmitPage from './pages/SubmitPage';
-import SearchPage from './pages/SearchPage';
-import AdminLoginPage from './pages/admin/AdminLoginPage';
-import AdminDashboard from './pages/admin/AdminDashboard';
-import ContactPage from './pages/ContactPage';
+
+// Lazy-load below-the-fold pages for smaller initial bundle
+const BrowsePage = lazy(() => import('./pages/BrowsePage'));
+const SubmitPage = lazy(() => import('./pages/SubmitPage'));
+const SearchPage = lazy(() => import('./pages/SearchPage'));
+const ContactPage = lazy(() => import('./pages/ContactPage'));
+const AdminLoginPage = lazy(() => import('./pages/admin/AdminLoginPage'));
+const AdminDashboard = lazy(() => import('./pages/admin/AdminDashboard'));
+
+/** Minimal loading fallback */
+function PageLoader() {
+  return (
+    <div className="min-h-screen bg-[#d6dae8] flex items-center justify-center">
+      <div
+        className="w-10 h-10 rounded-full border-3 border-[#d6dae8] border-t-[#5B4FE9] animate-spin"
+      />
+    </div>
+  );
+}
 
 /** Scroll to top on route change (including query params) */
 function ScrollToTop() {
@@ -48,7 +61,7 @@ function NotFound() {
         >
           Page Not Found
         </h1>
-        <p className="text-[#64748B] mb-6" style={{ fontFamily: "'DM Sans', sans-serif" }}>
+        <p className="text-[#475569] mb-6" style={{ fontFamily: "'DM Sans', sans-serif" }}>
           The page you're looking for doesn't exist.
         </p>
         <a
@@ -81,26 +94,30 @@ function Root() {
     // Admin routes — no Navbar, no Footer, dark background
     return (
       <div style={{ minHeight: '100vh', background: '#0F1117' }}>
-        <Routes>
-          <Route path="/admin" element={<AdminLoginPage />} />
-          <Route path="/admin/login" element={<AdminLoginPage />} />
-          <Route path="/admin/dashboard" element={<AdminDashboard />} />
-          <Route path="*" element={<NotFound />} />
-        </Routes>
+        <Suspense fallback={<PageLoader />}>
+          <Routes>
+            <Route path="/admin" element={<AdminLoginPage />} />
+            <Route path="/admin/login" element={<AdminLoginPage />} />
+            <Route path="/admin/dashboard" element={<AdminDashboard />} />
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </Suspense>
       </div>
     );
   }
 
   // Public routes
   return (
-    <Routes>
-      <Route path="/" element={<PublicLayout><HomePage /></PublicLayout>} />
-      <Route path="/browse" element={<PublicLayout><BrowsePage /></PublicLayout>} />
-      <Route path="/submit" element={<PublicLayout><SubmitPage /></PublicLayout>} />
-      <Route path="/search" element={<PublicLayout><SearchPage /></PublicLayout>} />
-      <Route path="/contact" element={<PublicLayout><ContactPage /></PublicLayout>} />
-      <Route path="*" element={<NotFound />} />
-    </Routes>
+    <Suspense fallback={<PageLoader />}>
+      <Routes>
+        <Route path="/" element={<PublicLayout><HomePage /></PublicLayout>} />
+        <Route path="/browse" element={<PublicLayout><BrowsePage /></PublicLayout>} />
+        <Route path="/submit" element={<PublicLayout><SubmitPage /></PublicLayout>} />
+        <Route path="/search" element={<PublicLayout><SearchPage /></PublicLayout>} />
+        <Route path="/contact" element={<PublicLayout><ContactPage /></PublicLayout>} />
+        <Route path="*" element={<NotFound />} />
+      </Routes>
+    </Suspense>
   );
 }
 

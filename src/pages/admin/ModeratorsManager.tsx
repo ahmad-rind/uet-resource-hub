@@ -14,7 +14,7 @@ import { adminGetModerators, adminCreateModerator, adminDeleteModerator, adminGe
 const S = {
   bg: '#d6dae8',
   fg: '#1a1d2e',
-  muted: '#64748B',
+  muted: '#475569',
   accent: '#5B4FE9',
   extruded: '8px 8px 16px #b0b8cc, -8px -8px 16px #ffffff',
   small: '5px 5px 10px #b0b8cc, -5px -5px 10px #ffffff',

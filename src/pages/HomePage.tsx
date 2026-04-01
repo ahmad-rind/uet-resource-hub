@@ -12,7 +12,7 @@ export const deptIcons: Record<string, React.ReactNode> = {
   'Environmental Engineering (BSc)': <Leaf className="w-6 h-6 text-[#10B981]" />,
   'Electrical Engineering (BSc)': <Zap className="w-6 h-6 text-[#EAB308]" />,
   'Electronics Engineering (BSc)': <Cpu className="w-6 h-6 text-[#3B82F6]" />,
-  'Mechanical Engineering (BSc)': <Settings className="w-6 h-6 text-[#64748B]" />,
+  'Mechanical Engineering (BSc)': <Settings className="w-6 h-6 text-[#475569]" />,
   'Mechatronics Engineering (BSc)': <Bot className="w-6 h-6 text-[#8B5CF6]" />,
   'Industrial & Manufacturing Engineering (BSc)': <Factory className="w-6 h-6 text-[#F97316]" />,
   'Computer Engineering (BSc)': <Laptop className="w-6 h-6 text-[#0EA5E9]" />,
@@ -76,7 +76,7 @@ export default function HomePage() {
             <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full mb-10 bg-[#d6dae8]"
               style={{ boxShadow: '4px 4px 8px #b0b8cc, -4px -4px 8px #ffffff', border: '1px solid rgba(255,255,255,0.4)', fontFamily: "'Inter', sans-serif" }}>
               <span className="w-1.5 h-1.5 rounded-full bg-[#5B4FE9]" />
-              <span className="text-[10px] font-semibold tracking-[0.18em] text-[#64748B] uppercase">
+              <span className="text-[10px] font-semibold tracking-[0.18em] text-[#475569] uppercase">
                 UET Taxila
               </span>
             </div>
@@ -89,7 +89,7 @@ export default function HomePage() {
             </h1>
 
             {/* Subheadline — capped at ~600px */}
-            <p className="text-base md:text-lg text-[#64748B] mx-auto mb-0 leading-[1.7] font-normal"
+            <p className="text-base md:text-lg text-[#475569] mx-auto mb-0 leading-[1.7] font-normal"
               style={{ fontFamily: "'DM Sans', sans-serif", maxWidth: '580px' }}>
               Access past papers, notes, lab manuals &amp; study materials — curated by students, for students.
             </p>
@@ -100,7 +100,7 @@ export default function HomePage() {
         <Reveal delay={0.3} yOffset={50}>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 w-full max-w-4xl">
             {[
-              { icon: <Library className="w-[18px] h-[18px] text-[#5B4FE9]" />, value: loading ? '—' : stats.total, label: 'Resources', glow: 'rgba(91, 79, 233, 0.15)' },
+              { icon: <Library className="w-[18px] h-[18px] text-[#4A3FD8]" />, value: loading ? '—' : stats.total, label: 'Resources', glow: 'rgba(91, 79, 233, 0.15)' },
               { icon: <BookOpen className="w-[18px] h-[18px] text-[#0EA5E9]" />, value: loading ? '—' : departmentList.length, label: 'Departments', glow: 'rgba(14, 165, 233, 0.15)' },
               { icon: <Users className="w-[18px] h-[18px] text-[#8B5CF6]" />, value: loading ? '—' : stats.contributors, label: 'Contributors', glow: 'rgba(139, 92, 246, 0.15)' },
             ].map((stat, i) => (
@@ -115,7 +115,7 @@ export default function HomePage() {
                 <div>
                   <p className="font-bold text-2xl text-[#1a1d2e] tabular-nums leading-none mb-1"
                     style={{ fontFamily: "'Inter', sans-serif" }}>{stat.value}</p>
-                  <p className="text-[11px] text-[#64748B] font-semibold uppercase tracking-wider"
+                  <p className="text-[11px] text-[#475569] font-semibold uppercase tracking-wider"
                     style={{ fontFamily: "'Inter', sans-serif" }}>{stat.label}</p>
                 </div>
               </div>
@@ -133,7 +133,7 @@ export default function HomePage() {
               Browse by Department
             </h2>
             <Link to="/browse"
-              className="flex items-center gap-1 text-sm text-[#5B4FE9] font-semibold hover:gap-2 transition-all duration-200 focus:outline-none"
+              className="flex items-center gap-1 text-sm text-[#4A3FD8] font-semibold hover:gap-2 transition-all duration-200 focus:outline-none"
               style={{ fontFamily: "'DM Sans', sans-serif" }}>
               View all <ChevronRight className="w-4 h-4" />
             </Link>
@@ -156,11 +156,11 @@ export default function HomePage() {
                     className="w-12 h-12 shrink-0 rounded-[14px] flex items-center justify-center transition-all duration-300 bg-[#d6dae8] [&>svg]:w-5 [&>svg]:h-5 [&>svg]:opacity-80 group-hover:[&>svg]:opacity-100 group-hover:[&>svg]:scale-110"
                     style={{ boxShadow: 'inset 3px 3px 6px #b0b8cc, inset -3px -3px 6px #ffffff' }}
                   >
-                    {deptIcons[dept] || <BookOpen className="text-[#64748B]" />}
+                    {deptIcons[dept] || <BookOpen className="text-[#475569]" />}
                   </div>
                   <div className="flex-1 min-w-0 pr-2">
                     <h3
-                      className="font-bold text-[#1a1d2e] text-[13px] sm:text-[15px] leading-snug group-hover:text-[#5B4FE9] transition-colors duration-200 line-clamp-2"
+                      className="font-bold text-[#1a1d2e] text-[13px] sm:text-[15px] leading-snug group-hover:text-[#4A3FD8] transition-colors duration-200 line-clamp-2"
                       style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}
                       title={dept}
                     >
@@ -168,7 +168,7 @@ export default function HomePage() {
                     </h3>
                   </div>
                   <div className="shrink-0 opacity-0 group-hover:opacity-100 transition-all duration-300 -translate-x-2 group-hover:translate-x-0">
-                    <ArrowRight className="w-4 h-4 text-[#5B4FE9]" />
+                    <ArrowRight className="w-4 h-4 text-[#4A3FD8]" />
                   </div>
                 </Link>
               ))}
@@ -186,7 +186,7 @@ export default function HomePage() {
               Recent Submissions
             </h2>
             <Link to="/browse"
-              className="flex items-center gap-1 text-sm text-[#5B4FE9] font-semibold hover:gap-2 transition-all duration-200 focus:outline-none"
+              className="flex items-center gap-1 text-sm text-[#4A3FD8] font-semibold hover:gap-2 transition-all duration-200 focus:outline-none"
               style={{ fontFamily: "'DM Sans', sans-serif" }}>
               Browse all <ChevronRight className="w-4 h-4" />
             </Link>
@@ -213,11 +213,11 @@ export default function HomePage() {
               className="rounded-[24px] p-12 text-center bg-[#d6dae8]"
               style={{ boxShadow: 'inset 8px 8px 16px #b0b8cc, inset -8px -8px 16px #ffffff' }}
             >
-              <BookOpen className="w-12 h-12 text-[#5B4FE9] mx-auto mb-5" />
+              <BookOpen className="w-12 h-12 text-[#4A3FD8] mx-auto mb-5" />
               <h3 className="font-bold text-[#1a1d2e] text-lg mb-3" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
                 No approved resources yet
               </h3>
-              <p className="text-[#64748B] text-sm mb-8" style={{ fontFamily: "'DM Sans', sans-serif" }}>
+              <p className="text-[#475569] text-sm mb-8" style={{ fontFamily: "'DM Sans', sans-serif" }}>
                 Be the first to share academic resources with your fellow students!
               </p>
               <Link
@@ -243,13 +243,13 @@ export default function HomePage() {
               className="w-20 h-20 rounded-2xl flex items-center justify-center text-3xl mx-auto mb-8 bg-[#d6dae8]"
               style={{ boxShadow: 'inset 6px 6px 12px #b0b8cc, inset -6px -6px 12px #ffffff' }}
             >
-              <Upload className="w-10 h-10 text-[#5B4FE9]" />
+              <Upload className="w-10 h-10 text-[#4A3FD8]" />
             </div>
             <h2 className="text-3xl md:text-4xl font-extrabold text-[#1a1d2e] mb-4 tracking-tight"
               style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
               Have study materials?
             </h2>
-            <p className="text-[#64748B] mb-10 max-w-md mx-auto text-base md:text-lg" style={{ fontFamily: "'DM Sans', sans-serif" }}>
+            <p className="text-[#475569] mb-10 max-w-md mx-auto text-base md:text-lg" style={{ fontFamily: "'DM Sans', sans-serif" }}>
               Help your fellow students by sharing past papers, notes, lab manuals, and more.
             </p>
             <Link
