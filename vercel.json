@@ -5,7 +5,7 @@
 
   "rewrites": [
     {
-      "source": "/((?!api|assets|fonts|_vercel|.*\\..*).*)",
+      "source": "/(.*)",
       "destination": "/index.html"
     }
   ],
