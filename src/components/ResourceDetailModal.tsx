@@ -70,7 +70,7 @@ export default function ResourceDetailModal({ resource, onClose }: ResourceDetai
       style={{ 
         background: 'rgba(26,29,46,0.3)', 
         backdropFilter: 'blur(10px)',
-        animation: 'modalBackdropFade 0.4s ease-out forwards'
+        animation: 'modalBackdropFade 0.2s ease-out forwards'
       }}
     >
       <style>{`
@@ -89,7 +89,7 @@ export default function ResourceDetailModal({ resource, onClose }: ResourceDetai
           background: '#d6dae8',
           boxShadow: '20px 20px 40px #b0b8cc, -20px -20px 40px #ffffff, 0 0 30px rgba(91, 79, 233, 0.15)',
           fontFamily: "'Plus Jakarta Sans', sans-serif",
-          animation: 'modalContainerScale 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) forwards'
+          animation: 'modalContainerScale 0.2s ease-out forwards'
         }}
       >
         <div className="p-8 space-y-6">

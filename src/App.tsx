@@ -33,13 +33,16 @@ function ScrollToTop() {
   return null;
 }
 
-/** Public layout — with Navbar + Footer */
+/** Public layout — with Navbar + Footer on homepage */
 function PublicLayout({ children }: { children: React.ReactNode }) {
+  const { pathname } = useLocation();
+  const isHome = pathname === '/';
+
   return (
     <div className="min-h-screen bg-[#d6dae8] flex flex-col">
       <Navbar />
       <main className="flex-1">{children}</main>
-      <Footer />
+      {isHome && <Footer />}
     </div>
   );
 }

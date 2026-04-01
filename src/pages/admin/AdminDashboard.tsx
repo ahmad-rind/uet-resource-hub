@@ -138,10 +138,10 @@ function PreviewModal({ resource, onClose, onApprove, onReject, onDismissFlags, 
       />
       
       <motion.div 
-        initial={{ scale: 0.95, opacity: 0, y: 15 }}
+        initial={{ scale: 0.96, opacity: 0, y: 10 }}
         animate={{ scale: 1, opacity: 1, y: 0 }}
-        exit={{ scale: 0.95, opacity: 0, y: 10 }}
-        transition={{ type: 'spring', damping: 35, stiffness: 400 }}
+        exit={{ scale: 0.96, opacity: 0, y: 10 }}
+        transition={{ duration: 0.2, ease: "easeOut" }}
         className="w-full max-w-md rounded-[32px] overflow-hidden flex flex-col max-h-[90vh] relative z-10" 
         style={{ background: S.bg, boxShadow: S.extruded }}
       >
@@ -328,10 +328,10 @@ function EditResourceModal({ resource, onClose, onSave }: {
       />
 
       <motion.div 
-        initial={{ scale: 0.95, opacity: 0, y: 15 }}
+        initial={{ scale: 0.96, opacity: 0, y: 10 }}
         animate={{ scale: 1, opacity: 1, y: 0 }}
-        exit={{ scale: 0.95, opacity: 0, y: 10 }}
-        transition={{ type: 'spring', damping: 35, stiffness: 400 }}
+        exit={{ scale: 0.96, opacity: 0, y: 10 }}
+        transition={{ duration: 0.2, ease: "easeOut" }}
         className="w-full max-w-md rounded-[32px] overflow-hidden flex flex-col max-h-[90vh] relative z-10" 
         style={{ background: S.bg, boxShadow: S.extruded }}
       >
