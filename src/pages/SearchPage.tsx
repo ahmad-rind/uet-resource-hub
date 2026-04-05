@@ -7,6 +7,7 @@ import ResourceDetailModal from '../components/ResourceDetailModal.js';
 import { searchResources, getLiveCoursesData } from '../lib/supabase.js';
 import { ScrollProgress } from '../components/ScrollProgress.js';
 import { Reveal } from '../components/Reveal.js';
+import { Pagination } from '../components/Pagination.js';
 import { Helmet } from 'react-helmet-async';
 
 export default function SearchPage() {
@@ -22,6 +23,8 @@ export default function SearchPage() {
   const [searchInput, setSearchInput] = useState(query);
   const [previewResource, setPreviewResource] = useState<any>(null);
   const [inlineQuery, setInlineQuery] = useState('');
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 30;
 
   const [departments, setDepartments] = useState<any>({});
   const [departmentList, setDepartmentList] = useState<string[]>([]);
@@ -101,6 +104,16 @@ export default function SearchPage() {
     setSearchParams(newParams);
   };
 
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [query, filterType, filterDept, filterSemester, filterCourse, inlineQuery]);
+
+  const totalPages = Math.ceil(filteredResults.length / itemsPerPage);
+  const paginatedResults = filteredResults.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
+  );
+
   return (
     <div className="min-h-screen bg-[#d6dae8]">
       <Helmet>
@@ -170,11 +183,11 @@ export default function SearchPage() {
 
       <Reveal delay={0.2}>
       <div className="max-w-7xl mx-auto px-4 md:px-8 pb-20">
-        <div className="flex flex-col lg:flex-row gap-10">
+        <div className="flex flex-col lg:flex-row gap-10 lg:items-start">
           {/* Filters Sidebar */}
-          <aside className="lg:w-72 shrink-0">
+          <aside className="lg:w-72 shrink-0 w-full lg:sticky lg:top-28 z-10">
             <div
-              className="rounded-[32px] p-6 lg:p-8 sticky top-24 max-h-[calc(100vh-8rem)] overflow-y-auto bg-[#d6dae8]"
+              className="rounded-[32px] p-6 lg:p-8 max-h-[calc(100vh-8rem)] overflow-y-auto bg-[#d6dae8] scrollbar-thin scrollbar-thumb-[#b0b8cc] scrollbar-track-transparent"
               style={{ boxShadow: '12px 12px 24px #b0b8cc, -12px -12px 24px #ffffff' }}
             >
               <div className="flex items-center gap-3 mb-8">
@@ -369,10 +382,17 @@ export default function SearchPage() {
                 </div>
                 
                 <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
-                  {filteredResults.map(resource => (
+                  {paginatedResults.map(resource => (
                     <ResourceCard key={resource.id} resource={resource} onPreview={setPreviewResource} />
                   ))}
                 </div>
+                {filteredResults.length > 0 && (
+                  <Pagination 
+                    currentPage={currentPage} 
+                    totalPages={totalPages} 
+                    onPageChange={setCurrentPage} 
+                  />
+                )}
               </div>
             )}
           </main>

@@ -7,6 +7,7 @@ import ResourceCard from '../components/ResourceCard.js';
 import ResourceDetailModal from '../components/ResourceDetailModal.js';
 import { ScrollProgress } from '../components/ScrollProgress.js';
 import { Reveal } from '../components/Reveal.js';
+import { Pagination } from '../components/Pagination.js';
 import { Helmet } from 'react-helmet-async';
 
 export default function BrowsePage() {
@@ -18,6 +19,8 @@ export default function BrowsePage() {
   const [loading, setLoading] = useState(false);
   const [previewResource, setPreviewResource] = useState<any>(null);
   const [searchQuery, setSearchQuery] = useState('');
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 30;
 
   const [departments, setDepartments] = useState<any>({});
   const [departmentList, setDepartmentList] = useState<string[]>([]);
@@ -142,6 +145,16 @@ export default function BrowsePage() {
 
   const filterActive = selectedDept || selectedSemester || selectedCourse;
 
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [selectedDept, selectedSemester, selectedCourse, searchQuery]);
+
+  const totalPages = Math.ceil(filteredResources.length / itemsPerPage);
+  const paginatedResources = filteredResources.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
+  );
+
   return (
     <div className="min-h-screen bg-[#d6dae8]">
       <Helmet>
@@ -179,11 +192,11 @@ export default function BrowsePage() {
 
       <Reveal delay={0.2}>
       <div className="max-w-7xl mx-auto px-6 md:px-8 pb-20">
-        <div className="flex flex-col lg:flex-row gap-10">
+        <div className="flex flex-col lg:flex-row gap-10 lg:items-start">
           {/* Filters Sidebar */}
-          <aside className="lg:w-72 shrink-0">
+          <aside className="lg:w-72 shrink-0 w-full lg:sticky lg:top-28 z-10">
             <div
-              className="rounded-[32px] p-8 sticky top-24 max-h-[calc(100vh-8rem)] overflow-y-auto bg-[#d6dae8]"
+              className="rounded-[32px] p-8 max-h-[calc(100vh-8rem)] overflow-y-auto bg-[#d6dae8] scrollbar-thin scrollbar-thumb-[#b0b8cc] scrollbar-track-transparent"
               style={{ boxShadow: '12px 12px 24px #b0b8cc, -12px -12px 24px #ffffff' }}
             >
               <div className="flex items-center gap-3 mb-8">
@@ -378,11 +391,20 @@ export default function BrowsePage() {
                     </p>
                   </div>
                 ) : (
-                  <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
-                    {filteredResources.map(resource => (
-                      <ResourceCard key={resource.id} resource={resource} onPreview={setPreviewResource} />
-                    ))}
-                  </div>
+                  <>
+                    <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+                      {paginatedResources.map(resource => (
+                        <ResourceCard key={resource.id} resource={resource} onPreview={setPreviewResource} />
+                      ))}
+                    </div>
+                    {filteredResources.length > 0 && (
+                      <Pagination 
+                        currentPage={currentPage} 
+                        totalPages={totalPages} 
+                        onPageChange={setCurrentPage} 
+                      />
+                    )}
+                  </>
                 )}
               </div>
             )}
