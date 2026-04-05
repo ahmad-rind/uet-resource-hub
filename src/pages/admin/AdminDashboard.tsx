@@ -464,7 +464,7 @@ function EditResourceModal({ resource, onClose, onSave }: {
   );
 }
 
-const FileIcon = ({ className }: { className?: string }) => (
+function FileIcon({ className }: { className?: string }) { return (
   <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className={className}>
     <path 
       d="M13 2H9C5 2 3 4 3 8V16C3 20 5 22 9 22H15C19 22 21 20 21 16V10L13 2Z" 
@@ -484,6 +484,7 @@ const FileIcon = ({ className }: { className?: string }) => (
     <path d="M7 17H11" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
   </svg>
 );
+}
 
 // ── Resource Card ─────────────────────────────────────────────────────────────
 function ResourceCard({ resource, onApprove, onReject, onPreview, onDelete, onDismissFlags, onEdit, processing, deleteConfirm }: {
@@ -895,7 +896,7 @@ export default function AdminDashboard() {
   }
 
   // ── Sidebar ───────────────────────────────────────────────────────────────
-  const Sidebar = () => (
+  function Sidebar() { return (
     <aside className="flex flex-col h-full px-3 py-4 gap-3 overflow-y-auto no-scrollbar glass-sidebar" style={{ background: S.bg }}>
       {/* Logo */}
       <div className="flex items-center gap-2 px-2 mb-1">
@@ -975,6 +976,7 @@ export default function AdminDashboard() {
       </div>
     </aside>
   );
+  }
 
   // ── Main render ───────────────────────────────────────────────────────────
   return (

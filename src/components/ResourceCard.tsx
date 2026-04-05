@@ -20,7 +20,7 @@ interface ResourceCardProps {
   onPreview?: (resource: Resource) => void;
 }
 
-const FileIcon = ({ className, style }: { className?: string, style?: React.CSSProperties }) => (
+function FileIcon({ className, style }: { className?: string, style?: React.CSSProperties }) { return (
   <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className={className} style={style}>
     <path 
       d="M13 2H9C5 2 3 4 3 8V16C3 20 5 22 9 22H15C19 22 21 20 21 16V10L13 2Z" 
@@ -40,6 +40,7 @@ const FileIcon = ({ className, style }: { className?: string, style?: React.CSSP
     <path d="M7 17H11" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
   </svg>
 );
+}
 
 export default function ResourceCard({ resource, onPreview }: ResourceCardProps) {
 

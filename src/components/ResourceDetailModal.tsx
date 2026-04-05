@@ -44,10 +44,19 @@ export default function ResourceDetailModal({ resource, onClose }: ResourceDetai
     return () => window.removeEventListener('keydown', h);
   }, [onClose]);
 
-  // Prevent body scroll
+  // Prevent body scroll and preserve scrollbar width to prevent layout shift
   useEffect(() => {
+    const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
+    const originalOverflow = document.body.style.overflow;
+    const originalPaddingRight = document.body.style.paddingRight;
+    
     document.body.style.overflow = 'hidden';
-    return () => { document.body.style.overflow = ''; };
+    document.body.style.paddingRight = `${scrollbarWidth}px`;
+    
+    return () => { 
+      document.body.style.overflow = originalOverflow; 
+      document.body.style.paddingRight = originalPaddingRight;
+    };
   }, []);
 
   const handleCopy = async () => {

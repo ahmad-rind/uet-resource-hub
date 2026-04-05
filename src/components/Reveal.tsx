@@ -1,4 +1,5 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
+import { motion, useInView, useAnimation } from 'framer-motion';
 
 interface RevealProps {
   children: React.ReactNode;
@@ -7,36 +8,30 @@ interface RevealProps {
   yOffset?: number;
 }
 
-export const Reveal = ({ children, width = "100%", delay = 0.25 }: RevealProps) => {
+export function Reveal({ children, width = "100%", delay = 0.25, yOffset = 20 }: RevealProps) {
   const ref = useRef<HTMLDivElement>(null);
-  const [isVisible, setIsVisible] = useState(false);
+  const isInView = useInView(ref, { once: true, margin: '-100px' });
+  const mainControls = useAnimation();
 
   useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
-
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsVisible(true);
-          observer.unobserve(el);
-        }
-      },
-      { rootMargin: '-100px' }
-    );
-
-    observer.observe(el);
-    return () => observer.disconnect();
-  }, []);
+    if (isInView) {
+      mainControls.start("visible");
+    }
+  }, [isInView, mainControls]);
 
   return (
     <div ref={ref} style={{ position: "relative", width, overflow: "visible" }}>
-      <div
-        className={isVisible ? 'reveal-visible' : 'reveal-hidden'}
-        style={{ transitionDelay: `${delay}s` }}
+      <motion.div
+        variants={{
+          hidden: { opacity: 0, y: yOffset },
+          visible: { opacity: 1, y: 0 }
+        }}
+        initial="hidden"
+        animate={mainControls}
+        transition={{ duration: 0.3, delay: delay, ease: "easeOut" }}
       >
         {children}
-      </div>
+      </motion.div>
     </div>
   );
-};
+}
