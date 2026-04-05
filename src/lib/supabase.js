@@ -327,6 +327,38 @@ export async function adminGetStats(dept = null) {
   }
 }
 
+export async function adminAddResource(data) {
+  const result = await submitResource(data);
+  if (!result.success) return result;
+  
+  const approveResult = await adminApproveResource(result.id, 'Auto-approved (Admin Upload)');
+  if (!approveResult.success) {
+    return { success: false, error: 'Added but failed to auto-approve: ' + approveResult.error, id: result.id };
+  }
+  return { success: true, id: result.id };
+}
+
+export async function adminBulkAddResources(resources) {
+  const results = {
+    total: resources.length,
+    successful: 0,
+    failed: 0,
+    errors: []
+  };
+
+  for (let i = 0; i < resources.length; i++) {
+    const res = await adminAddResource(resources[i]);
+    if (res.success) {
+      results.successful++;
+    } else {
+      results.failed++;
+      results.errors.push(`Item ${i + 1} (${resources[i].title || 'Unknown'}): ${res.error}`);
+    }
+  }
+
+  return results;
+}
+
 
 // ── CONTACT SUBMISSIONS API ───────────────────────────────────────────────────
 

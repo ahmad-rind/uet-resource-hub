@@ -20,6 +20,7 @@ import {
 import SubmissionsManager from './SubmissionsManager';
 import ModeratorsManager from './ModeratorsManager';
 import CategoryManager from './CategoryManager';
+import AddResourceManager from './AddResourceManager';
 import { Reveal } from '../../components/Reveal.js';
 
 // ── Design tokens ─────────────────────────────────────────────────────────────
@@ -41,7 +42,7 @@ const S = {
 };
 
 // ── Types ─────────────────────────────────────────────────────────────────────
-type TabType   = 'pending' | 'approved' | 'rejected' | 'flagged' | 'all' | 'submissions' | 'moderators' | 'categories';
+type TabType   = 'pending' | 'approved' | 'rejected' | 'flagged' | 'all' | 'submissions' | 'moderators' | 'categories' | 'add';
 type SortField = 'date' | 'title' | 'reports';
 type SortDir   = 'asc' | 'desc';
 
@@ -857,6 +858,7 @@ export default function AdminDashboard() {
     { id: 'rejected', label: 'Rejected',        icon: <XCircle className="w-4 h-4" />,      badge: stats.rejected },
     { id: 'flagged',  label: 'Flagged',         icon: <Flag className="w-4 h-4" />,         badge: stats.flagged  },
     { id: 'all',      label: 'All Resources',   icon: <BarChart3 className="w-4 h-4" />,    badge: stats.total    },
+    { id: 'add' as TabType, label: 'Add Resources', icon: <FolderTree className="w-4 h-4" /> },
     ...(adminSession.role === 'super_admin' ? [
       { id: 'submissions' as TabType, label: 'User Submissions', icon: <Inbox className="w-4 h-4" />,    badge: submissionCount }
     ] : []),
@@ -1024,7 +1026,7 @@ export default function AdminDashboard() {
             </button>
             <div>
               <h1 className="text-base font-extrabold tracking-tight" style={{ color: S.fg, fontFamily: "'Plus Jakarta Sans',sans-serif" }}>
-                {activeTab === 'categories' ? 'Departments' : activeTab === 'moderators' ? 'Moderators' : (navItems.find(n => n.id === activeTab)?.label ?? 'Dashboard')}
+                {activeTab === 'categories' ? 'Departments' : activeTab === 'moderators' ? 'Moderators' : activeTab === 'add' ? 'Add Resources' : (navItems.find(n => n.id === activeTab)?.label ?? 'Dashboard')}
               </h1>
               <p className="text-xs" style={{ color: S.muted }}>
                 {activeTab === 'submissions' 
@@ -1033,7 +1035,9 @@ export default function AdminDashboard() {
                     ? 'Manage departments and courses'
                     : activeTab === 'moderators'
                       ? 'Manage platform moderators'
-                      : `${filtered.length} resource${filtered.length !== 1 ? 's' : ''}`
+                      : activeTab === 'add'
+                        ? 'Upload new resources instantly'
+                        : `${filtered.length} resource${filtered.length !== 1 ? 's' : ''}`
                 }
               </p>
             </div>
@@ -1059,7 +1063,7 @@ export default function AdminDashboard() {
         <main className={`flex-1 overflow-y-auto ${activeTab === 'categories' ? 'p-0' : 'p-4 md:p-6 space-y-6'}`}>
 
           {/* Stats row */}
-          {!['submissions', 'moderators', 'categories'].includes(activeTab) && (
+          {!['submissions', 'moderators', 'categories', 'add'].includes(activeTab) && (
             <Reveal delay={0.1} yOffset={20}>
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                 {[
@@ -1084,7 +1088,7 @@ export default function AdminDashboard() {
           )}
 
           {/* Search + sort */}
-          {!['submissions', 'moderators', 'categories'].includes(activeTab) && (
+          {!['submissions', 'moderators', 'categories', 'add'].includes(activeTab) && (
             <Reveal delay={0.2} yOffset={15}>
               <div className="flex flex-col sm:flex-row gap-3 items-start sm:items-center">
                 <div className="flex items-center gap-3 px-4 py-3 rounded-2xl flex-1 min-w-0 transition-all duration-300 focus-within:ring-2 focus-within:ring-[#5B4FE9]"
@@ -1135,6 +1139,8 @@ export default function AdminDashboard() {
             <ModeratorsManager />
           ) : activeTab === 'categories' ? (
             <CategoryManager isEmbedded={true} />
+          ) : activeTab === 'add' ? (
+            <AddResourceManager />
           ) : filtered.length === 0 ? (
             <div className="rounded-[32px] p-16 text-center" style={{ background: S.bg, boxShadow: S.extruded }}>
               <div className="mb-4">

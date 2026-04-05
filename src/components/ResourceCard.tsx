@@ -58,23 +58,23 @@ export default function ResourceCard({ resource, onPreview }: ResourceCardProps)
   return (
     <div
       onClick={() => onPreview?.(resource)}
-      className="relative rounded-[32px] overflow-hidden transition-all duration-300 hover:-translate-y-1.5 hover:shadow-[12px_12px_24px_#b0b8cc,-12px_-12px_24px_#ffffff] group bg-[#d6dae8] flex flex-row h-full cursor-pointer"
+      className="relative rounded-[32px] overflow-hidden transition-all duration-300 hover:-translate-y-1.5 hover:shadow-[12px_12px_24px_#b0b8cc,-12px_-12px_24px_#ffffff] group bg-[#d6dae8] flex flex-row h-[120px] md:h-[130px] cursor-pointer"
       style={{ boxShadow: '8px 8px 16px #b0b8cc, -8px -8px 16px #ffffff' }}
     >
       {/* Left Sidebar */}
       <div 
-        className="w-[90px] md:w-[100px] shrink-0 flex flex-col items-center justify-center gap-3 py-5 px-2"
+        className="w-[68px] md:w-[76px] shrink-0 flex flex-col items-center justify-center gap-2.5 py-4 px-1.5 text-center"
         style={{ backgroundColor: typeStyle.bg }}
       >
         <div 
-          className="w-11 h-11 rounded-[20px] flex items-center justify-center shrink-0 bg-[#d6dae8]"
+          className="w-10 h-10 md:w-11 md:h-11 rounded-[16px] md:rounded-[20px] flex items-center justify-center shrink-0 bg-[#d6dae8]"
           style={{ boxShadow: 'inset 4px 4px 8px #b0b8cc, inset -4px -4px 8px #ffffff' }}
         >
-          <FileIcon className="w-5 h-5 opacity-90" style={{ color: typeStyle.text }} />
+          <FileIcon className="w-4 h-4 md:w-5 md:h-5 opacity-90" style={{ color: typeStyle.text }} />
         </div>
 
         <span 
-          className="text-[10px] font-extrabold uppercase tracking-widest"
+          className="text-[9px] md:text-[10px] font-extrabold uppercase tracking-widest break-words w-full"
           style={{ color: typeStyle.text }}
         >
           SEM {resource.semester}
@@ -82,33 +82,33 @@ export default function ResourceCard({ resource, onPreview }: ResourceCardProps)
       </div>
 
       {/* Right Content */}
-      <div className="flex-1 flex flex-col p-4 md:p-5 min-w-0">
-        <h3
-          className="font-extrabold text-[#1a1d2e] text-[15px] leading-[1.3] mb-2.5 line-clamp-2 pr-4"
-          style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}
-        >
-          {resource.title}
-        </h3>
-        
-        <div className="flex flex-col gap-0.5 mb-2">
-          <span className="text-[12px] font-medium text-[#475569] line-clamp-2 leading-snug">
-            {resource.courseName}
-          </span>
+      <div className="flex-1 flex flex-col p-3.5 md:p-4 min-w-0 justify-between">
+        <div>
+          <h3
+            className="font-extrabold text-[#1a1d2e] text-[13px] md:text-[14px] leading-snug mb-1 line-clamp-2 pr-2"
+            style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}
+            title={resource.title}
+          >
+            {resource.title}
+          </h3>
+          
+          <div className="flex flex-col gap-0.5">
+            <span className="text-[12px] font-medium text-[#475569] line-clamp-1 leading-snug">
+              {resource.courseName}
+            </span>
+          </div>
         </div>
 
-        <div className="mt-auto flex flex-col gap-3">
-
-          <div className="flex items-center">
-            <div 
-              className="px-3 py-1 rounded-full text-[9px] font-extrabold whitespace-nowrap uppercase tracking-wider"
-              style={{ 
-                backgroundColor: typeStyle.bg, 
-                color: typeStyle.text,
-                fontFamily: "'Plus Jakarta Sans', sans-serif"
-              }}
-            >
-              {resource.type}
-            </div>
+        <div className="flex items-center">
+          <div 
+            className="px-3 py-1 rounded-full text-[9px] font-extrabold whitespace-nowrap uppercase tracking-wider"
+            style={{ 
+              backgroundColor: typeStyle.bg, 
+              color: typeStyle.text,
+              fontFamily: "'Plus Jakarta Sans', sans-serif"
+            }}
+          >
+            {resource.type}
           </div>
         </div>
       </div>
