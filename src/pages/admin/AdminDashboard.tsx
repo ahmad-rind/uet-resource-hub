@@ -126,23 +126,24 @@ function PreviewModal({ resource, onClose, onApprove, onReject, onDismissFlags, 
   const isApproved = resource.status === 'approved';
 
   return (
-    <div ref={ref} onClick={e => { if (e.target === ref.current) onClose(); }}
+    <div ref={ref}
       className="fixed inset-0 z-[150] flex items-center justify-center p-4"
     >
       <motion.div 
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
-        transition={{ duration: 0.2 }}
-        className="absolute inset-0"
-        style={{ background: 'rgba(26,29,46,0.3)', backdropFilter: 'blur(12px)' }}
+        transition={{ duration: 0.15 }}
+        onClick={onClose}
+        className="absolute inset-0 cursor-pointer"
+        style={{ background: 'rgba(26,29,46,0.3)', backdropFilter: 'blur(6px)' }}
       />
       
       <motion.div 
         initial={{ scale: 0.96, opacity: 0, y: 10 }}
         animate={{ scale: 1, opacity: 1, y: 0 }}
         exit={{ scale: 0.96, opacity: 0, y: 10 }}
-        transition={{ duration: 0.2, ease: "easeOut" }}
+        transition={{ duration: 0.15, ease: "easeOut" }}
         className="w-full max-w-md rounded-[32px] overflow-hidden flex flex-col max-h-[90vh] relative z-10" 
         style={{ background: S.bg, boxShadow: S.extruded }}
       >
@@ -316,23 +317,24 @@ function EditResourceModal({ resource, onClose, onSave }: {
   };
 
   return (
-    <div ref={ref} onClick={e => { if (e.target === ref.current) onClose(); }}
+    <div ref={ref}
       className="fixed inset-0 z-[150] flex items-center justify-center p-4"
     >
       <motion.div 
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
-        transition={{ duration: 0.2 }}
-        className="absolute inset-0"
-        style={{ background: 'rgba(26,29,46,0.3)', backdropFilter: 'blur(12px)' }}
+        transition={{ duration: 0.15 }}
+        onClick={onClose}
+        className="absolute inset-0 cursor-pointer"
+        style={{ background: 'rgba(26,29,46,0.3)', backdropFilter: 'blur(6px)' }}
       />
 
       <motion.div 
         initial={{ scale: 0.96, opacity: 0, y: 10 }}
         animate={{ scale: 1, opacity: 1, y: 0 }}
         exit={{ scale: 0.96, opacity: 0, y: 10 }}
-        transition={{ duration: 0.2, ease: "easeOut" }}
+        transition={{ duration: 0.15, ease: "easeOut" }}
         className="w-full max-w-md rounded-[32px] overflow-hidden flex flex-col max-h-[90vh] relative z-10" 
         style={{ background: S.bg, boxShadow: S.extruded }}
       >
@@ -593,11 +595,11 @@ function ResourceCard({ resource, onApprove, onReject, onPreview, onDelete, onDi
           onClick={() => setExpanded(!expanded)}
           className="flex items-center gap-1 text-[9px] font-extrabold text-[#4A3FD8] uppercase tracking-widest transition-opacity hover:opacity-80"
         >
-          <ChevronDown className={`w-3 h-3 transition-transform duration-300 ${expanded ? 'rotate-180' : ''}`} />
+          <ChevronDown className={`w-3 h-3 transition-transform duration-200 ${expanded ? 'rotate-180' : ''}`} />
           Review & note
         </button>
         {expanded && (
-          <div className="mt-2.5 space-y-2.5 animate-in fade-in slide-in-from-top-2 duration-300">
+          <div className="mt-2.5 space-y-2.5 animate-in fade-in slide-in-from-top-2 duration-200">
             {resource.description && (
               <div className="p-2.5 rounded-lg text-[11px] leading-relaxed text-[#475569] font-medium" 
                 style={{ background: S.bg, boxShadow: 'inset 2px 2px 4px #b0b8cc, inset -2px -2px 4px #ffffff' }}>
@@ -1064,7 +1066,7 @@ export default function AdminDashboard() {
 
           {/* Stats row */}
           {!['submissions', 'moderators', 'categories', 'add'].includes(activeTab) && (
-            <Reveal delay={0.1} yOffset={20}>
+            <Reveal delay={0.05} yOffset={20}>
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                 {[
                   { label: 'Total',    value: stats.total,    icon: <BarChart3 className="w-5 h-5" />,      accent: S.accent,    tab: 'all'      as TabType },
@@ -1089,7 +1091,7 @@ export default function AdminDashboard() {
 
           {/* Search + sort */}
           {!['submissions', 'moderators', 'categories', 'add'].includes(activeTab) && (
-            <Reveal delay={0.2} yOffset={15}>
+            <Reveal delay={0.1} yOffset={15}>
               <div className="flex flex-col sm:flex-row gap-3 items-start sm:items-center">
                 <div className="flex items-center gap-3 px-4 py-3 rounded-2xl flex-1 min-w-0 transition-all duration-300 focus-within:ring-2 focus-within:ring-[#5B4FE9]"
                   style={{ background: S.bg, boxShadow: S.insetDeep }}>
