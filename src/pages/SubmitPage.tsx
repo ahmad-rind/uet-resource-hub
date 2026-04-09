@@ -8,6 +8,7 @@ import {
   FileText, FlaskConical, ClipboardList, PenTool, Layout, Layers
 } from 'lucide-react';
 import { submitResource, getLiveCoursesData } from '../lib/supabase.js';
+import { useToast } from '../components/Toast';
 import { resourceTypes, departments as staticDepartments } from '../data/courses.js';
 import { deptIcons } from './HomePage.js';
 import { ScrollProgress } from '../components/ScrollProgress.js';
@@ -26,18 +27,20 @@ interface FormData {
 }
 
 const outsetStyle = {
-  boxShadow: '8px 8px 16px #b0b8cc, -8px -8px 16px #ffffff',
+  boxShadow: 'var(--neu-shadow-extruded)',
+  background: 'var(--neu-bg)',
 };
 
 const insetStyle = {
-  boxShadow: 'inset 6px 6px 10px #b0b8cc, inset -6px -6px 10px #ffffff',
+  boxShadow: 'var(--neu-shadow-inset)',
+  background: 'var(--neu-bg)',
 };
 
 // --- Icons & Helpers ---
 
 
 const getResourceTypeIcon = (type: string) => {
-  const props = { className: "w-5 h-5", style: { stroke: "#5B4FE9" } };
+  const props = { className: "w-5 h-5", style: { stroke: "var(--neu-accent)" } };
   const t = type.toLowerCase();
   if (t.includes('paper')) return <FileText {...props} />;
   if (t.includes('material')) return <BookOpen {...props} />;
@@ -82,6 +85,7 @@ const formatDeptName = (dept: string) => {
 };
 
 export default function SubmitPage() {
+  const { showToast } = useToast();
   const [searchParams] = useSearchParams();
   const [form, setForm] = useState<FormData>({
     department: searchParams.get('department') || '',
@@ -188,8 +192,12 @@ export default function SubmitPage() {
         uploadedBy: form.contributorName.trim() || 'Anonymous',
         description: form.description.trim(),
       });
-      if (result.success) setSuccess({ ...form, id: result.id });
-      else setSubmitError(result.error || 'Submission failed.');
+      if (result.success) {
+        setSuccess({ ...form, id: result.id });
+        showToast('Resource submitted successfully!', 'success');
+      } else {
+        setSubmitError(result.error || 'Submission failed.');
+      }
     } catch (err: any) {
       setSubmitError(err?.message || 'Error occurred.');
     } finally { setSubmitting(false); }
@@ -233,21 +241,21 @@ export default function SubmitPage() {
 
   if (success) {
     return (
-      <div className="min-h-screen bg-[#d6dae8] py-10 px-4 flex items-center justify-center">
+      <div className="min-h-screen py-10 px-4 flex items-center justify-center" style={{ background: 'var(--neu-bg)' }}>
         <div className="max-w-lg w-full rounded-[32px] p-10 text-center" style={outsetStyle}>
           <div className="w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6" style={outsetStyle}>
             <CheckCircle className="w-10 h-10 text-[#10B981]" />
           </div>
-          <h2 className="text-2xl font-black text-[#1a1d2e] mb-2" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>Resource Submitted!</h2>
-          <p className="text-[#475569] text-sm mb-6">Thank you for contributing to our community.</p>
+          <h2 className="text-2xl font-black mb-2" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: 'var(--neu-fg)' }}>Resource Submitted!</h2>
+          <p className="text-sm mb-6" style={{ color: 'var(--neu-muted)' }}>Thank you for contributing to our community.</p>
           <div className="rounded-2xl p-5 mb-8 text-left space-y-2.5" style={insetStyle}>
-             <div className="text-xs text-[#475569]"><strong>Title:</strong> {success.title}</div>
-             <div className="text-xs text-[#475569]"><strong>Course:</strong> {success.courseCode}</div>
-             <div className="text-xs text-[#475569]"><strong>Link:</strong> <a href={success.externalLink} target="_blank" className="text-[#4A3FD8] hover:underline">View Resource</a></div>
+             <div className="text-xs" style={{ color: 'var(--neu-muted)' }}><strong>Title:</strong> {success.title}</div>
+             <div className="text-xs" style={{ color: 'var(--neu-muted)' }}><strong>Course:</strong> {success.courseCode}</div>
+             <div className="text-xs" style={{ color: 'var(--neu-muted)' }}><strong>Link:</strong> <a href={success.externalLink} target="_blank" style={{ color: 'var(--neu-accent)' }} className="hover:underline">View Resource</a></div>
           </div>
           <div className="flex gap-4">
-            <button onClick={resetForm} className="flex-1 py-3 rounded-2xl font-bold" style={outsetStyle}>Submit Another</button>
-            <Link to="/browse" className="flex-1 py-3 rounded-2xl bg-[#5B4FE9] text-white font-bold" style={outsetStyle}>Browse</Link>
+            <button onClick={resetForm} className="flex-1 py-3 rounded-2xl font-bold" style={{ ...outsetStyle, color: 'var(--neu-fg)' }}>Submit Another</button>
+            <Link to="/browse" className="flex-1 py-3 rounded-2xl text-white font-bold text-center" style={{ ...outsetStyle, background: 'var(--neu-accent)' }}>Browse</Link>
           </div>
         </div>
       </div>
@@ -255,7 +263,7 @@ export default function SubmitPage() {
   }
 
   return (
-    <div className="flex flex-col items-center justify-center bg-[#d6dae8] py-6 px-4 md:px-8 min-h-[calc(100vh-80px)]">
+    <div className="flex flex-col items-center justify-center py-6 px-4 md:px-8 min-h-[calc(100vh-80px)]" style={{ background: 'var(--neu-bg)' }}>
       <Helmet>
         <title>Submit Resources | Contribute to UET Taxila Resource Hub</title>
         <meta name="description" content="Share your past papers, notes, lab manuals and study materials with UET Taxila students. Help the community grow." />
@@ -292,12 +300,13 @@ export default function SubmitPage() {
                         const isActive = currentStep === stepNum;
                         const isCompleted = currentStep > stepNum;
                         
-                        let statusClasses = 'text-[#94a3b8]';
-                        if (isActive) statusClasses = 'bg-[#5B4FE9] text-white shadow-sm';
-                        else if (isCompleted) statusClasses = 'bg-[#5B4FE9]/10 text-[#4A3FD8]';
+                        let statusClasses = '';
+                        let statusStyle: React.CSSProperties = { color: 'var(--neu-muted)' };
+                        if (isActive) { statusClasses = 'text-white shadow-sm'; statusStyle = { background: 'var(--neu-accent)' }; }
+                        else if (isCompleted) { statusStyle = { background: 'rgba(91, 79, 233, 0.1)', color: 'var(--neu-accent)' }; }
                         
                         return (
-                          <div key={stepName} className={`px-4 py-1.5 rounded-full text-xs font-bold whitespace-nowrap transition-all duration-300 ${statusClasses}`}>
+                          <div key={stepName} className={`px-4 py-1.5 rounded-full text-xs font-bold whitespace-nowrap transition-all duration-300 ${statusClasses}`} style={statusStyle}>
                             {stepName}
                           </div>
                         );
@@ -305,14 +314,14 @@ export default function SubmitPage() {
                     </div>
                     
                     {/* Percentage */}
-                    <div className="text-sm lg:text-base font-black text-[#4A3FD8] shrink-0 ml-4">
+                    <div className="text-sm lg:text-base font-black shrink-0 ml-4" style={{ color: 'var(--neu-accent)' }}>
                       {Math.round((currentStep/5)*100)}%
                     </div>
                   </div>
 
                   {/* Progress Line */}
-                  <div className="h-1 w-full bg-[#b0b8cc]/40 rounded-full relative overflow-hidden">
-                    <div className="absolute top-0 left-0 h-full bg-[#5B4FE9] transition-all duration-700" style={{ width: `${(currentStep/5)*100}%` }} />
+                  <div className="h-1 w-full rounded-full relative overflow-hidden" style={{ background: 'var(--neu-shadow-dark)', opacity: 0.4 }}>
+                    <div className="absolute top-0 left-0 h-full transition-all duration-700" style={{ width: `${(currentStep/5)*100}%`, background: 'var(--neu-accent)' }} />
                   </div>
                 </div>
                 
@@ -328,10 +337,10 @@ export default function SubmitPage() {
                       className="space-y-4 sm:space-y-5"
                     >
                     <div className="text-center sm:text-left mb-4">
-                      <h2 className="text-xl lg:text-2xl font-black text-[#1a1d2e] mb-1.5" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
-                        Select <span className="text-[#4A3FD8]">Department</span>
+                      <h2 className="text-xl lg:text-2xl font-black mb-1.5" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: 'var(--neu-fg)' }}>
+                        Select <span style={{ color: 'var(--neu-accent)' }}>Department</span>
                       </h2>
-                      <p className="text-[#475569] text-[10px] sm:text-xs font-medium">Choose the department where your resource belongs</p>
+                      <p className="text-[10px] sm:text-xs font-medium" style={{ color: 'var(--neu-muted)' }}>Choose the department where your resource belongs</p>
                     </div>
                       <div className="flex flex-wrap justify-center gap-x-3 gap-y-4 lg:gap-x-5 lg:gap-y-5 pt-2">
                         {departmentList.map((dept) => {
@@ -346,15 +355,15 @@ export default function SubmitPage() {
                           >
                              
                              <div 
-                               className={`w-12 h-12 sm:w-[60px] sm:h-[60px] shrink-0 rounded-full flex items-center justify-center transition-all duration-300 bg-[#d6dae8] [&>svg]:w-4 [&>svg]:h-4 sm:[&>svg]:w-5 sm:[&>svg]:h-5 ${isSelected ? 'ring-2 ring-[#5B4FE9] ring-offset-[3px] ring-offset-[#d6dae8]' : '[&>svg]:opacity-80 group-hover:[&>svg]:opacity-100 group-hover:[&>svg]:scale-110'}`}
-                               style={isSelected ? insetStyle : outsetStyle}
+                               className={`w-12 h-12 sm:w-[60px] sm:h-[60px] shrink-0 rounded-full flex items-center justify-center transition-all duration-300 [&>svg]:w-4 [&>svg]:h-4 sm:[&>svg]:w-5 sm:[&>svg]:h-5 ${isSelected ? 'ring-2 ring-offset-[3px]' : '[&>svg]:opacity-80 group-hover:[&>svg]:opacity-100 group-hover:[&>svg]:scale-110'}`}
+                               style={{ ...isSelected ? insetStyle : outsetStyle, ...(isSelected ? { '--tw-ring-color': 'var(--neu-accent)', '--tw-ring-offset-color': 'var(--neu-bg)' } as React.CSSProperties : {}) }}
                              >
-                               {deptIcons[dept] || <BookOpen className="text-[#475569]" />}
+                               {deptIcons[dept] || <BookOpen style={{ color: 'var(--neu-muted)' }} />}
                              </div>
                              
                              <div className="w-full text-center">
-                               <span className={`block font-bold text-[9px] sm:text-[10px] leading-[1.1] whitespace-pre-wrap transition-colors duration-300 ${isSelected ? 'text-[#4A3FD8]' : 'text-[#1a1d2e]'}`}
-                                 style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
+                               <span className="block font-bold text-[9px] sm:text-[10px] leading-[1.1] whitespace-pre-wrap transition-colors duration-300"
+                                 style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: isSelected ? 'var(--neu-accent)' : 'var(--neu-fg)' }}>
                                  {formatDeptName(dept)}
                                </span>
                              </div>
@@ -367,8 +376,8 @@ export default function SubmitPage() {
                         type="button"
                         onClick={() => setCurrentStep(2)}
                         disabled={!form.department}
-                        className="h-12 px-8 rounded-full bg-[#5B4FE9] text-white font-black text-sm flex items-center justify-center gap-2 disabled:opacity-50 hover:scale-[1.02] transition-transform"
-                        style={outsetStyle}
+                        className="h-12 px-8 rounded-full text-white font-black text-sm flex items-center justify-center gap-2 disabled:opacity-50 hover:scale-[1.02] transition-transform"
+                        style={{ ...outsetStyle, background: 'var(--neu-accent)' }}
                       >
                         Continue <ChevronRight className="w-4 h-4" />
                       </button>
@@ -387,20 +396,20 @@ export default function SubmitPage() {
                     className="space-y-3 sm:space-y-5"
                   >
                 <div className="flex items-center gap-3">
-                  <button onClick={prevStep} type="button" className="p-2 rounded-xl transition-transform hover:scale-105 active:scale-95" style={outsetStyle}><ChevronLeft className="w-4 h-4 lg:w-5 lg:h-5 text-[#4A3FD8]" /></button>
-                  <h2 className="text-lg lg:text-xl font-black text-[#1a1d2e]" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}><span className="text-[#4A3FD8]">Semester</span> & Course</h2>
+                  <button onClick={prevStep} type="button" className="p-2 rounded-xl transition-transform hover:scale-105 active:scale-95" style={outsetStyle}><ChevronLeft className="w-4 h-4 lg:w-5 lg:h-5" style={{ color: 'var(--neu-accent)' }} /></button>
+                  <h2 className="text-lg lg:text-xl font-black" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: 'var(--neu-fg)' }}><span style={{ color: 'var(--neu-accent)' }}>Semester</span> & Course</h2>
                 </div>
 
                 <div>
-                  <label className="text-[10px] lg:text-xs font-black text-[#1a1d2e] uppercase tracking-widest pl-1 block mb-3 lg:mb-4">Select <span className="text-[#4A3FD8]">Semester</span></label>
+                  <label className="text-[10px] lg:text-xs font-black uppercase tracking-widest pl-1 block mb-3 lg:mb-4" style={{ color: 'var(--neu-fg)' }}>Select <span style={{ color: 'var(--neu-accent)' }}>Semester</span></label>
                   <div className="grid grid-cols-4 sm:grid-cols-6 lg:grid-cols-8 gap-2 lg:gap-3">
                     {semesterOptions.map((sem) => (
                       <button key={sem} type="button" onClick={() => { setForm(f => ({ ...f, semester: sem, courseCode: '' })); }}
                         className="h-9 lg:h-10 rounded-xl flex flex-col items-center justify-center transition-all hover:-translate-y-1 active:scale-95" 
                         style={form.semester === sem ? insetStyle : outsetStyle}>
                         <div className="flex flex-col items-center justify-center gap-0.5">
-                          <span className={`text-xs font-black uppercase tracking-widest ${form.semester === sem ? 'text-[#4A3FD8]' : 'text-[#475569]'}`}>SEM</span>
-                          <span className={`text-lg font-black leading-none ${form.semester === sem ? 'text-[#4A3FD8]' : 'text-[#1a1d2e]'}`}>{sem}</span>
+                          <span className="text-xs font-black uppercase tracking-widest" style={{ color: form.semester === sem ? 'var(--neu-accent)' : 'var(--neu-muted)' }}>SEM</span>
+                          <span className="text-lg font-black leading-none" style={{ color: form.semester === sem ? 'var(--neu-accent)' : 'var(--neu-fg)' }}>{sem}</span>
                         </div>
                       </button>
                     ))}
@@ -409,7 +418,7 @@ export default function SubmitPage() {
 
                 {form.semester && (
                   <div>
-                    <label className="text-[10px] lg:text-xs font-black text-[#1a1d2e] uppercase tracking-widest pl-1 block mb-3 lg:mb-4">Choose <span className="text-[#4A3FD8]">Course</span></label>
+                    <label className="text-[10px] lg:text-xs font-black uppercase tracking-widest pl-1 block mb-3 lg:mb-4" style={{ color: 'var(--neu-fg)' }}>Choose <span style={{ color: 'var(--neu-accent)' }}>Course</span></label>
                     <div className="relative">
                       <select
                         value={form.courseCode}
@@ -423,20 +432,20 @@ export default function SubmitPage() {
                           }
                         }}
                         disabled={!form.semester}
-                        className="w-full appearance-none px-4 py-3.5 rounded-2xl text-[13px] font-medium text-[#1a1d2e] bg-[#d6dae8] outline-none focus:ring-2 focus:ring-[#5B4FE9]/20 transition-all duration-300 cursor-pointer disabled:opacity-40 disabled:grayscale"
-                        style={{ boxShadow: 'inset 5px 5px 10px #b0b8cc, inset -5px -5px 10px #ffffff', fontFamily: "'DM Sans', sans-serif" }}
+                        className="w-full appearance-none px-4 py-3.5 rounded-2xl text-[13px] font-medium outline-none focus:ring-2 focus:ring-[#5B4FE9]/20 transition-all duration-300 cursor-pointer disabled:opacity-40 disabled:grayscale"
+                        style={{ boxShadow: 'var(--neu-shadow-inset)', fontFamily: "'DM Sans', sans-serif", background: 'var(--neu-bg)', color: 'var(--neu-fg)' }}
                       >
                         <option value="">Select a course...</option>
                         {semesterCourses.map((c: any) => (
                           <option key={c.code} value={c.code}>{c.code} — {c.name}</option>
                         ))}
                       </select>
-                      <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 text-[#475569] pointer-events-none" />
+                      <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 pointer-events-none" style={{ color: 'var(--neu-muted)' }} />
                     </div>
                     <div className="flex justify-end mt-8">
                       <button type="button" onClick={nextStep} disabled={!form.courseCode}
-                        className="h-10 px-8 rounded-full bg-[#5B4FE9] text-white font-black text-sm flex items-center justify-center gap-2 disabled:opacity-50 hover:scale-[1.02] transition-transform"
-                        style={outsetStyle}>
+                        className="h-10 px-8 rounded-full text-white font-black text-sm flex items-center justify-center gap-2 disabled:opacity-50 hover:scale-[1.02] transition-transform"
+                        style={{ ...outsetStyle, background: 'var(--neu-accent)' }}>
                         Continue <ChevronRight className="w-4 h-4" />
                       </button>
                     </div>
@@ -456,8 +465,8 @@ export default function SubmitPage() {
                 className="space-y-3 sm:space-y-5"
               >
                 <div className="flex items-center gap-3">
-                  <button onClick={prevStep} type="button" className="p-2 rounded-xl transition-transform hover:scale-105 active:scale-95" style={outsetStyle}><ChevronLeft className="w-4 h-4 lg:w-5 lg:h-5 text-[#4A3FD8]" /></button>
-                  <h2 className="text-lg lg:text-xl font-black text-[#1a1d2e]" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>Resource <span className="text-[#4A3FD8]">Type</span></h2>
+                  <button onClick={prevStep} type="button" className="p-2 rounded-xl transition-transform hover:scale-105 active:scale-95" style={outsetStyle}><ChevronLeft className="w-4 h-4 lg:w-5 lg:h-5" style={{ color: 'var(--neu-accent)' }} /></button>
+                  <h2 className="text-lg lg:text-xl font-black" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: 'var(--neu-fg)' }}>Resource <span style={{ color: 'var(--neu-accent)' }}>Type</span></h2>
                 </div>
                 <div className="grid grid-cols-2 lg:grid-cols-3 gap-3">
                   {resourceTypes.map((type) => (
@@ -467,16 +476,16 @@ export default function SubmitPage() {
                         <div className="[&>svg]:w-4 [&>svg]:h-4">{getResourceTypeIcon(type)}</div>
                       </div>
                       <div className="flex-1 min-w-0">
-                        <div className="text-[11px] lg:text-xs font-bold text-[#1a1d2e] truncate">{type}</div>
-                        <div className="text-[9px] leading-tight text-[#475569] truncate">{resourceTypeDescriptors[type]}</div>
+                        <div className="text-[11px] lg:text-xs font-bold truncate" style={{ color: 'var(--neu-fg)' }}>{type}</div>
+                        <div className="text-[9px] leading-tight truncate" style={{ color: 'var(--neu-muted)' }}>{resourceTypeDescriptors[type]}</div>
                       </div>
                     </button>
                   ))}
                 </div>
                 <div className="flex justify-end mt-4">
                   <button type="button" onClick={nextStep} disabled={!form.type}
-                    className="h-10 px-8 rounded-full bg-[#5B4FE9] text-white font-black text-sm flex items-center justify-center gap-2 disabled:opacity-50 hover:scale-[1.02] transition-transform"
-                    style={outsetStyle}>
+                    className="h-10 px-8 rounded-full text-white font-black text-sm flex items-center justify-center gap-2 disabled:opacity-50 hover:scale-[1.02] transition-transform"
+                    style={{ ...outsetStyle, background: 'var(--neu-accent)' }}>
                     Continue <ChevronRight className="w-4 h-4" />
                   </button>
                 </div>
@@ -494,31 +503,31 @@ export default function SubmitPage() {
                 className="space-y-3 sm:space-y-5"
               >
                 <div className="flex items-center gap-3">
-                  <button onClick={prevStep} type="button" className="p-2 rounded-xl transition-transform hover:scale-105 active:scale-95" style={outsetStyle}><ChevronLeft className="w-4 h-4 lg:w-5 lg:h-5 text-[#4A3FD8]" /></button>
-                  <h2 className="text-lg lg:text-xl font-black text-[#1a1d2e]" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>Resource <span className="text-[#4A3FD8]">Details</span></h2>
+                  <button onClick={prevStep} type="button" className="p-2 rounded-xl transition-transform hover:scale-105 active:scale-95" style={outsetStyle}><ChevronLeft className="w-4 h-4 lg:w-5 lg:h-5" style={{ color: 'var(--neu-accent)' }} /></button>
+                  <h2 className="text-lg lg:text-xl font-black" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: 'var(--neu-fg)' }}>Resource <span style={{ color: 'var(--neu-accent)' }}>Details</span></h2>
                 </div>
                 <div className="space-y-4">
                   <div className="space-y-1">
                     <div className="relative">
                       <input type="text" placeholder="Title*" value={form.title} onChange={e => setForm(f => ({ ...f, title: e.target.value }))}
-                        className={`w-full h-12 rounded-xl bg-transparent pl-10 focus:outline-none text-xs lg:text-sm font-bold ${errors.title ? 'ring-2 ring-red-500/50' : ''}`} style={outsetStyle} />
-                      <Type className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-[#4A3FD8]" />
+                        className={`w-full h-12 rounded-xl bg-transparent pl-10 focus:outline-none text-xs lg:text-sm font-bold ${errors.title ? 'ring-2 ring-red-500/50' : ''}`} style={{ ...outsetStyle, color: 'var(--neu-fg)' }} />
+                      <Type className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4" style={{ color: 'var(--neu-accent)' }} />
                     </div>
                     {errors.title && <p className="text-[9px] text-red-500 font-black tracking-wide ml-2">REQUIRED</p>}
                   </div>
                   <div className="space-y-1">
                     <div className="relative">
                       <input type="url" placeholder="External Link*" value={form.externalLink} onChange={e => setForm(f => ({ ...f, externalLink: e.target.value }))}
-                        className={`w-full h-12 rounded-xl bg-transparent pl-10 focus:outline-none text-xs lg:text-sm font-bold ${errors.externalLink ? 'ring-2 ring-red-500/50' : ''}`} style={outsetStyle} />
-                      <LinkIcon className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-[#4A3FD8]" />
+                        className={`w-full h-12 rounded-xl bg-transparent pl-10 focus:outline-none text-xs lg:text-sm font-bold ${errors.externalLink ? 'ring-2 ring-red-500/50' : ''}`} style={{ ...outsetStyle, color: 'var(--neu-fg)' }} />
+                      <LinkIcon className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4" style={{ color: 'var(--neu-accent)' }} />
                     </div>
                     {errors.externalLink && <p className="text-[9px] text-red-500 font-black tracking-wide ml-2 uppercase">{errors.externalLink}</p>}
                   </div>
                 </div>
                 <div className="flex justify-end mt-4">
                   <button type="button" onClick={nextStep} disabled={!form.title || !form.externalLink}
-                    className="h-10 px-8 rounded-full bg-[#5B4FE9] text-white font-black text-sm flex items-center justify-center gap-2 disabled:opacity-50 hover:scale-[1.02] transition-transform"
-                    style={outsetStyle}>
+                    className="h-10 px-8 rounded-full text-white font-black text-sm flex items-center justify-center gap-2 disabled:opacity-50 hover:scale-[1.02] transition-transform"
+                    style={{ ...outsetStyle, background: 'var(--neu-accent)' }}>
                     Continue <ChevronRight className="w-4 h-4" />
                   </button>
                 </div>
@@ -536,8 +545,8 @@ export default function SubmitPage() {
                 className="space-y-3 sm:space-y-5"
               >
                 <div className="flex items-center gap-3">
-                  <button onClick={prevStep} type="button" className="p-2 rounded-xl transition-transform hover:scale-105 active:scale-95" style={outsetStyle}><ChevronLeft className="w-4 h-4 lg:w-5 lg:h-5 text-[#4A3FD8]" /></button>
-                  <h2 className="text-lg lg:text-xl font-black text-[#1a1d2e]" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>Final <span className="text-[#4A3FD8]">Touches</span></h2>
+                  <button onClick={prevStep} type="button" className="p-2 rounded-xl transition-transform hover:scale-105 active:scale-95" style={outsetStyle}><ChevronLeft className="w-4 h-4 lg:w-5 lg:h-5" style={{ color: 'var(--neu-accent)' }} /></button>
+                  <h2 className="text-lg lg:text-xl font-black" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: 'var(--neu-fg)' }}>Final <span style={{ color: 'var(--neu-accent)' }}>Touches</span></h2>
                 </div>
                 <div className="space-y-4">
                   {/* Anonymous Toggle */}
@@ -550,31 +559,31 @@ export default function SubmitPage() {
                     }}
                   >
                     <div>
-                      <h3 className="text-[11px] lg:text-xs font-bold text-[#1a1d2e]">Submit anonymously</h3>
-                      <p className="text-[9px] text-[#475569] mt-0.5">Your name won't appear publicly</p>
+                      <h3 className="text-[11px] lg:text-xs font-bold" style={{ color: 'var(--neu-fg)' }}>Submit anonymously</h3>
+                      <p className="text-[9px] mt-0.5" style={{ color: 'var(--neu-muted)' }}>Your name won't appear publicly</p>
                     </div>
                     <div className="w-10 h-5 rounded-full relative transition-all duration-300 flex items-center p-1" style={insetStyle}>
-                      <div className={`w-3 h-3 rounded-full transition-all duration-300 ${isAnonymous ? 'translate-x-5 bg-[#5B4FE9]' : 'translate-x-0 bg-[#b0b8cc]'}`} />
+                      <div className={`w-3 h-3 rounded-full transition-all duration-300 ${isAnonymous ? 'translate-x-5' : 'translate-x-0'}`} style={{ background: isAnonymous ? 'var(--neu-accent)' : 'var(--neu-shadow-dark)' }} />
                     </div>
                   </div>
 
                   {!isAnonymous && (
                     <div className="relative">
                       <input type="text" placeholder="Your Name (Optional)" value={form.contributorName} onChange={e => setForm(f => ({ ...f, contributorName: e.target.value }))}
-                        className="w-full h-12 rounded-xl bg-transparent pl-10 focus:outline-none text-xs lg:text-sm font-bold" style={outsetStyle} />
-                      <User className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-[#4A3FD8]" />
+                        className="w-full h-12 rounded-xl bg-transparent pl-10 focus:outline-none text-xs lg:text-sm font-bold" style={{ ...outsetStyle, color: 'var(--neu-fg)' }} />
+                      <User className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4" style={{ color: 'var(--neu-accent)' }} />
                     </div>
                   )}
                   <div className="relative">
                     <textarea placeholder="Description (Optional)" value={form.description} onChange={e => setForm(f => ({ ...f, description: e.target.value }))}
-                      className="w-full p-3.5 lg:p-4 pl-10 lg:pl-10 rounded-xl bg-transparent focus:outline-none min-h-[80px] text-xs lg:text-sm font-bold resize-none custom-scrollbar" style={outsetStyle} />
-                    <FileText className="absolute left-3.5 top-[14px] lg:top-[16px] w-4 h-4 text-[#4A3FD8]" />
+                      className="w-full p-3.5 lg:p-4 pl-10 lg:pl-10 rounded-xl bg-transparent focus:outline-none min-h-[80px] text-xs lg:text-sm font-bold resize-none custom-scrollbar" style={{ ...outsetStyle, color: 'var(--neu-fg)' }} />
+                    <FileText className="absolute left-3.5 top-[14px] lg:top-[16px] w-4 h-4" style={{ color: 'var(--neu-accent)' }} />
                   </div>
                 </div>
                 <div className="flex justify-end mt-6">
                   <button type="submit" disabled={submitting}
-                    className="h-10 px-8 rounded-full bg-[#5B4FE9] text-white font-black text-sm flex items-center justify-center gap-3 hover:scale-[1.02] transition-transform disabled:opacity-50"
-                    style={outsetStyle}>
+                    className="h-10 px-8 rounded-full text-white font-black text-sm flex items-center justify-center gap-3 hover:scale-[1.02] transition-transform disabled:opacity-50"
+                    style={{ ...outsetStyle, background: 'var(--neu-accent)' }}>
                     {submitting ? (
                       <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
                     ) : (

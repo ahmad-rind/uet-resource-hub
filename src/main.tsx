@@ -1,6 +1,8 @@
 import { StrictMode } from "react";
 import { createRoot, hydrateRoot } from "react-dom/client";
 import { HelmetProvider } from 'react-helmet-async';
+import { ThemeProvider } from './components/ThemeContext';
+import { ToastProvider } from './components/Toast';
 import "./index.css";
 import App from "./App";
 
@@ -8,7 +10,11 @@ const rootEl = document.getElementById("root")!;
 const app = (
   <StrictMode>
     <HelmetProvider>
-      <App />
+      <ThemeProvider>
+        <ToastProvider>
+          <App />
+        </ToastProvider>
+      </ThemeProvider>
     </HelmetProvider>
   </StrictMode>
 );

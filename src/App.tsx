@@ -41,9 +41,10 @@ function usePrefetchPages() {
 /** Minimal loading fallback */
 function PageLoader() {
   return (
-    <div className="min-h-screen bg-[#d6dae8] flex items-center justify-center">
+    <div className="min-h-screen flex items-center justify-center" style={{ background: 'var(--neu-bg)' }}>
       <div
-        className="w-10 h-10 rounded-full border-3 border-[#d6dae8] border-t-[#5B4FE9] animate-spin"
+        className="w-10 h-10 rounded-full border-3 animate-spin"
+        style={{ borderColor: 'var(--neu-bg)', borderTopColor: 'var(--neu-accent)' }}
       />
     </div>
   );
@@ -65,7 +66,7 @@ function PublicLayout({ children }: { children: React.ReactNode }) {
   const isHome = pathname === '/';
 
   return (
-    <div className="min-h-screen bg-[#d6dae8] flex flex-col">
+    <div className="min-h-screen flex flex-col" style={{ background: 'var(--neu-bg)' }}>
       <Navbar />
       <main className="flex-1">{children}</main>
       {isHome && <Footer />}
@@ -76,29 +77,29 @@ function PublicLayout({ children }: { children: React.ReactNode }) {
 /** 404 page */
 function NotFound() {
   return (
-    <div className="min-h-screen bg-[#d6dae8] flex items-center justify-center">
+    <div className="min-h-screen flex items-center justify-center" style={{ background: 'var(--neu-bg)' }}>
       <div className="text-center">
         <div
           className="w-24 h-24 rounded-[32px] flex items-center justify-center mx-auto mb-6 text-4xl"
-          style={{ boxShadow: '9px 9px 16px rgb(163,177,198,0.6), -9px -9px 16px rgba(255,255,255,0.5)' }}
+          style={{ boxShadow: 'var(--neu-shadow-extruded)' }}
         >
           🔍
         </div>
         <h1
-          className="text-3xl font-extrabold text-[#1a1d2e] mb-3 tracking-tight"
-          style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}
+          className="text-3xl font-extrabold mb-3 tracking-tight"
+          style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: 'var(--neu-fg)' }}
         >
           Page Not Found
         </h1>
-        <p className="text-[#475569] mb-6" style={{ fontFamily: "'DM Sans', sans-serif" }}>
+        <p className="mb-6" style={{ fontFamily: "'DM Sans', sans-serif", color: 'var(--neu-muted)' }}>
           The page you're looking for doesn't exist.
         </p>
         <a
           href="/"
           className="px-6 py-3 rounded-2xl text-white font-semibold text-sm transition-all duration-300 hover:-translate-y-0.5"
           style={{
-            background: '#5B4FE9',
-            boxShadow: '9px 9px 16px rgb(163,177,198,0.6), -9px -9px 16px rgba(255,255,255,0.5)',
+            background: 'var(--neu-accent)',
+            boxShadow: 'var(--neu-shadow-extruded)',
             fontFamily: "'DM Sans', sans-serif",
           }}
         >

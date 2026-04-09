@@ -95,18 +95,18 @@ export default function AdminLoginPage() {
 
   if (checking) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-[#d6dae8]">
-        <div className="w-12 h-12 rounded-full flex items-center justify-center shadow-[9px_9px_16px_#b0b8cc,-9px_-9px_16px_#ffffff]">
-          <div className="w-5 h-5 border-2 border-[#5B4FE9] border-t-transparent rounded-full animate-spin" />
+      <div className="min-h-screen flex items-center justify-center transition-colors duration-300" style={{ background: 'var(--neu-bg)' }}>
+        <div className="w-12 h-12 rounded-full flex items-center justify-center transition-all duration-300" style={{ boxShadow: 'var(--neu-shadow-extruded)' }}>
+          <div className="w-5 h-5 border-2 border-t-transparent rounded-full animate-spin transition-colors duration-300" style={{ borderColor: 'var(--neu-accent)', borderTopColor: 'transparent' }} />
         </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center p-4 sm:p-8 relative"
+    <div className="min-h-screen flex items-center justify-center p-4 sm:p-8 relative transition-colors duration-300"
       style={{
-        background: '#e2e6f2', // Slightly cooler background for contrast from the main site
+        background: 'var(--neu-bg)',
         fontFamily: "'DM Sans', sans-serif"
       }}>
 
@@ -119,26 +119,26 @@ export default function AdminLoginPage() {
       <style>{`
         /* Neumorphic specific utilities for this view */
         .neu-back-btn {
-          background: #e0e5ec;
+          background: var(--neu-bg);
           padding: 6px 16px 6px 6px;
           border-radius: 50px;
-          box-shadow: 6px 6px 12px #b8bec8, -6px -6px 12px #ffffff;
+          box-shadow: var(--neu-shadow-extruded-sm);
           text-decoration: none;
         }
         .neu-back-btn:hover {
-          box-shadow: inset 4px 4px 8px #b8bec8, inset -4px -4px 8px #ffffff;
+          box-shadow: var(--neu-shadow-inset-sm);
           transform: translateY(1px);
         }
         .neu-icon-well {
           width: 28px;
           height: 28px;
-          background: #e0e5ec;
+          background: var(--neu-bg);
           border-radius: 50%;
-          color: #5b4fcf;
-          box-shadow: inset 3px 3px 6px #b8bec8, inset -3px -3px 6px #ffffff;
+          color: var(--neu-accent);
+          box-shadow: var(--neu-shadow-inset-sm);
         }
         .neu-back-label {
-          color: #5b4fcf;
+          color: var(--neu-accent);
           font-weight: 800;
           font-size: 11px;
           letter-spacing: 0.15em;
@@ -146,56 +146,56 @@ export default function AdminLoginPage() {
         }
         
         .admin-card {
-          background: #d6dae8;
-          box-shadow: 18px 18px 36px #c1c6d8, -18px -18px 36px #ffffff;
+          background: var(--neu-bg);
+          box-shadow: var(--neu-shadow-extruded-lg);
         }
         .admin-inset {
-          box-shadow: inset 5px 5px 10px #b0b8cc, inset -5px -5px 10px #ffffff;
+          box-shadow: var(--neu-shadow-inset);
         }
         .admin-outset {
-          box-shadow: 5px 5px 10px #b0b8cc, -5px -5px 10px #ffffff;
+          box-shadow: var(--neu-shadow-extruded);
         }
         .admin-divider {
-          background: linear-gradient(to bottom, transparent, rgba(176,184,204,0.4) 15%, rgba(176,184,204,0.4) 85%, transparent);
+          background: linear-gradient(to bottom, transparent, var(--neu-shadow-dark) 15%, var(--neu-shadow-dark) 85%, transparent);
         }
         
         /* Attempt dots animation */
         @keyframes fadePulse { 0% { opacity: 0.5; } 50% { opacity: 1; } 100% { opacity: 0.5; } }
         .red-dot { background: #EF4444; box-shadow: 0 0 8px rgba(239, 68, 68, 0.5); }
-        .gray-dot { background: transparent; box-shadow: inset 2px 2px 4px #b0b8cc, inset -2px -2px 4px #ffffff; }
+        .gray-dot { background: transparent; box-shadow: var(--neu-shadow-inset-sm); }
       `}</style>
 
       {/* Main Split Layout Container */}
       <div className="w-full max-w-[760px] rounded-[40px] admin-card flex flex-col md:flex-row relative z-10 overflow-hidden">
         
         {/* LEFT PANEL - Branding & Roles */}
-        <div className="w-full md:w-[320px] p-6 md:p-12 flex flex-col justify-between relative bg-[#d6dae8]">
+        <div className="w-full md:w-[320px] p-6 md:p-12 flex flex-col justify-between relative" style={{ background: 'var(--neu-bg)' }}>
           {/* Subtle right divider for desktop */}
           <div className="hidden md:block absolute right-0 top-0 bottom-0 w-[1px] admin-divider" />
           
           <div className="flex flex-row md:flex-col items-center md:items-center gap-4 md:gap-0 md:text-center text-left">
             {/* Logo Badge */}
-            <div className="w-[60px] h-[60px] md:w-[72px] md:h-[72px] rounded-2xl flex items-center justify-center md:mb-6 bg-[#d6dae8] admin-outset transition-all duration-300 hover:scale-105 p-2 md:p-3 shrink-0">
+            <div className="w-[60px] h-[60px] md:w-[72px] md:h-[72px] rounded-2xl flex items-center justify-center md:mb-6 admin-outset transition-all duration-300 hover:scale-105 p-2 md:p-3 shrink-0" style={{ background: 'var(--neu-bg)' }}>
               <img src="/uettaxilalogo.webp" alt="University of Engineering and Technology Taxila official logo" className="w-full h-full object-contain opacity-90" />
             </div>
 
             <div className="flex flex-col md:items-center">
               {/* University Tag - Hidden on mobile for brevity */}
               <div className="hidden md:inline-flex items-center gap-1.5 px-3 py-1 rounded-full admin-inset mb-5">
-                <Shield className="w-3 h-3 text-[#475569]" />
-                <span className="text-[10px] font-bold tracking-widest text-[#475569] uppercase" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
+                <Shield className="w-3 h-3 transition-colors duration-300" style={{ color: 'var(--neu-muted)' }} />
+                <span className="text-[10px] font-bold tracking-widest uppercase transition-colors duration-300" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: 'var(--neu-muted)' }}>
                   UET TAXILA
                 </span>
               </div>
 
-              <h1 className="text-[20px] md:text-[32px] font-extrabold text-[#1a1d2e] leading-tight tracking-tight md:mb-2" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
+              <h1 className="text-[20px] md:text-[32px] font-extrabold leading-tight tracking-tight md:mb-2 transition-colors duration-300" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: 'var(--neu-fg)' }}>
                 Admin <span className="md:hidden">Panel</span>
                 <span className="hidden md:inline"><br/>Panel</span>
               </h1>
               
-              <div className="hidden md:block w-8 h-1 rounded-full bg-[#5B4FE9] my-4 shadow-[0_2px_8px_rgba(91,79,233,0.4)]" />
+              <div className="hidden md:block w-8 h-1 rounded-full my-4 transition-colors duration-300" style={{ background: 'var(--neu-accent)', boxShadow: '0 2px 8px rgba(91,79,233,0.4)' }} />
 
-              <p className="hidden md:block text-[13px] text-[#475569] leading-relaxed max-w-[200px] mb-8 md:mb-0">
+              <p className="hidden md:block text-[13px] leading-relaxed max-w-[200px] mb-8 md:mb-0 transition-colors duration-300" style={{ color: 'var(--neu-muted)' }}>
                 Manage resources, review submissions, and control platform access.
               </p>
             </div>
@@ -214,16 +214,16 @@ export default function AdminLoginPage() {
                 >
                   <div className="flex items-center gap-3 w-full">
                     {r === 'admin' 
-                      ? <Shield className={`w-4 h-4 ${isActive ? 'text-[#4A3FD8]' : 'text-[#475569]'}`} />
-                      : <Key className={`w-4 h-4 ${isActive ? 'text-[#4A3FD8]' : 'text-[#475569]'}`} />
+                      ? <Shield className="w-4 h-4 transition-colors duration-300" style={{ color: isActive ? 'var(--neu-accent)' : 'var(--neu-muted)' }} />
+                      : <Key className="w-4 h-4 transition-colors duration-300" style={{ color: isActive ? 'var(--neu-accent)' : 'var(--neu-muted)' }} />
                     }
-                    <span className={`text-[13px] font-bold ${isActive ? 'text-[#4A3FD8]' : 'text-[#475569]'}`} style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
+                    <span className="text-[13px] font-bold transition-colors duration-300" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: isActive ? 'var(--neu-accent)' : 'var(--neu-muted)' }}>
                       {r === 'admin' ? 'Admin' : 'Moderator'}
                     </span>
                   </div>
                   
                   {/* Active Indicator Dot */}
-                  <div className={`absolute right-4 w-1.5 h-1.5 rounded-full transition-all duration-300 ${isActive ? 'bg-[#5B4FE9] shadow-[0_0_6px_rgba(91,79,233,0.5)] scale-100' : 'bg-[#b0b8cc] scale-0'}`} />
+                  <div className={`absolute right-4 w-1.5 h-1.5 rounded-full transition-all duration-300 ${isActive ? 'scale-100' : 'scale-0'}`} style={{ background: isActive ? 'var(--neu-accent)' : 'var(--neu-shadow-dark)', boxShadow: isActive ? '0 0 6px rgba(91,79,233,0.5)' : 'none' }} />
                 </button>
               );
             })}
@@ -231,19 +231,19 @@ export default function AdminLoginPage() {
         </div>
 
         {/* RIGHT PANEL - Form Fields */}
-        <div className="flex-1 p-6 md:p-12 bg-[#ebedf4] flex flex-col justify-center md:rounded-r-[40px] shadow-[inset_12px_0_24px_-12px_rgba(176,184,204,0.3)]">
+        <div className="flex-1 p-6 md:p-12 flex flex-col justify-center md:rounded-r-[40px]" style={{ background: 'var(--neu-bg)' }}>
           
           <div className="mb-8">
             <div className="flex items-center gap-2 mb-2">
-              <div className="w-5 h-0.5 bg-[#5B4FE9] rounded-full shadow-[0_0_4px_rgba(91,79,233,0.4)]" />
-              <span className="text-[10px] font-bold tracking-[0.2em] text-[#475569] uppercase h-4" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
+              <div className="w-5 h-0.5 rounded-full shadow-[0_0_4px_rgba(91,79,233,0.4)]" style={{ background: 'var(--neu-accent)' }} />
+              <span className="text-[10px] font-bold tracking-[0.2em] uppercase h-4 transition-colors duration-300" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: 'var(--neu-muted)' }}>
                 SECURE ACCESS
               </span>
             </div>
-            <h2 className="text-2xl font-extrabold text-[#1a1d2e] tracking-tight mb-2" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
+            <h2 className="text-2xl font-extrabold tracking-tight mb-2 transition-colors duration-300" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: 'var(--neu-fg)' }}>
               Sign in to continue
             </h2>
-            <p className="text-[13px] text-[#475569]">
+            <p className="text-[13px] transition-colors duration-300" style={{ color: 'var(--neu-muted)' }}>
               Enter your credentials to access the dashboard.
             </p>
           </div>
@@ -255,12 +255,12 @@ export default function AdminLoginPage() {
                 <>
                   {/* Email Box */}
                   <div>
-                    <label className="block mb-2 text-[10px] font-bold tracking-[0.1em] text-[#475569] uppercase ml-1" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
+                    <label className="block mb-2 text-[10px] font-bold tracking-[0.1em] uppercase ml-1 transition-colors duration-300" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: 'var(--neu-muted)' }}>
                       EMAIL ADDRESS
                     </label>
                     <div className="relative">
                       <div className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 flex items-center justify-center">
-                        <Mail className="w-full h-full text-[#475569] opacity-50" />
+                        <Mail className="w-full h-full opacity-50 transition-colors duration-300" style={{ color: 'var(--neu-muted)' }} />
                       </div>
                       <input
                         type="email"
@@ -269,20 +269,20 @@ export default function AdminLoginPage() {
                         placeholder="admin@uettaxila.edu.pk"
                         autoComplete="email"
                         disabled={locked || loading}
-                        className="w-full h-[54px] rounded-[16px] text-[14px] bg-[#d6dae8] text-[#1a1d2e] placeholder:text-[#475569]/70 pl-[44px] pr-4 outline-none disabled:opacity-50 transition-all focus:ring-2 focus:ring-[#5B4FE9]/30"
-                        style={{ boxShadow: 'inset 5px 5px 10px #b0b8cc, inset -5px -5px 10px #ffffff' }}
+                        className="w-full h-[54px] rounded-[16px] text-[14px] placeholder:opacity-70 pl-[44px] pr-4 outline-none disabled:opacity-50 transition-all focus:ring-2 focus:ring-[#5B4FE9]/30 admin-inset"
+                        style={{ background: 'var(--neu-bg)', color: 'var(--neu-fg)' }}
                       />
                     </div>
                   </div>
 
                   {/* Password Box */}
                   <div>
-                    <label className="block mb-2 text-[10px] font-bold tracking-[0.1em] text-[#475569] uppercase ml-1" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
+                    <label className="block mb-2 text-[10px] font-bold tracking-[0.1em] uppercase ml-1 transition-colors duration-300" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: 'var(--neu-muted)' }}>
                       PASSWORD
                     </label>
                     <div className="relative">
                       <div className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 flex items-center justify-center">
-                        <Lock className="w-full h-full text-[#475569] opacity-50" />
+                        <Lock className="w-full h-full opacity-50 transition-colors duration-300" style={{ color: 'var(--neu-muted)' }} />
                       </div>
                       <input
                         type={showPwd ? 'text' : 'password'}
@@ -291,13 +291,14 @@ export default function AdminLoginPage() {
                         placeholder={locked ? `Locked — wait ${lockTimer}s` : 'Enter your password'}
                         autoComplete="current-password"
                         disabled={locked || loading}
-                        className="w-full h-[54px] rounded-[16px] text-[14px] bg-[#d6dae8] text-[#1a1d2e] placeholder:text-[#475569]/70 pl-[44px] pr-12 outline-none disabled:opacity-50 transition-all focus:ring-2 focus:ring-[#5B4FE9]/30"
-                        style={{ boxShadow: 'inset 5px 5px 10px #b0b8cc, inset -5px -5px 10px #ffffff' }}
+                        className="w-full h-[54px] rounded-[16px] text-[14px] placeholder:opacity-70 pl-[44px] pr-12 outline-none disabled:opacity-50 transition-all focus:ring-2 focus:ring-[#5B4FE9]/30 admin-inset"
+                        style={{ background: 'var(--neu-bg)', color: 'var(--neu-fg)' }}
                       />
                       <button
                         type="button"
                         onClick={() => setShowPwd(s => !s)}
-                        className="absolute right-3 top-1/2 -translate-y-1/2 w-8 h-8 rounded-xl flex items-center justify-center text-[#475569] opacity-50 hover:opacity-100 transition-opacity focus:outline-none"
+                        className="absolute right-3 top-1/2 -translate-y-1/2 w-8 h-8 rounded-xl flex items-center justify-center opacity-50 hover:opacity-100 transition-opacity focus:outline-none"
+                        style={{ color: 'var(--neu-muted)' }}
                         title={showPwd ? 'Hide password' : 'Show password'}
                       >
                         {showPwd ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
@@ -308,12 +309,12 @@ export default function AdminLoginPage() {
               ) : (
                 /* Access Key Box */
                 <div>
-                  <label className="block mb-2 text-[10px] font-bold tracking-[0.1em] text-[#475569] uppercase ml-1" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
+                  <label className="block mb-2 text-[10px] font-bold tracking-[0.1em] uppercase ml-1 transition-colors duration-300" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: 'var(--neu-muted)' }}>
                     MODERATOR KEY
                   </label>
                   <div className="relative">
                     <div className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 flex items-center justify-center">
-                      <Key className="w-full h-full text-[#475569] opacity-50" />
+                      <Key className="w-full h-full opacity-50 transition-colors duration-300" style={{ color: 'var(--neu-muted)' }} />
                     </div>
                     <input
                       type="text"
@@ -321,8 +322,8 @@ export default function AdminLoginPage() {
                       onChange={e => { setAccessKey(e.target.value); setError(''); }}
                       placeholder={locked ? `Locked — wait ${lockTimer}s` : 'MODE-XXXXXX'}
                       disabled={locked || loading}
-                      className="w-full h-[54px] rounded-[16px] text-[14px] font-mono tracking-wider bg-[#d6dae8] text-[#1a1d2e] placeholder:text-[#475569]/50 pl-[44px] pr-4 outline-none disabled:opacity-50 transition-all focus:ring-2 focus:ring-[#5B4FE9]/30 uppercase"
-                      style={{ boxShadow: 'inset 5px 5px 10px #b0b8cc, inset -5px -5px 10px #ffffff' }}
+                      className="w-full h-[54px] rounded-[16px] text-[14px] font-mono tracking-wider placeholder:opacity-50 pl-[44px] pr-4 outline-none disabled:opacity-50 transition-all focus:ring-2 focus:ring-[#5B4FE9]/30 uppercase admin-inset"
+                      style={{ background: 'var(--neu-bg)', color: 'var(--neu-fg)' }}
                     />
                   </div>
                 </div>
@@ -354,8 +355,8 @@ export default function AdminLoginPage() {
               style={{
                 height: 56,
                 borderRadius: 16,
-                background: locked ? '#9CA3AF' : '#5B4FE9',
-                boxShadow: locked ? 'none' : '6px 6px 14px rgba(91,79,233,0.3), inset 2px 2px 6px rgba(255,255,255,0.2)',
+                background: locked ? 'var(--neu-muted)' : 'var(--neu-accent)',
+                boxShadow: locked ? 'none' : 'var(--neu-shadow-extruded)',
                 fontFamily: "'Plus Jakarta Sans', sans-serif",
                 fontWeight: 700,
                 fontSize: 15,

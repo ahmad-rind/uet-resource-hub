@@ -50,7 +50,7 @@ export default function ResourceCard({ resource, onPreview }: ResourceCardProps)
     if (t.includes('past paper')) return { bg: 'rgba(239, 68, 68, 0.15)', text: '#EF4444' };
     if (t.includes('template')) return { bg: 'rgba(245, 158, 11, 0.15)', text: '#F59E0B' };
     if (t.includes('lab')) return { bg: 'rgba(16, 185, 129, 0.15)', text: '#10B981' };
-    return { bg: 'rgba(91, 79, 233, 0.15)', text: '#5B4FE9' }; // Default (Study Material / Notes)
+    return { bg: 'rgba(91, 79, 233, 0.15)', text: '#5B4FE9' };
   };
 
   const typeStyle = getTypeStyles(resource.type);
@@ -58,8 +58,8 @@ export default function ResourceCard({ resource, onPreview }: ResourceCardProps)
   return (
     <div
       onClick={() => onPreview?.(resource)}
-      className="relative rounded-[32px] overflow-hidden transition-all duration-300 hover:-translate-y-1.5 hover:shadow-[12px_12px_24px_#b0b8cc,-12px_-12px_24px_#ffffff] group bg-[#d6dae8] flex flex-row h-[120px] md:h-[130px] cursor-pointer"
-      style={{ boxShadow: '8px 8px 16px #b0b8cc, -8px -8px 16px #ffffff' }}
+      className="relative rounded-[32px] overflow-hidden transition-all duration-300 hover:-translate-y-1.5 group flex flex-row h-[120px] md:h-[130px] cursor-pointer"
+      style={{ background: 'var(--neu-bg)', boxShadow: 'var(--neu-shadow-extruded)' }}
     >
       {/* Left Sidebar */}
       <div 
@@ -67,8 +67,8 @@ export default function ResourceCard({ resource, onPreview }: ResourceCardProps)
         style={{ backgroundColor: typeStyle.bg }}
       >
         <div 
-          className="w-10 h-10 md:w-11 md:h-11 rounded-[16px] md:rounded-[20px] flex items-center justify-center shrink-0 bg-[#d6dae8]"
-          style={{ boxShadow: 'inset 4px 4px 8px #b0b8cc, inset -4px -4px 8px #ffffff' }}
+          className="w-10 h-10 md:w-11 md:h-11 rounded-[16px] md:rounded-[20px] flex items-center justify-center shrink-0"
+          style={{ background: 'var(--neu-bg)', boxShadow: 'var(--neu-shadow-inset-sm)' }}
         >
           <FileIcon className="w-4 h-4 md:w-5 md:h-5 opacity-90" style={{ color: typeStyle.text }} />
         </div>
@@ -85,15 +85,15 @@ export default function ResourceCard({ resource, onPreview }: ResourceCardProps)
       <div className="flex-1 flex flex-col p-3.5 md:p-4 min-w-0 justify-between">
         <div>
           <h3
-            className="font-extrabold text-[#1a1d2e] text-[13px] md:text-[14px] leading-snug mb-1 line-clamp-2 pr-2"
-            style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}
+            className="font-extrabold text-[13px] md:text-[14px] leading-snug mb-1 line-clamp-2 pr-2"
+            style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: 'var(--neu-fg)' }}
             title={resource.title}
           >
             {resource.title}
           </h3>
           
           <div className="flex flex-col gap-0.5">
-            <span className="text-[12px] font-medium text-[#475569] line-clamp-1 leading-snug">
+            <span className="text-[12px] font-medium line-clamp-1 leading-snug" style={{ color: 'var(--neu-muted)' }}>
               {resource.courseName}
             </span>
           </div>
@@ -115,7 +115,7 @@ export default function ResourceCard({ resource, onPreview }: ResourceCardProps)
 
       {/* Hover Arrow Overlay */}
       <div className="absolute top-5 right-5 opacity-0 group-hover:opacity-100 transition-all duration-300 translate-x-1 group-hover:translate-x-0">
-        <ArrowUpRight className="w-4 h-4 text-[#4A3FD8]" />
+        <ArrowUpRight className="w-4 h-4" style={{ color: 'var(--neu-accent)' }} />
       </div>
     </div>
   );

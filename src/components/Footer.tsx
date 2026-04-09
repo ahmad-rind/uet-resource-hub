@@ -11,13 +11,15 @@ export default function Footer() {
 
   return (
     <footer 
-      className="w-[calc(100%-64px)] max-w-7xl bg-[#d6dae8] rounded-[28px] mx-auto"
+      className="w-[calc(100%-64px)] max-w-7xl rounded-[28px] mx-auto"
       style={{
         position: 'relative',
         marginTop: '48px',
         marginBottom: '24px',
         padding: '20px 28px',
-        boxShadow: '10px 10px 22px #b0b8cc, -10px -10px 22px #ffffff, inset 0 0 0 1px rgba(255, 255, 255, 0.20)',
+        background: 'var(--neu-bg)',
+        boxShadow: 'var(--neu-shadow-extruded-lg)',
+        border: '1px solid var(--neu-border)',
         animation: 'footerSlideUp 0.6s 0.2s cubic-bezier(0.22, 0.8, 0.36, 1) both'
       }}
     >
@@ -30,23 +32,23 @@ export default function Footer() {
           content: '';
           position: absolute;
           left: 0; top: 8%; height: 84%; width: 1px;
-          background: linear-gradient(to bottom, transparent, #b0b8cc 30%, #b0b8cc 70%, transparent);
+          background: linear-gradient(to bottom, transparent, var(--neu-shadow-dark) 30%, var(--neu-shadow-dark) 70%, transparent);
         }
         .social-btn {
           width: 36px;
           height: 36px;
           border-radius: 10px;
-          background: #d6dae8;
-          box-shadow: 3px 3px 8px #b0b8cc, -3px -3px 8px #ffffff;
+          background: var(--neu-bg);
+          box-shadow: var(--neu-shadow-extruded-sm);
           display: flex;
           align-items: center;
           justify-content: center;
-          color: #475569;
+          color: var(--neu-muted);
           transition: all 0.2s ease;
         }
         .social-btn:hover {
-          box-shadow: inset 2px 2px 6px #b0b8cc, inset -2px -2px 6px #ffffff;
-          color: #5B4FE9;
+          box-shadow: var(--neu-shadow-inset-sm);
+          color: var(--neu-accent);
         }
         .footer-grid {
           display: grid;
@@ -64,11 +66,12 @@ export default function Footer() {
       <div className="footer-grid">
         {/* Brand & Social Section */}
         <div className="footer-col relative lg:pr-8 flex flex-col justify-center">
-          <Link to="/" className="flex items-center gap-3 mb-4 group focus:outline-none focus:ring-2 focus:ring-[#5B4FE9] focus:ring-offset-2 focus:ring-offset-[#d6dae8] rounded-xl shrink-0 w-max">
+          <Link to="/" className="flex items-center gap-3 mb-4 group focus:outline-none focus:ring-2 focus:ring-[#5B4FE9] rounded-xl shrink-0 w-max">
             <div
-              className="w-11 h-11 rounded-2xl flex items-center justify-center transition-all duration-300 group-hover:-translate-y-0.5 p-2 shrink-0 bg-[#d6dae8]"
+              className="w-11 h-11 rounded-2xl flex items-center justify-center transition-all duration-300 group-hover:-translate-y-0.5 p-2 shrink-0"
               style={{
-                boxShadow: '4px 4px 8px #b0b8cc, -4px -4px 8px #ffffff'
+                background: 'var(--neu-bg)',
+                boxShadow: 'var(--neu-shadow-extruded-sm)'
               }}
             >
               <img 
@@ -79,12 +82,12 @@ export default function Footer() {
               />
             </div>
             <div className="flex flex-col justify-center">
-              <span className="font-bold text-[#1a1d2e] text-sm leading-tight block uppercase tracking-tight" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>UET Taxila</span>
-              <span className="text-[#475569] text-[10px] leading-tight block opacity-80" style={{ fontFamily: "'DM Sans', sans-serif" }}>Resource Hub</span>
+              <span className="font-bold text-sm leading-tight block uppercase tracking-tight" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: 'var(--neu-fg)' }}>UET Taxila</span>
+              <span className="text-[10px] leading-tight block opacity-80" style={{ fontFamily: "'DM Sans', sans-serif", color: 'var(--neu-muted)' }}>Resource Hub</span>
             </div>
           </Link>
 
-          <p className="text-[13px] text-[#475569] leading-[1.6] mb-5 max-w-[280px] font-medium" style={{ fontFamily: "'DM Sans', sans-serif" }}>
+          <p className="text-[13px] leading-[1.6] mb-5 max-w-[280px] font-medium" style={{ fontFamily: "'DM Sans', sans-serif", color: 'var(--neu-muted)' }}>
             The definitive digital ecosystem for UET Taxila students. Share, discover, and excel.
           </p>
 
@@ -107,14 +110,14 @@ export default function Footer() {
             ))}
           </div>
           
-          <p className="text-[10px] text-[#475569] font-medium mt-5 md:mt-8 ml-1" style={{ fontFamily: "'DM Sans', sans-serif" }}>
+          <p className="text-[10px] font-medium mt-5 md:mt-8 ml-1" style={{ fontFamily: "'DM Sans', sans-serif", color: 'var(--neu-muted)' }}>
             © {currentYear} UET Taxila Resource Hub
           </p>
         </div>
 
         {/* Quick Explore Section */}
         <div className="footer-col relative lg:px-8 flex flex-col justify-center">
-          <h4 className="font-bold text-[#1a1d2e] text-[11px] uppercase tracking-[0.2em] mb-4" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
+          <h4 className="font-bold text-[11px] uppercase tracking-[0.2em] mb-4" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: 'var(--neu-fg)' }}>
             Quick Explore
           </h4>
           <ul className="space-y-3">
@@ -127,10 +130,12 @@ export default function Footer() {
               <li key={link.to}>
                 <Link
                   to={link.to}
-                  className="group flex items-center gap-3 text-[13px] text-[#475569] hover:text-[#1a1d2e] transition-all duration-300 font-medium"
-                  style={{ fontFamily: "'DM Sans', sans-serif" }}
+                  className="group flex items-center gap-3 text-[13px] hover:opacity-100 transition-all duration-300 font-medium"
+                  style={{ fontFamily: "'DM Sans', sans-serif", color: 'var(--neu-muted)' }}
                 >
-                  <span className="w-1.5 h-1.5 rounded-full bg-[#b0b8cc] transition-all duration-300 group-hover:w-3 group-hover:bg-[#5B4FE9] group-hover:shadow-[0_0_8px_rgba(91,79,233,0.4)]" />
+                  <span
+                    className="w-1.5 h-1.5 rounded-full bg-[var(--neu-shadow-dark)] transition-all duration-300 group-hover:w-3 group-hover:bg-[var(--neu-accent)] group-hover:shadow-[0_0_8px_rgba(91,79,233,0.4)]"
+                  />
                   {link.label}
                 </Link>
               </li>
@@ -140,19 +145,19 @@ export default function Footer() {
 
         {/* Contact/CTA Section */}
         <div className="footer-col relative lg:pl-8 flex flex-col justify-center">
-          <h4 className="font-bold text-[#1a1d2e] text-[11px] uppercase tracking-[0.2em] mb-4" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
+          <h4 className="font-bold text-[11px] uppercase tracking-[0.2em] mb-4" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: 'var(--neu-fg)' }}>
             Join the Mission
           </h4>
           <div
-            className="p-[14px] rounded-[18px] bg-[#d6dae8] flex flex-col gap-4"
-            style={{ boxShadow: 'inset 8px 8px 16px #b0b8cc, inset -8px -8px 16px #ffffff' }}
+            className="p-[14px] rounded-[18px] flex flex-col gap-4"
+            style={{ background: 'var(--neu-bg)', boxShadow: 'var(--neu-shadow-inset)' }}
           >
             <div className="flex items-start gap-3">
-              <div className="w-8 h-8 rounded-[10px] flex items-center justify-center shrink-0 bg-[#d6dae8]"
-                style={{ boxShadow: '3px 3px 6px #b0b8cc, -3px -3px 6px #ffffff' }}>
-                <MessageSquare className="w-4 h-4 text-[#4A3FD8]" />
+              <div className="w-8 h-8 rounded-[10px] flex items-center justify-center shrink-0"
+                style={{ background: 'var(--neu-bg)', boxShadow: 'var(--neu-shadow-extruded-sm)' }}>
+                <MessageSquare className="w-4 h-4" style={{ color: 'var(--neu-accent)' }} />
               </div>
-              <p className="text-xs text-[#475569] leading-snug font-medium">
+              <p className="text-xs leading-snug font-medium" style={{ color: 'var(--neu-muted)' }}>
                 Contribute your knowledge or get technical support directly from our student team.
               </p>
             </div>
@@ -178,4 +183,3 @@ export default function Footer() {
     </footer>
   );
 }
-

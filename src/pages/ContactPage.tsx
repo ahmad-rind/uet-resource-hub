@@ -10,19 +10,20 @@ import {
   Info
 } from 'lucide-react';
 import { submitContactRequest } from '../lib/supabase';
+import { useToast } from '../components/Toast';
 import { ScrollProgress } from '../components/ScrollProgress.js';
 import { Reveal } from '../components/Reveal.js';
 import { Helmet } from 'react-helmet-async';
 
-// Neumorphic Design Tokens
+// Neumorphic Design Tokens — now referencing CSS variables
 const S = {
-  bg: '#d6dae8',
-  fg: '#1a1d2e',
-  muted: '#475569',
-  accent: '#5B4FE9',
-  extruded: '12px 12px 24px #b0b8cc, -12px -12px 24px #ffffff',
-  inset: 'inset 5px 5px 10px #b0b8cc, inset -5px -5px 10px #ffffff',
-  small: '6px 6px 12px #b0b8cc, -6px -6px 12px #ffffff',
+  bg: 'var(--neu-bg)',
+  fg: 'var(--neu-fg)',
+  muted: 'var(--neu-muted)',
+  accent: 'var(--neu-accent)',
+  extruded: 'var(--neu-shadow-extruded-lg)',
+  inset: 'var(--neu-shadow-inset)',
+  small: 'var(--neu-shadow-extruded-sm)',
 };
 
 export default function ContactPage() {
@@ -35,6 +36,7 @@ export default function ContactPage() {
   });
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
   const [errorMsg, setErrorMsg] = useState('');
+  const { showToast } = useToast();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -48,6 +50,7 @@ export default function ContactPage() {
       if (res.success) {
         setStatus('success');
         setFormData({ name: '', email: '', type: 'Suggestion', subject: '', message: '' });
+        showToast('Message sent successfully!', 'success');
       } else {
         setStatus('error');
         setErrorMsg(res.error || 'Something went wrong. Please try again.');
@@ -64,7 +67,7 @@ export default function ContactPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#d6dae8] flex items-center justify-center pt-20 pb-8 md:py-0">
+    <div className="min-h-screen flex items-center justify-center pt-20 pb-8 md:py-0" style={{ background: S.bg }}>
       <Helmet>
         <title>Contact Us | UET Taxila Resource Hub</title>
         <meta name="description" content="Get in touch with UET Taxila Resource Hub. Report issues, suggest improvements, or ask questions." />
@@ -81,50 +84,50 @@ export default function ContactPage() {
           <div className="lg:w-1/2 text-left space-y-5 md:space-y-8 order-1 lg:order-1">
             <div className="space-y-6">
               {/* Badge */}
-              <div className="flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#d6dae8] w-fit"
-                style={{ boxShadow: '4px 4px 8px #b0b8cc, -4px -4px 8px #ffffff', border: '1px solid rgba(255,255,255,0.4)', fontFamily: "'DM Sans', sans-serif" }}>
-                <span className="w-1.5 h-1.5 rounded-full bg-[#5B4FE9]" />
-                <span className="text-[10px] font-semibold tracking-[0.18em] text-[#475569] uppercase">
+              <div className="flex items-center gap-2 px-3.5 py-1.5 rounded-full w-fit"
+                style={{ background: S.bg, boxShadow: S.small, border: '1px solid var(--neu-border)', fontFamily: "'DM Sans', sans-serif" }}>
+                <span className="w-1.5 h-1.5 rounded-full" style={{ background: S.accent }} />
+                <span className="text-[10px] font-semibold tracking-[0.18em] uppercase" style={{ color: S.muted }}>
                   Support Desk
                 </span>
               </div>
 
-              <h1 className="text-[1.75rem] md:text-[3.5rem] lg:text-[4rem] font-bold leading-tight tracking-tight text-[#1a1d2e]"
-                style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
-                Get in <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#6C63FF] to-[#A78BFA]">Touch</span>
+              <h1 className="text-[1.75rem] md:text-[3.5rem] lg:text-[4rem] font-bold leading-tight tracking-tight"
+                style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: S.fg }}>
+                Get in <span className="text-transparent bg-clip-text" style={{ backgroundImage: 'var(--neu-gradient-accent)' }}>Touch</span>
               </h1>
               
-              <p className="text-base md:text-lg text-[#475569] max-w-lg leading-relaxed"
-                style={{ fontFamily: "'DM Sans', sans-serif" }}>
+              <p className="text-base md:text-lg max-w-lg leading-relaxed"
+                style={{ fontFamily: "'DM Sans', sans-serif", color: S.muted }}>
                 Have a suggestion to improve the hub? Or found an issue that needs fixing? 
                 Our team is ready to help you thrive.
               </p>
             </div>
 
             <div className="grid grid-cols-2 gap-3 md:gap-6">
-              <div className="p-4 md:p-5 rounded-2xl md:rounded-3xl bg-[#d6dae8]" style={{ boxShadow: S.small }}>
-                <h4 className="text-[11px] font-bold text-[#4A3FD8] uppercase tracking-wider mb-2" style={{ fontFamily: "'DM Sans', sans-serif" }}>Response Time</h4>
-                <p className="text-sm font-semibold text-[#1a1d2e]">Under 24 Hours</p>
+              <div className="p-4 md:p-5 rounded-2xl md:rounded-3xl" style={{ background: S.bg, boxShadow: S.small }}>
+                <h4 className="text-[11px] font-bold uppercase tracking-wider mb-2" style={{ fontFamily: "'DM Sans', sans-serif", color: S.accent }}>Response Time</h4>
+                <p className="text-sm font-semibold" style={{ color: S.fg }}>Under 24 Hours</p>
               </div>
-              <div className="p-4 md:p-5 rounded-2xl md:rounded-3xl bg-[#d6dae8]" style={{ boxShadow: S.small }}>
-                <h4 className="text-[11px] font-bold text-[#4A3FD8] uppercase tracking-wider mb-2" style={{ fontFamily: "'DM Sans', sans-serif" }}>Community Led</h4>
-                <p className="text-sm font-semibold text-[#1a1d2e]">Volunteer Based</p>
+              <div className="p-4 md:p-5 rounded-2xl md:rounded-3xl" style={{ background: S.bg, boxShadow: S.small }}>
+                <h4 className="text-[11px] font-bold uppercase tracking-wider mb-2" style={{ fontFamily: "'DM Sans', sans-serif", color: S.accent }}>Community Led</h4>
+                <p className="text-sm font-semibold" style={{ color: S.fg }}>Volunteer Based</p>
               </div>
             </div>
           </div>
 
           {/* ── Right Column: Form Card ── */}
           <div className="lg:w-1/2 w-full order-2 lg:order-2">
-            <div className="rounded-[28px] md:rounded-[48px] p-5 md:p-10 bg-[#d6dae8]" style={{ boxShadow: S.extruded }}>
+            <div className="rounded-[28px] md:rounded-[48px] p-5 md:p-10" style={{ background: S.bg, boxShadow: S.extruded }}>
               
               {status === 'success' ? (
                 <div className="text-center py-16">
-                  <div className="w-24 h-24 rounded-[32px] flex items-center justify-center mx-auto mb-8 bg-[#d6dae8]"
-                    style={{ boxShadow: S.small }}>
+                  <div className="w-24 h-24 rounded-[32px] flex items-center justify-center mx-auto mb-8"
+                    style={{ background: S.bg, boxShadow: S.small }}>
                     <CheckCircle2 className="w-12 h-12 text-green-500" />
                   </div>
-                  <h3 className="text-3xl font-bold mb-4 text-[#1a1d2e]" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>Success!</h3>
-                  <p className="text-[#475569] mb-10 text-base" style={{ fontFamily: "'DM Sans', sans-serif" }}>Message received. We'll get back to you soon.</p>
+                  <h3 className="text-3xl font-bold mb-4" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: S.fg }}>Success!</h3>
+                  <p className="mb-10 text-base" style={{ fontFamily: "'DM Sans', sans-serif", color: S.muted }}>Message received. We'll get back to you soon.</p>
                   <button 
                     onClick={() => setStatus('idle')}
                     className="px-10 py-4 rounded-2xl text-white font-bold text-[15px] transition-all duration-300 hover:-translate-y-1 active:scale-95"
@@ -137,7 +140,7 @@ export default function ContactPage() {
                 <form onSubmit={handleSubmit} className="space-y-4 md:space-y-6">
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-6">
                     <div className="space-y-2">
-                      <label className="text-[10px] font-bold uppercase tracking-[0.15em] px-1 text-[#475569]" style={{ fontFamily: "'DM Sans', sans-serif" }}>Full Name</label>
+                      <label className="text-[10px] font-bold uppercase tracking-[0.15em] px-1" style={{ fontFamily: "'DM Sans', sans-serif", color: S.muted }}>Full Name</label>
                       <div className="relative group">
                         <User className="absolute left-4 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-[#A3B1C6] transition-colors group-focus-within:text-[#4A3FD8]" />
                         <input
@@ -147,13 +150,13 @@ export default function ContactPage() {
                           value={formData.name}
                           onChange={handleChange}
                           placeholder="Your name"
-                          className="w-full pl-11 pr-5 py-3.5 rounded-2xl text-sm font-medium outline-none transition-all duration-300 focus:ring-4 focus:ring-[#5B4FE9]/10 shadow-[inset_4px_4px_8px_#b0b8cc,_inset_-4px_-4px_8px_#ffffff]"
-                          style={{ background: S.bg, color: S.fg, fontFamily: "'DM Sans', sans-serif" }}
+                          className="w-full pl-11 pr-5 py-3.5 rounded-2xl text-sm font-medium outline-none transition-all duration-300 focus:ring-4 focus:ring-[#5B4FE9]/10"
+                          style={{ background: S.bg, color: S.fg, fontFamily: "'DM Sans', sans-serif", boxShadow: S.inset }}
                         />
                       </div>
                     </div>
                     <div className="space-y-2">
-                      <label className="text-[10px] font-bold uppercase tracking-[0.15em] px-1 text-[#475569]" style={{ fontFamily: "'DM Sans', sans-serif" }}>Email</label>
+                      <label className="text-[10px] font-bold uppercase tracking-[0.15em] px-1" style={{ fontFamily: "'DM Sans', sans-serif", color: S.muted }}>Email</label>
                       <div className="relative group">
                         <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-[#A3B1C6] transition-colors group-focus-within:text-[#4A3FD8]" />
                         <input
@@ -171,7 +174,7 @@ export default function ContactPage() {
                   </div>
 
                   <div className="space-y-2">
-                    <label className="text-[10px] font-bold uppercase tracking-[0.15em] px-1 text-[#475569]" style={{ fontFamily: "'DM Sans', sans-serif" }}>Feedback Type</label>
+                    <label className="text-[10px] font-bold uppercase tracking-[0.15em] px-1" style={{ fontFamily: "'DM Sans', sans-serif", color: S.muted }}>Feedback Type</label>
                     <div className="flex gap-2">
                       {[
                         { id: 'Suggestion', icon: Lightbulb },
@@ -197,7 +200,7 @@ export default function ContactPage() {
                   </div>
 
                   <div className="space-y-2">
-                    <label className="text-[10px] font-bold uppercase tracking-[0.15em] px-1 text-[#475569]" style={{ fontFamily: "'DM Sans', sans-serif" }}>Subject</label>
+                    <label className="text-[10px] font-bold uppercase tracking-[0.15em] px-1" style={{ fontFamily: "'DM Sans', sans-serif", color: S.muted }}>Subject</label>
                     <input
                       required
                       type="text"
@@ -205,13 +208,13 @@ export default function ContactPage() {
                       value={formData.subject}
                       onChange={handleChange}
                       placeholder="Brief topic"
-                      className="w-full px-5 py-3.5 rounded-2xl text-sm font-medium outline-none transition-all duration-300 focus:ring-4 focus:ring-[#5B4FE9]/10 shadow-[inset_4px_4px_8px_#b0b8cc,_inset_-4px_-4px_8px_#ffffff]"
-                      style={{ background: S.bg, color: S.fg, fontFamily: "'DM Sans', sans-serif" }}
+                      className="w-full px-5 py-3.5 rounded-2xl text-sm font-medium outline-none transition-all duration-300 focus:ring-4 focus:ring-[#5B4FE9]/10"
+                      style={{ background: S.bg, color: S.fg, fontFamily: "'DM Sans', sans-serif", boxShadow: S.inset }}
                     />
                   </div>
 
                   <div className="space-y-2">
-                    <label className="text-[10px] font-bold uppercase tracking-[0.15em] px-1 text-[#475569]" style={{ fontFamily: "'DM Sans', sans-serif" }}>Message Details</label>
+                    <label className="text-[10px] font-bold uppercase tracking-[0.15em] px-1" style={{ fontFamily: "'DM Sans', sans-serif", color: S.muted }}>Message Details</label>
                     <textarea
                       required
                       name="message"
@@ -219,8 +222,8 @@ export default function ContactPage() {
                       onChange={handleChange}
                       placeholder="Describe in detail..."
                       rows={3}
-                      className="w-full px-5 py-3.5 rounded-2xl text-sm font-medium outline-none resize-none transition-all duration-300 focus:ring-4 focus:ring-[#5B4FE9]/10 shadow-[inset_4px_4px_8px_#b0b8cc,_inset_-4px_-4px_8px_#ffffff]"
-                      style={{ background: S.bg, color: S.fg, fontFamily: "'DM Sans', sans-serif" }}
+                      className="w-full px-5 py-3.5 rounded-2xl text-sm font-medium outline-none resize-none transition-all duration-300 focus:ring-4 focus:ring-[#5B4FE9]/10"
+                      style={{ background: S.bg, color: S.fg, fontFamily: "'DM Sans', sans-serif", boxShadow: S.inset }}
                     />
                   </div>
 

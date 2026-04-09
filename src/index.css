@@ -16,7 +16,50 @@
 @font-face { font-family: 'Plus Jakarta Sans'; font-weight: 700; font-style: normal; font-display: swap; src: url('/fonts/plus-jakarta-sans-v12-latin-700.woff2') format('woff2'); }
 @font-face { font-family: 'Plus Jakarta Sans'; font-weight: 800; font-style: normal; font-display: swap; src: url('/fonts/plus-jakarta-sans-v12-latin-800.woff2') format('woff2'); }
 
+/* ── Neumorphic Design Tokens ── */
+:root {
+  --neu-bg: #d6dae8;
+  --neu-fg: #1a1d2e;
+  --neu-muted: #475569;
+  --neu-accent: #5B4FE9;
+  --neu-accent-light: #8B84FF;
+  --neu-border: rgba(255, 255, 255, 0.4);
+  --neu-shadow-light: #ffffff;
+  --neu-shadow-dark: #b0b8cc;
+  --neu-shadow-extruded: 8px 8px 16px #b0b8cc, -8px -8px 16px #ffffff;
+  --neu-shadow-extruded-sm: 4px 4px 8px #b0b8cc, -4px -4px 8px #ffffff;
+  --neu-shadow-extruded-lg: 12px 12px 24px #b0b8cc, -12px -12px 24px #ffffff;
+  --neu-shadow-inset: inset 6px 6px 10px #b0b8cc, inset -6px -6px 10px #ffffff;
+  --neu-shadow-inset-sm: inset 3px 3px 6px #b0b8cc, inset -3px -3px 6px #ffffff;
+  --neu-shadow-inset-deep: inset 10px 10px 20px #b0b8cc, inset -10px -10px 20px #ffffff;
+  --neu-gradient-accent: linear-gradient(to right, #6C63FF, #A78BFA);
+  --neu-gradient-accent-text: #6C63FF;
+  --neu-scrollbar-track: #d6dae8;
+  --neu-scrollbar-thumb: rgba(163, 177, 198, 0.7);
+  --neu-scrollbar-thumb-hover: rgba(163, 177, 198, 0.9);
+}
 
+.dark {
+  --neu-bg: #1a1d2e;
+  --neu-fg: #e2e8f0;
+  --neu-muted: #94a3b8;
+  --neu-accent: #8B84FF;
+  --neu-accent-light: #a5a0ff;
+  --neu-border: rgba(255, 255, 255, 0.08);
+  --neu-shadow-light: #232740;
+  --neu-shadow-dark: #111324;
+  --neu-shadow-extruded: 8px 8px 16px #111324, -8px -8px 16px #232740;
+  --neu-shadow-extruded-sm: 4px 4px 8px #111324, -4px -4px 8px #232740;
+  --neu-shadow-extruded-lg: 12px 12px 24px #111324, -12px -12px 24px #232740;
+  --neu-shadow-inset: inset 6px 6px 10px #111324, inset -6px -6px 10px #232740;
+  --neu-shadow-inset-sm: inset 3px 3px 6px #111324, inset -3px -3px 6px #232740;
+  --neu-shadow-inset-deep: inset 10px 10px 20px #111324, inset -10px -10px 20px #232740;
+  --neu-gradient-accent: linear-gradient(to right, #8B84FF, #c4b5fd);
+  --neu-gradient-accent-text: #a5a0ff;
+  --neu-scrollbar-track: #1a1d2e;
+  --neu-scrollbar-thumb: rgba(100, 116, 139, 0.5);
+  --neu-scrollbar-thumb-hover: rgba(100, 116, 139, 0.7);
+}
 
 *,
 *::before,
@@ -29,14 +72,13 @@ html {
 }
 
 body {
-  background-color: #d6dae8;
-  color: #1a1d2e;
+  background-color: var(--neu-bg);
+  color: var(--neu-fg);
   font-family: 'DM Sans', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
-
-
 
 /* Custom scrollbar */
 ::-webkit-scrollbar {
@@ -45,22 +87,22 @@ body {
 }
 
 ::-webkit-scrollbar-track {
-  background: #d6dae8;
+  background: var(--neu-scrollbar-track);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: rgb(163, 177, 198, 0.7);
+  background: var(--neu-scrollbar-thumb);
   border-radius: 9999px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: rgb(163, 177, 198, 0.9);
+  background: var(--neu-scrollbar-thumb-hover);
 }
 
 /* Select option styling */
 select option {
-  background: #d6dae8;
-  color: #1a1d2e;
+  background: var(--neu-bg);
+  color: var(--neu-fg);
 }
 
 /* Line clamp utilities */
@@ -80,10 +122,6 @@ select option {
   overflow: hidden;
 }
 
-
-
-
-
 /* Glassmorphism sidebar */
 .glass-sidebar {
   background: rgba(214, 218, 232, 0.7) !important;
@@ -98,6 +136,12 @@ select option {
 }
 
 .no-scrollbar {
-  -ms-overflow-style: none;  /* IE and Edge */
-  scrollbar-width: none;  /* Firefox */
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* Animations */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
 }

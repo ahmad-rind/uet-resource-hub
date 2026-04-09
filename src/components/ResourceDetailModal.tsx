@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { ExternalLink, Copy, Flag, Check, BookOpen } from 'lucide-react';
 import { reportResource } from '../lib/supabase.js';
+import { useToast } from './Toast';
 
 interface Resource {
   id: string;
@@ -36,15 +37,14 @@ export default function ResourceDetailModal({ resource, onClose }: ResourceDetai
   const [copied, setCopied] = useState(false);
   const [reported, setReported] = useState(false);
   const overlayRef = useRef<HTMLDivElement>(null);
+  const { showToast } = useToast();
 
-  // Escape key to close
   useEffect(() => {
     const h = (e: KeyboardEvent) => { if (e.key === 'Escape') onClose(); };
     window.addEventListener('keydown', h);
     return () => window.removeEventListener('keydown', h);
   }, [onClose]);
 
-  // Prevent body scroll and preserve scrollbar width to prevent layout shift
   useEffect(() => {
     const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
     const originalOverflow = document.body.style.overflow;
@@ -62,6 +62,7 @@ export default function ResourceDetailModal({ resource, onClose }: ResourceDetai
   const handleCopy = async () => {
     try { await navigator.clipboard.writeText(resource.link); } catch { /* noop */ }
     setCopied(true);
+    showToast('Link copied to clipboard', 'success');
     setTimeout(() => setCopied(false), 2000);
   };
 
@@ -69,6 +70,7 @@ export default function ResourceDetailModal({ resource, onClose }: ResourceDetai
     if (reported) return;
     await reportResource(resource.id);
     setReported(true);
+    showToast('Resource reported — thank you', 'info');
   };
 
   return (
@@ -95,8 +97,8 @@ export default function ResourceDetailModal({ resource, onClose }: ResourceDetai
       <div
         className="w-full max-w-md rounded-2xl overflow-hidden relative"
         style={{ 
-          background: '#d6dae8',
-          boxShadow: '20px 20px 40px #b0b8cc, -20px -20px 40px #ffffff, 0 0 30px rgba(91, 79, 233, 0.15)',
+          background: 'var(--neu-bg)',
+          boxShadow: 'var(--neu-shadow-extruded-lg), 0 0 30px rgba(91, 79, 233, 0.15)',
           fontFamily: "'Plus Jakarta Sans', sans-serif",
           animation: 'modalContainerScale 0.2s ease-out forwards'
         }}
@@ -105,15 +107,15 @@ export default function ResourceDetailModal({ resource, onClose }: ResourceDetai
           {/* Header Section */}
           <header className="flex justify-between items-start gap-4">
             <div className="space-y-1 flex-1">
-              <h1 className="text-2xl font-extrabold text-[#1a1d2e] tracking-tight">
+              <h1 className="text-2xl font-extrabold tracking-tight" style={{ color: 'var(--neu-fg)' }}>
                 {resource.title}
               </h1>
               <div className="flex items-center gap-2">
-                <span className="text-xs font-bold text-[#4A3FD8]">
+                <span className="text-xs font-bold" style={{ color: 'var(--neu-accent)' }}>
                   {resource.courseCode}
                 </span>
-                <span className="w-1 h-1 bg-[#1a1d2e]/20 rounded-full"></span>
-                <span className="text-xs font-semibold text-[#1a1d2e]/60">
+                <span className="w-1 h-1 rounded-full" style={{ background: 'var(--neu-muted)', opacity: 0.3 }}></span>
+                <span className="text-xs font-semibold" style={{ color: 'var(--neu-muted)' }}>
                   {resource.courseName}
                 </span>
               </div>
@@ -121,18 +123,18 @@ export default function ResourceDetailModal({ resource, onClose }: ResourceDetai
             
             {/* Icon Badge */}
             <div 
-              className="flex-shrink-0 w-12 h-12 rounded-xl flex items-center justify-center text-[#4A3FD8] bg-[#d6dae8]"
-              style={{ boxShadow: '4px 4px 10px #b0b8cc, -4px -4px 10px #ffffff' }}
+              className="flex-shrink-0 w-12 h-12 rounded-xl flex items-center justify-center"
+              style={{ background: 'var(--neu-bg)', boxShadow: 'var(--neu-shadow-extruded-sm)', color: 'var(--neu-accent)' }}
             >
               <BookOpen className="w-7 h-7" />
             </div>
           </header>
 
-          <div className="h-[1px] w-full bg-[#1a1d2e]/10"></div>
+          <div className="h-[1px] w-full" style={{ background: 'var(--neu-border)' }}></div>
 
           {/* Body Section */}
           <div className="space-y-2">
-            <p className="text-sm leading-relaxed text-[#1a1d2e] opacity-80 font-medium">
+            <p className="text-sm leading-relaxed opacity-80 font-medium" style={{ color: 'var(--neu-fg)' }}>
               {resource.description || "No description provided."}
             </p>
           </div>
@@ -140,21 +142,21 @@ export default function ResourceDetailModal({ resource, onClose }: ResourceDetai
           {/* Info List */}
           <div className="space-y-1 pt-2">
             <div className="grid grid-cols-[110px_1fr] items-center py-2 px-1">
-              <span className="text-[10px] font-bold text-[#1a1d2e]/50 uppercase tracking-widest">Department</span>
-              <span className="text-sm font-bold text-[#1a1d2e] text-right">{resource.department.replace(/\s*\(BS[C]?\)$/i, '')}</span>
+              <span className="text-[10px] font-bold uppercase tracking-widest" style={{ color: 'var(--neu-muted)', opacity: 0.7 }}>Department</span>
+              <span className="text-sm font-bold text-right" style={{ color: 'var(--neu-fg)' }}>{resource.department.replace(/\s*\(BS[C]?\)$/i, '')}</span>
             </div>
             
             <div 
-              className="grid grid-cols-[110px_1fr] items-center py-3 px-4 -mx-3 rounded-xl bg-[#d6dae8]"
-              style={{ boxShadow: 'inset 4px 4px 10px #b0b8cc, inset -4px -4px 10px #ffffff' }}
+              className="grid grid-cols-[110px_1fr] items-center py-3 px-4 -mx-3 rounded-xl"
+              style={{ background: 'var(--neu-bg)', boxShadow: 'var(--neu-shadow-inset-sm)' }}
             >
-              <span className="text-[10px] font-bold text-[#1a1d2e]/50 uppercase tracking-widest">Contributor</span>
-              <span className="text-sm font-bold text-[#1a1d2e] text-right">{resource.uploadedBy || 'Anonymous'}</span>
+              <span className="text-[10px] font-bold uppercase tracking-widest" style={{ color: 'var(--neu-muted)', opacity: 0.7 }}>Contributor</span>
+              <span className="text-sm font-bold text-right" style={{ color: 'var(--neu-fg)' }}>{resource.uploadedBy || 'Anonymous'}</span>
             </div>
 
             <div className="grid grid-cols-[110px_1fr] items-center py-2 px-1">
-              <span className="text-[10px] font-bold text-[#454652]/60 uppercase tracking-widest">Date Added</span>
-              <span className="text-sm font-bold text-[#191c1e] text-right">{fmtDate(resource.uploadedAt)}</span>
+              <span className="text-[10px] font-bold uppercase tracking-widest" style={{ color: 'var(--neu-muted)', opacity: 0.7 }}>Date Added</span>
+              <span className="text-sm font-bold text-right" style={{ color: 'var(--neu-fg)' }}>{fmtDate(resource.uploadedAt)}</span>
             </div>
           </div>
 
@@ -165,7 +167,11 @@ export default function ResourceDetailModal({ resource, onClose }: ResourceDetai
                 href={resource.link}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex-grow h-14 flex items-center justify-center gap-2 bg-gradient-to-br from-[#5B4FE9] to-[#493fdf] text-white rounded-xl font-bold text-sm transition-all duration-300 hover:-translate-y-0.5 active:scale-95 shadow-lg shadow-indigo-200"
+                className="flex-grow h-14 flex items-center justify-center gap-2 text-white rounded-xl font-bold text-sm transition-all duration-300 hover:-translate-y-0.5 active:scale-95"
+                style={{
+                  background: 'var(--neu-accent)',
+                  boxShadow: 'var(--neu-shadow-extruded)',
+                }}
               >
                 <ExternalLink className="w-5 h-5" />
                 <span>Download</span>
@@ -173,15 +179,11 @@ export default function ResourceDetailModal({ resource, onClose }: ResourceDetai
 
               <button
                 onClick={handleCopy}
-                className="w-14 h-14 flex-shrink-0 flex items-center justify-center rounded-xl bg-[#d6dae8] text-[#475569] transition-all duration-300 hover:text-[#4A3FD8] group active:scale-95"
+                className="w-14 h-14 flex-shrink-0 flex items-center justify-center rounded-xl transition-all duration-300 active:scale-95"
                 style={{ 
-                  boxShadow: '4px 4px 10px #949db2, -4px -4px 10px #ffffff'
-                }}
-                onMouseOver={(e) => {
-                  e.currentTarget.style.boxShadow = 'inset 3px 3px 6px #949db2, inset -3px -3px 6px #ffffff';
-                }}
-                onMouseOut={(e) => {
-                  e.currentTarget.style.boxShadow = '4px 4px 10px #949db2, -4px -4px 10px #ffffff';
+                  background: 'var(--neu-bg)',
+                  boxShadow: 'var(--neu-shadow-extruded-sm)',
+                  color: 'var(--neu-muted)',
                 }}
                 title="Copy Link"
               >
@@ -191,15 +193,11 @@ export default function ResourceDetailModal({ resource, onClose }: ResourceDetai
               <button
                 onClick={handleReport}
                 disabled={reported}
-                className="w-14 h-14 flex-shrink-0 flex items-center justify-center rounded-xl bg-[#d6dae8] text-[#475569] transition-all duration-300 hover:text-[#4A3FD8] active:scale-95 disabled:opacity-50"
+                className="w-14 h-14 flex-shrink-0 flex items-center justify-center rounded-xl transition-all duration-300 active:scale-95 disabled:opacity-50"
                 style={{ 
-                  boxShadow: '4px 4px 10px #949db2, -4px -4px 10px #ffffff'
-                }}
-                onMouseOver={(e) => {
-                  if (!reported) e.currentTarget.style.boxShadow = 'inset 3px 3px 6px #949db2, inset -3px -3px 6px #ffffff';
-                }}
-                onMouseOut={(e) => {
-                  if (!reported) e.currentTarget.style.boxShadow = '4px 4px 10px #949db2, -4px -4px 10px #ffffff';
+                  background: 'var(--neu-bg)',
+                  boxShadow: 'var(--neu-shadow-extruded-sm)',
+                  color: 'var(--neu-muted)',
                 }}
                 title="Report"
               >
