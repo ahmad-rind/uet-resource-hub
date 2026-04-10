@@ -3,7 +3,8 @@ import {
   Github,
   Instagram,
   Mail,
-  MessageSquare
+  MessageSquare,
+  Heart
 } from 'lucide-react';
 
 export default function Footer() {
@@ -63,9 +64,10 @@ export default function Footer() {
         }
       `}</style>
 
+      {/* Main 3-column grid */}
       <div className="footer-grid">
         {/* Brand & Social Section */}
-        <div className="footer-col relative lg:pr-8 flex flex-col justify-center">
+        <div className="footer-col relative lg:pl-10 lg:pr-8 flex flex-col justify-center">
           <Link to="/" className="flex items-center gap-3 mb-4 group focus:outline-none focus:ring-2 focus:ring-[#5B4FE9] rounded-xl shrink-0 w-max">
             <div
               className="w-11 h-11 rounded-2xl flex items-center justify-center transition-all duration-300 group-hover:-translate-y-0.5 p-2 shrink-0"
@@ -109,10 +111,6 @@ export default function Footer() {
               </a>
             ))}
           </div>
-          
-          <p className="text-[10px] font-medium mt-5 md:mt-8 ml-1" style={{ fontFamily: "'DM Sans', sans-serif", color: 'var(--neu-muted)' }}>
-            © {currentYear} UET Taxila Resource Hub
-          </p>
         </div>
 
         {/* Quick Explore Section */}
@@ -144,41 +142,56 @@ export default function Footer() {
         </div>
 
         {/* Contact/CTA Section */}
-        <div className="footer-col relative lg:pl-8 flex flex-col justify-center">
-          <h4 className="font-bold text-[11px] uppercase tracking-[0.2em] mb-4" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: 'var(--neu-fg)' }}>
-            Join the Mission
-          </h4>
-          <div
-            className="p-[14px] rounded-[18px] flex flex-col gap-4"
-            style={{ background: 'var(--neu-bg)', boxShadow: 'var(--neu-shadow-inset)' }}
-          >
-            <div className="flex items-start gap-3">
-              <div className="w-8 h-8 rounded-[10px] flex items-center justify-center shrink-0"
-                style={{ background: 'var(--neu-bg)', boxShadow: 'var(--neu-shadow-extruded-sm)' }}>
-                <MessageSquare className="w-4 h-4" style={{ color: 'var(--neu-accent)' }} />
-              </div>
-              <p className="text-xs leading-snug font-medium" style={{ color: 'var(--neu-muted)' }}>
-                Contribute your knowledge or get technical support directly from our student team.
-              </p>
-            </div>
-
-            <Link
-              to="/contact"
-              className="group flex items-center justify-center gap-2 px-6 py-3 rounded-[12px] text-white text-xs font-bold transition-all duration-300 hover:scale-[1.02] active:scale-95 focus:outline-none focus:ring-4 focus:ring-[#5B4FE9]/20"
-              style={{
-                background: 'linear-gradient(145deg, #746cff, #6159e6)',
-                boxShadow: '8px 8px 20px rgba(108, 99, 255, 0.25)',
-                fontFamily: "'DM Sans', sans-serif"
-              }}
+        <div className="footer-col relative lg:pl-10 flex flex-col justify-center">
+          <div className="w-full max-w-[280px] lg:ml-10">
+            <h4 className="font-bold text-[11px] uppercase tracking-[0.2em] mb-4" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: 'var(--neu-fg)' }}>
+              Join the Mission
+            </h4>
+            <div
+              className="w-full p-[16px] rounded-[20px] flex flex-col gap-3 relative transition-all duration-300"
+              style={{ background: 'var(--neu-bg)', boxShadow: 'var(--neu-shadow-inset)' }}
             >
-              <span className="relative flex h-1.5 w-1.5">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-75"></span>
-                <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-white"></span>
-              </span>
-              Get in Touch
-            </Link>
+              <div className="flex items-start gap-3">
+                <div className="w-8 h-8 rounded-[10px] flex items-center justify-center shrink-0 transition-transform duration-300 hover:-translate-y-0.5"
+                  style={{ background: 'var(--neu-bg)', boxShadow: 'var(--neu-shadow-extruded-sm)' }}>
+                  <MessageSquare className="w-4 h-4" style={{ color: 'var(--neu-accent)' }} />
+                </div>
+                <p className="text-[12px] leading-relaxed font-medium mt-0.5" style={{ color: 'var(--neu-muted)' }}>
+                  Contribute your knowledge or get technical support directly from our student team.
+                </p>
+              </div>
+              
+              <Link
+                to="/contact"
+                className="group self-end inline-flex items-center gap-2 px-4 py-2 mt-1 rounded-[10px] text-white text-[11px] font-bold transition-all duration-300 hover:-translate-y-0.5 active:translate-y-0"
+                style={{
+                  background: 'var(--neu-accent)',
+                  boxShadow: '0 4px 10px rgba(91, 79, 233, 0.25)',
+                  fontFamily: "'DM Sans', sans-serif"
+                }}
+              >
+                <span className="relative flex h-1.5 w-1.5">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-75"></span>
+                  <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-white"></span>
+                </span>
+                Hit Us Up
+              </Link>
+            </div>
           </div>
         </div>
+      </div>
+
+      {/* Bottom Credit Row */}
+      <div 
+        className="mt-6 pt-4 flex flex-col sm:flex-row items-center justify-between gap-2"
+        style={{ borderTop: '1px solid var(--neu-border)' }}
+      >
+        <p className="text-[10px] font-medium" style={{ fontFamily: "'DM Sans', sans-serif", color: 'var(--neu-muted)' }}>
+          © {currentYear} UET Taxila Resource Hub
+        </p>
+        <p className="text-[10px] font-medium flex items-center gap-1" style={{ fontFamily: "'DM Sans', sans-serif", color: 'var(--neu-muted)' }}>
+          Made with <Heart className="w-3 h-3 fill-red-400 text-red-400" /> by Ahmad Rind — Computer Engineer at UET
+        </p>
       </div>
     </footer>
   );
