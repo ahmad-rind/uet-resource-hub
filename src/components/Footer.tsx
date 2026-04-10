@@ -29,12 +29,6 @@ export default function Footer() {
           from { opacity: 0; transform: translateY(28px); }
           to   { opacity: 1; transform: translateY(0); }
         }
-        .footer-col + .footer-col::before {
-          content: '';
-          position: absolute;
-          left: 0; top: 8%; height: 84%; width: 1px;
-          background: linear-gradient(to bottom, transparent, var(--neu-shadow-dark) 30%, var(--neu-shadow-dark) 70%, transparent);
-        }
         .social-btn {
           width: 36px;
           height: 36px;
@@ -60,6 +54,12 @@ export default function Footer() {
           .footer-grid {
             grid-template-columns: 1.7fr 1fr 1.5fr;
             gap: 0;
+          }
+          .footer-col + .footer-col::before {
+            content: '';
+            position: absolute;
+            left: 0; top: 8%; height: 84%; width: 1px;
+            background: linear-gradient(to bottom, transparent, var(--neu-shadow-dark) 30%, var(--neu-shadow-dark) 70%, transparent);
           }
         }
       `}</style>
