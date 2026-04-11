@@ -9,7 +9,7 @@ interface ThemeContextValue {
 
 const ThemeContext = createContext<ThemeContextValue>({
   theme: 'light',
-  toggleTheme: () => {},
+  toggleTheme: () => { },
 });
 
 export function useTheme() {
@@ -17,7 +17,7 @@ export function useTheme() {
 }
 
 const STORAGE_KEY = 'uet_theme';
-const TRANSITION_DURATION = 600; // ms — matches CSS transition duration
+const TRANSITION_DURATION = 300; // ms — slightly longer than CSS to ensure cleanup
 
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
   const transitionTimer = useRef<ReturnType<typeof setTimeout>>();
