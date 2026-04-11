@@ -189,8 +189,8 @@ export default function Footer() {
         <p className="text-[10px] font-medium" style={{ fontFamily: "'DM Sans', sans-serif", color: 'var(--neu-muted)' }}>
           © {currentYear} UET Taxila Resource Hub
         </p>
-        <p className="text-[10px] font-medium flex items-center gap-1" style={{ fontFamily: "'DM Sans', sans-serif", color: 'var(--neu-muted)' }}>
-          Made with <Heart className="w-3 h-3 fill-red-400 text-red-400" /> by Ahmad Rind — Computer Engineer at UET
+        <p className="text-[10px] font-medium text-center" style={{ fontFamily: "'DM Sans', sans-serif", color: 'var(--neu-muted)' }}>
+          Made with <Heart className="w-3 h-3 fill-red-400 text-red-400 inline -mt-0.5 mx-0.5" /> by Ahmad Rind — Computer Engineer at UET
         </p>
       </div>
     </footer>
