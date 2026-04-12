@@ -189,11 +189,11 @@ export default function Navbar() {
               <div className="fixed inset-0 z-[100] md:hidden flex justify-center items-start p-4 bg-black/40 backdrop-blur-sm sm:items-center">
                 <style>{`
                   @keyframes scaleIn {
-                    from { opacity: 0; transform: scale(0.95) translateY(-10px); }
+                    from { opacity: 0; transform: scale(0.97) translateY(-8px); }
                     to { opacity: 1; transform: scale(1) translateY(0); }
                   }
                   .mobile-menu-modal {
-                    animation: scaleIn 0.2s cubic-bezier(0.23, 1, 0.32, 1) forwards;
+                    animation: scaleIn 0.25s cubic-bezier(0.32, 0.72, 0, 1) forwards;
                   }
                 `}</style>
                 {/* Backdrop Click Handler Area */}

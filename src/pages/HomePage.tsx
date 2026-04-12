@@ -168,7 +168,7 @@ export default function HomePage() {
                   <Link
                     key={dept}
                     to={`/browse?department=${encodeURIComponent(dept)}`}
-                    className="rounded-[20px] p-4 flex items-center gap-4 transition-all duration-150 hover:-translate-y-1 hover:scale-[1.02] group focus:outline-none focus:ring-2 focus:ring-[#5B4FE9]"
+                    className="rounded-[20px] p-4 flex items-center gap-4 transition-transform duration-200 ease-[cubic-bezier(0.22,0.61,0.36,1)] hover:-translate-y-1 hover:scale-[1.01] group focus:outline-none focus:ring-2 focus:ring-[#5B4FE9]"
                     style={{ background: 'var(--neu-bg)', boxShadow: 'var(--neu-shadow-extruded-sm)' }}
                   >
                     <div
@@ -186,7 +186,7 @@ export default function HomePage() {
                         {dept.replace(/\s*\(BS[C]?\)$/i, '')}
                       </h3>
                     </div>
-                    <div className="shrink-0 opacity-0 group-hover:opacity-100 transition-all duration-150 -translate-x-2 group-hover:translate-x-0">
+                    <div className="shrink-0 opacity-0 group-hover:opacity-100 transition-[opacity,transform] duration-200 ease-out -translate-x-2 group-hover:translate-x-0">
                       <ArrowRight className="w-4 h-4" style={{ color: 'var(--neu-accent)' }} />
                     </div>
                   </Link>
@@ -273,7 +273,7 @@ export default function HomePage() {
             </p>
             <Link
               to="/submit"
-              className="inline-flex items-center gap-2 px-9 py-4.5 rounded-2xl text-white font-bold text-sm transition-all duration-150 hover:-translate-y-1 hover:shadow-[0_0_25px_rgba(91,79,233,0.5)] active:translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-[#5B4FE9]"
+              className="inline-flex items-center gap-2 px-9 py-4.5 rounded-2xl text-white font-bold text-sm transition-transform duration-200 ease-[cubic-bezier(0.22,0.61,0.36,1)] hover:-translate-y-1 hover:shadow-[0_0_25px_rgba(91,79,233,0.5)] active:translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-[#5B4FE9]"
               style={{ background: 'var(--neu-btn)', boxShadow: 'var(--neu-shadow-extruded)', fontFamily: "'DM Sans', sans-serif" }}
             >
               Submit a Resource <ArrowRight className="w-4 h-4" />

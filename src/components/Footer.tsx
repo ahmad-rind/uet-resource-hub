@@ -21,12 +21,12 @@ export default function Footer() {
         background: 'var(--neu-bg)',
         boxShadow: 'var(--neu-shadow-extruded-lg)',
         border: '1px solid var(--neu-border)',
-        animation: 'footerSlideUp 0.35s 0.1s cubic-bezier(0.22, 0.8, 0.36, 1) both'
+        animation: 'footerSlideUp 0.3s 0.08s cubic-bezier(0.22, 0.61, 0.36, 1) both'
       }}
     >
       <style>{`
         @keyframes footerSlideUp {
-          from { opacity: 0; transform: translateY(28px); }
+          from { opacity: 0; transform: translateY(16px); }
           to   { opacity: 1; transform: translateY(0); }
         }
         .social-btn {

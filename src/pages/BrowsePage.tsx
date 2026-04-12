@@ -310,7 +310,7 @@ export default function BrowsePage() {
                 {filterActive && (
                   <button
                     onClick={() => { setSelectedDept(''); setSelectedSemester(''); setSelectedCourse(''); setResources([]); setSearchParams(new URLSearchParams()); }}
-                    className="w-full py-3.5 rounded-2xl text-[13px] font-bold transition-all duration-150 hover:-translate-y-0.5"
+                    className="w-full py-3.5 rounded-2xl text-[13px] font-bold transition-transform duration-200 ease-out hover:-translate-y-0.5"
                     style={{ boxShadow: 'var(--neu-shadow-extruded)', fontFamily: "'DM Sans', sans-serif", color: 'var(--neu-muted)', background: 'var(--neu-bg)' }}
                   >
                     Clear Filters
@@ -401,7 +401,7 @@ export default function BrowsePage() {
                 </p>
                 <Link
                   to={`/submit?department=${encodeURIComponent(selectedDept)}&semester=${selectedSemester}&course=${selectedCourse}`}
-                  className="inline-flex items-center gap-3 px-10 py-4 rounded-[20px] text-white text-[15px] font-bold transition-all duration-150 hover:-translate-y-1"
+                  className="inline-flex items-center gap-3 px-10 py-4 rounded-[20px] text-white text-[15px] font-bold transition-transform duration-200 ease-out hover:-translate-y-1"
                   style={{ background: 'var(--neu-btn)', boxShadow: 'var(--neu-shadow-extruded)', fontFamily: "'DM Sans', sans-serif" }}
                 >
                   <Upload className="w-5 h-5" />

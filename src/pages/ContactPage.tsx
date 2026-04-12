@@ -130,7 +130,7 @@ export default function ContactPage() {
                   <p className="mb-10 text-base" style={{ fontFamily: "'DM Sans', sans-serif", color: S.muted }}>Message received. We'll get back to you soon.</p>
                   <button 
                     onClick={() => setStatus('idle')}
-                    className="px-10 py-4 rounded-2xl text-white font-bold text-[15px] transition-all duration-150 hover:-translate-y-1 active:scale-95"
+                    className="px-10 py-4 rounded-2xl text-white font-bold text-[15px] transition-transform duration-200 ease-out hover:-translate-y-1 active:scale-95"
                     style={{ background: S.accent, boxShadow: '8px 8px 20px rgba(91, 79, 233, 0.3)', fontFamily: "'DM Sans', sans-serif" }}
                   >
                     Send Another
