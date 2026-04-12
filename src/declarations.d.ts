@@ -104,3 +104,14 @@ declare module '*/courses.js' {
   export const resourceTypes: string[];
   export const resourceTypeBadgeColors: Record<string, { bg: string; text: string }>;
 }
+
+// ── View Transition API (for animated theme toggle) ───────────────────────────
+interface ViewTransition {
+  finished: Promise<void>;
+  ready: Promise<void>;
+  updateCallbackDone: Promise<void>;
+}
+
+interface Document {
+  startViewTransition(callback: () => void): ViewTransition;
+}

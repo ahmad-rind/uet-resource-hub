@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Menu, X, Search, ShieldCheck, Sun, Moon } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { useTheme } from './ThemeContext';
 
 export default function Navbar() {
@@ -9,6 +10,7 @@ export default function Navbar() {
   const [isSearchExpanded, setIsSearchExpanded] = useState(false);
   const searchRef = useRef<HTMLFormElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
+  const themeToggleRef = useRef<HTMLButtonElement>(null);
   const location = useLocation();
   const navigate = useNavigate();
   const { theme, toggleTheme } = useTheme();
@@ -151,15 +153,37 @@ export default function Navbar() {
 
                 {/* Dark Mode Toggle (Desktop) */}
                 <button
-                  onClick={toggleTheme}
+                  ref={themeToggleRef}
+                  onClick={() => toggleTheme(themeToggleRef)}
                   title={theme === 'dark' ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
-                  className="hidden md:flex w-11 h-11 items-center justify-center rounded-2xl transition-all duration-150 hover:-translate-y-0.5 active:translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-[#5B4FE9] group"
+                  className="hidden md:flex w-11 h-11 items-center justify-center rounded-2xl transition-transform duration-200 ease-out hover:-translate-y-0.5 active:translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-[#5B4FE9] group"
                   style={{ boxShadow: 'var(--neu-shadow-extruded-sm)', background: 'var(--neu-bg)' }}
                 >
-                  {theme === 'dark'
-                    ? <Sun className="w-4 h-4 group-hover:text-yellow-400 transition-colors duration-150" style={{ color: 'var(--neu-muted)' }} />
-                    : <Moon className="w-4 h-4 group-hover:text-[#5B4FE9] transition-colors duration-150" style={{ color: 'var(--neu-muted)' }} />
-                  }
+                  <AnimatePresence mode="wait" initial={false}>
+                    {theme === 'dark' ? (
+                      <motion.span
+                        key="sun"
+                        initial={{ opacity: 0, scale: 0.5, rotate: 25 }}
+                        animate={{ opacity: 1, scale: 1, rotate: 0 }}
+                        exit={{ opacity: 0, scale: 0.5 }}
+                        transition={{ duration: 0.25 }}
+                        className="flex items-center justify-center"
+                      >
+                        <Sun className="w-4 h-4 group-hover:text-yellow-400 transition-colors duration-150" style={{ color: 'var(--neu-muted)' }} />
+                      </motion.span>
+                    ) : (
+                      <motion.span
+                        key="moon"
+                        initial={{ opacity: 0, scale: 0.5, rotate: -25 }}
+                        animate={{ opacity: 1, scale: 1, rotate: 0 }}
+                        exit={{ opacity: 0, scale: 0.5 }}
+                        transition={{ duration: 0.25 }}
+                        className="flex items-center justify-center"
+                      >
+                        <Moon className="w-4 h-4 group-hover:text-[#5B4FE9] transition-colors duration-150" style={{ color: 'var(--neu-muted)' }} />
+                      </motion.span>
+                    )}
+                  </AnimatePresence>
                 </button>
 
                 {/* Admin Panel Button (Desktop) */}
@@ -255,7 +279,17 @@ export default function Navbar() {
                        style={{ fontFamily: "'DM Sans', sans-serif", background: 'var(--neu-bg)', color: 'var(--neu-fg)', boxShadow: 'var(--neu-shadow-extruded-sm)' }}
                      >
                         <div className="w-8 h-8 rounded-xl flex items-center justify-center shrink-0" style={{ boxShadow: 'var(--neu-shadow-inset-sm)' }}>
-                           {theme === 'dark' ? <Sun className="w-4 h-4 text-yellow-400" /> : <Moon className="w-4 h-4" style={{ color: 'var(--neu-accent)' }} />}
+                           <AnimatePresence mode="wait" initial={false}>
+                             {theme === 'dark' ? (
+                               <motion.span key="m-sun" initial={{ opacity: 0, scale: 0.5, rotate: 25 }} animate={{ opacity: 1, scale: 1, rotate: 0 }} exit={{ opacity: 0 }} transition={{ duration: 0.2 }} className="flex">
+                                 <Sun className="w-4 h-4 text-yellow-400" />
+                               </motion.span>
+                             ) : (
+                               <motion.span key="m-moon" initial={{ opacity: 0, scale: 0.5, rotate: -25 }} animate={{ opacity: 1, scale: 1, rotate: 0 }} exit={{ opacity: 0 }} transition={{ duration: 0.2 }} className="flex">
+                                 <Moon className="w-4 h-4" style={{ color: 'var(--neu-accent)' }} />
+                               </motion.span>
+                             )}
+                           </AnimatePresence>
                         </div>
                         {theme === 'dark' ? 'Light Mode' : 'Dark Mode'}
                      </button>
