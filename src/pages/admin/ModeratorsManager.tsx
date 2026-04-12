@@ -9,6 +9,13 @@ import {
   ShieldCheck,
   AlertCircle
 } from 'lucide-react';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '../../components/ui/interfaces-select';
 import { adminGetModerators, adminCreateModerator, adminDeleteModerator, adminGetDepartments } from '../../lib/supabase.js';
 
 const S = {
@@ -159,17 +166,25 @@ export default function ModeratorsManager() {
             </div>
             <div className="space-y-2">
               <label className="text-xs font-bold uppercase tracking-widest px-1" style={{ color: S.muted }}>Department</label>
-              <select 
-                value={newDept} 
-                onChange={e => setNewDept(e.target.value)}
-                className="w-full px-4 py-2.5 rounded-xl text-sm outline-none"
-                style={{ background: S.bg, boxShadow: S.insetDeep, color: S.fg }}
+              <Select
+                value={newDept}
+                onValueChange={val => setNewDept(val)}
               >
-                <option value="">Select Department</option>
-                {departments.map(d => (
-                  <option key={d.id} value={d.name}>{d.name}</option>
-                ))}
-              </select>
+                <SelectTrigger 
+                  className="w-full px-4 py-2.5 rounded-xl text-sm outline-none border-none h-auto focus:ring-2 focus:ring-[#5B4FE9]/20"
+                  style={{ background: S.bg, boxShadow: S.insetDeep, color: S.fg }}
+                >
+                  <SelectValue placeholder="Select Department" />
+                </SelectTrigger>
+                <SelectContent
+                  style={{ background: S.bg, color: S.fg, boxShadow: S.extruded, border: '1px solid #b0b8cc', borderRadius: '16px' }}
+                >
+                  <SelectItem value="all" className="rounded-xl focus:bg-[#5B4FE9] focus:text-white cursor-pointer">Select Department</SelectItem>
+                  {departments.map(d => (
+                    <SelectItem key={d.id} value={d.name} className="rounded-xl focus:bg-[#5B4FE9] focus:text-white cursor-pointer">{d.name}</SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
             </div>
             <div className="flex items-end">
               <button 

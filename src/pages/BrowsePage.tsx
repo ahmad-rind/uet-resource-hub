@@ -1,6 +1,13 @@
 import { useState, useEffect } from 'react';
 import { useSearchParams, Link } from 'react-router-dom';
-import { Filter, ChevronDown, Upload, Loader, Search, SearchX, Sparkles } from 'lucide-react';
+import { Filter, Upload, Loader, Search, SearchX, Sparkles } from 'lucide-react';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '../components/ui/interfaces-select';
 import { getResources, getRecentResources, getLiveCoursesData } from '../lib/supabase.js';
 import { departments as staticDepartments, departmentList as staticDepartmentList } from '../data/courses.js';
 import ResourceCard from '../components/ResourceCard.js';
@@ -233,23 +240,36 @@ export default function BrowsePage() {
                     Department
                   </label>
                   <div className="relative">
-                    <select
+                    <Select
                       value={selectedDept}
-                      onChange={e => handleDeptChange(e.target.value)}
-                      className="w-full appearance-none px-4 py-3.5 rounded-2xl text-[13px] font-medium outline-none focus:ring-2 focus:ring-[#5B4FE9]/20 transition-all duration-150 cursor-pointer"
-                      style={{
-                        background: 'var(--neu-bg)',
-                        color: 'var(--neu-fg)',
-                        boxShadow: 'var(--neu-shadow-inset)',
-                        fontFamily: "'DM Sans', sans-serif"
-                      }}
+                      onValueChange={val => handleDeptChange(val === 'all' ? '' : val)}
                     >
-                      <option value="">Select Department</option>
-                      {departmentList.map((dept: string) => (
-                        <option key={dept} value={dept}>{dept.replace(/\s*\(BS[C]?\)$/i, '')}</option>
-                      ))}
-                    </select>
-                    <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 pointer-events-none" style={{ color: 'var(--neu-muted)' }} />
+                      <SelectTrigger 
+                        className="w-full px-4 py-3.5 rounded-2xl text-[13px] font-medium outline-none border-none h-auto focus:ring-2 focus:ring-[#5B4FE9]/20 transition-all duration-150"
+                        style={{
+                          background: 'var(--neu-bg)',
+                          color: 'var(--neu-fg)',
+                          boxShadow: 'var(--neu-shadow-inset)',
+                          fontFamily: "'DM Sans', sans-serif"
+                        }}
+                      >
+                        <SelectValue placeholder="Select Department" />
+                      </SelectTrigger>
+                      <SelectContent
+                        style={{ background: 'var(--neu-bg)', color: 'var(--neu-fg)', boxShadow: 'var(--neu-shadow-extruded)', border: '1px solid var(--neu-border)', borderRadius: '16px' }}
+                      >
+                        <SelectItem value="all" className="rounded-xl focus:bg-[var(--neu-accent)] focus:text-white transition-colors cursor-pointer data-[state=checked]:bg-[var(--neu-bg)] data-[state=checked]:text-[var(--neu-accent)]">
+                          Select Department
+                        </SelectItem>
+                        {departmentList.map((dept: string) => (
+                          <SelectItem key={dept} value={dept}
+                            className="rounded-xl focus:bg-[var(--neu-accent)] focus:text-white transition-colors cursor-pointer data-[state=checked]:bg-[var(--neu-bg)] data-[state=checked]:text-[var(--neu-accent)]"
+                          >
+                            {dept.replace(/\s*\(BS[C]?\)$/i, '')}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
                   </div>
                 </div>
 
@@ -259,24 +279,37 @@ export default function BrowsePage() {
                     Semester
                   </label>
                   <div className="relative">
-                    <select
+                    <Select
                       value={selectedSemester}
-                      onChange={e => handleSemesterChange(e.target.value)}
+                      onValueChange={val => handleSemesterChange(val === 'all' ? '' : val)}
                       disabled={!selectedDept}
-                      className="w-full appearance-none px-4 py-3.5 rounded-2xl text-[13px] font-medium outline-none focus:ring-2 focus:ring-[#5B4FE9]/20 transition-all duration-150 cursor-pointer disabled:opacity-40 disabled:grayscale"
-                      style={{
-                        background: 'var(--neu-bg)',
-                        color: 'var(--neu-fg)',
-                        boxShadow: 'var(--neu-shadow-inset)',
-                        fontFamily: "'DM Sans', sans-serif"
-                      }}
                     >
-                      <option value="">All Semesters</option>
-                      {semesterOptions.map((sem: string) => (
-                        <option key={sem} value={sem}>Semester {sem}</option>
-                      ))}
-                    </select>
-                    <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 pointer-events-none" style={{ color: 'var(--neu-muted)' }} />
+                      <SelectTrigger 
+                        className="w-full px-4 py-3.5 rounded-2xl text-[13px] font-medium outline-none border-none h-auto focus:ring-2 focus:ring-[#5B4FE9]/20 transition-all duration-150 disabled:opacity-40 disabled:grayscale"
+                        style={{
+                          background: 'var(--neu-bg)',
+                          color: 'var(--neu-fg)',
+                          boxShadow: 'var(--neu-shadow-inset)',
+                          fontFamily: "'DM Sans', sans-serif"
+                        }}
+                      >
+                        <SelectValue placeholder="All Semesters" />
+                      </SelectTrigger>
+                      <SelectContent
+                        style={{ background: 'var(--neu-bg)', color: 'var(--neu-fg)', boxShadow: 'var(--neu-shadow-extruded)', border: '1px solid var(--neu-border)', borderRadius: '16px' }}
+                      >
+                        <SelectItem value="all" className="rounded-xl focus:bg-[var(--neu-accent)] focus:text-white transition-colors cursor-pointer data-[state=checked]:bg-[var(--neu-bg)] data-[state=checked]:text-[var(--neu-accent)]">
+                          All Semesters
+                        </SelectItem>
+                        {semesterOptions.map((sem: string) => (
+                          <SelectItem key={sem} value={sem}
+                            className="rounded-xl focus:bg-[var(--neu-accent)] focus:text-white transition-colors cursor-pointer data-[state=checked]:bg-[var(--neu-bg)] data-[state=checked]:text-[var(--neu-accent)]"
+                          >
+                            Semester {sem}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
                   </div>
                 </div>
 
@@ -286,24 +319,37 @@ export default function BrowsePage() {
                     Course Reference
                   </label>
                   <div className="relative">
-                    <select
+                    <Select
                       value={selectedCourse}
-                      onChange={e => handleCourseChange(e.target.value)}
+                      onValueChange={val => handleCourseChange(val === 'all' ? '' : val)}
                       disabled={!selectedSemester}
-                      className="w-full appearance-none px-4 py-3.5 rounded-2xl text-[13px] font-medium outline-none focus:ring-2 focus:ring-[#5B4FE9]/20 transition-all duration-150 cursor-pointer disabled:opacity-40 disabled:grayscale"
-                      style={{
-                        background: 'var(--neu-bg)',
-                        color: 'var(--neu-fg)',
-                        boxShadow: 'var(--neu-shadow-inset)',
-                        fontFamily: "'DM Sans', sans-serif"
-                      }}
                     >
-                      <option value="">All Courses</option>
-                      {courseOptions.map((c: any) => (
-                        <option key={c.code} value={c.code}>{c.code} — {c.name}</option>
-                      ))}
-                    </select>
-                    <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 pointer-events-none" style={{ color: 'var(--neu-muted)' }} />
+                      <SelectTrigger 
+                        className="w-full px-4 py-3.5 rounded-2xl text-[13px] font-medium outline-none border-none h-auto focus:ring-2 focus:ring-[#5B4FE9]/20 transition-all duration-150 disabled:opacity-40 disabled:grayscale"
+                        style={{
+                          background: 'var(--neu-bg)',
+                          color: 'var(--neu-fg)',
+                          boxShadow: 'var(--neu-shadow-inset)',
+                          fontFamily: "'DM Sans', sans-serif"
+                        }}
+                      >
+                        <SelectValue placeholder="All Courses" />
+                      </SelectTrigger>
+                      <SelectContent
+                        style={{ background: 'var(--neu-bg)', color: 'var(--neu-fg)', boxShadow: 'var(--neu-shadow-extruded)', border: '1px solid var(--neu-border)', borderRadius: '16px' }}
+                      >
+                        <SelectItem value="all" className="rounded-xl focus:bg-[var(--neu-accent)] focus:text-white transition-colors cursor-pointer data-[state=checked]:bg-[var(--neu-bg)] data-[state=checked]:text-[var(--neu-accent)]">
+                          All Courses
+                        </SelectItem>
+                        {courseOptions.map((c: any) => (
+                          <SelectItem key={c.code} value={c.code}
+                            className="rounded-xl focus:bg-[var(--neu-accent)] focus:text-white transition-colors cursor-pointer data-[state=checked]:bg-[var(--neu-bg)] data-[state=checked]:text-[var(--neu-accent)]"
+                          >
+                            {c.code} — {c.name}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
                   </div>
                 </div>
 

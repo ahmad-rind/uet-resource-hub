@@ -8,6 +8,13 @@ import {
   Bell, ArrowUpRight, Layers, Copy, Pencil,
   FolderTree, ChevronDown, Home, Menu, PartyPopper, Inbox, ShieldCheck
 } from 'lucide-react';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '../../components/ui/interfaces-select';
 import { resourceTypeBadgeColors, resourceTypes } from '../../data/courses.js';
 import {
   adminLogout,
@@ -403,17 +410,28 @@ function EditResourceModal({ resource, onClose, onSave }: {
           <div>
             <label className="block text-[9px] font-extrabold uppercase tracking-widest text-[#4A3FD8] mb-1.5">Resource Type</label>
             <div className="relative group">
-              <select 
-                value={form.type} 
-                onChange={e => setForm(f => ({ ...f, type: e.target.value }))}
-                className="w-full px-4 py-2.5 rounded-2xl text-[12px] font-medium appearance-none outline-none transition-all duration-300 focus:ring-2 focus:ring-[#5B4FE9]/20 cursor-pointer"
-                style={{ background: S.bg, boxShadow: S.insetDeep, color: S.fg }}
+              <Select
+                value={form.type}
+                onValueChange={val => setForm(f => ({ ...f, type: val }))}
               >
-                {(resourceTypes as string[]).map(t => (
-                  <option key={t} value={t}>{t}</option>
-                ))}
-              </select>
-              <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 text-[#475569] pointer-events-none transition-transform group-focus-within:rotate-180" />
+                <SelectTrigger 
+                  className="w-full px-4 py-2.5 rounded-2xl text-[12px] font-medium outline-none border-none h-auto transition-all duration-300 focus:ring-2 focus:ring-[#5B4FE9]/20"
+                  style={{ background: S.bg, boxShadow: S.insetDeep, color: S.fg }}
+                >
+                  <SelectValue placeholder="Resource Type" />
+                </SelectTrigger>
+                <SelectContent
+                  style={{ background: S.bg, color: S.fg, boxShadow: S.extruded, border: '1px solid #b0b8cc', borderRadius: '16px' }}
+                >
+                  {(resourceTypes as string[]).map(t => (
+                    <SelectItem key={t} value={t}
+                      className="rounded-xl focus:bg-[#5B4FE9] focus:text-white transition-colors cursor-pointer data-[state=checked]:bg-[var(--neu-bg)] data-[state=checked]:text-[#5B4FE9]"
+                    >
+                      {t}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
             </div>
           </div>
 

@@ -1,5 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { UploadCloud, CheckCircle, AlertTriangle, ChevronDown, FileJson, Copy, Check } from 'lucide-react';
+import { UploadCloud, CheckCircle, AlertTriangle, FileJson, Copy, Check } from 'lucide-react';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '../../components/ui/interfaces-select';
 import { adminAddResource, adminBulkAddResources, getLiveCoursesData } from '../../lib/supabase.js';
 import { resourceTypes } from '../../data/courses.js';
 import { Reveal } from '../../components/Reveal.js';
@@ -154,12 +161,28 @@ export default function AddResourceManager() {
                 <div>
                   <label className="block text-[10px] font-extrabold uppercase tracking-widest text-[#4A3FD8] mb-1.5">Resource Type</label>
                   <div className="relative">
-                    <select value={form.type} onChange={e => setForm({...form, type: e.target.value})}
-                      className="w-full appearance-none px-4 py-3 rounded-2xl text-[13px] font-medium outline-none focus:ring-2 focus:ring-[#5B4FE9]/20 cursor-pointer"
-                      style={{ background: S.bg, boxShadow: S.insetDeep, color: S.fg }}>
-                      {(resourceTypes as string[]).map(t => <option key={t} value={t}>{t}</option>)}
-                    </select>
-                    <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 text-[#475569] pointer-events-none" />
+                    <Select
+                      value={form.type}
+                      onValueChange={val => setForm({...form, type: val})}
+                    >
+                      <SelectTrigger 
+                        className="w-full px-4 py-3 rounded-2xl text-[13px] font-medium outline-none border-none h-auto focus:ring-2 focus:ring-[#5B4FE9]/20 transition-all duration-150"
+                        style={{ background: S.bg, boxShadow: S.insetDeep, color: S.fg }}
+                      >
+                        <SelectValue placeholder="Resource Type" />
+                      </SelectTrigger>
+                      <SelectContent
+                        style={{ background: S.bg, color: S.fg, boxShadow: S.extruded, border: '1px solid #b0b8cc', borderRadius: '16px' }}
+                      >
+                        {(resourceTypes as string[]).map(t => (
+                          <SelectItem key={t} value={t}
+                            className="rounded-xl focus:bg-[#5B4FE9] focus:text-white cursor-pointer"
+                          >
+                            {t}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
                   </div>
                 </div>
               </div>
@@ -168,40 +191,80 @@ export default function AddResourceManager() {
                 <div>
                   <label className="block text-[10px] font-extrabold uppercase tracking-widest text-[#4A3FD8] mb-1.5">Department</label>
                   <div className="relative">
-                    <select required value={form.department} onChange={e => setForm({...form, department: e.target.value, semester: '', courseCode: '', courseName: ''})}
-                      className="w-full appearance-none px-4 py-3 rounded-2xl text-[13px] font-medium outline-none focus:ring-2 focus:ring-[#5B4FE9]/20 cursor-pointer disabled:opacity-50"
-                      disabled={loadingDepts} style={{ background: S.bg, boxShadow: S.insetDeep, color: S.fg }}>
-                      <option value="">Select Department</option>
-                      {departmentList.map(d => <option key={d} value={d}>{d}</option>)}
-                    </select>
-                    <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 text-[#475569] pointer-events-none" />
+                    <Select
+                      value={form.department}
+                      onValueChange={val => setForm({...form, department: val === 'all' ? '' : val, semester: '', courseCode: '', courseName: ''})}
+                      disabled={loadingDepts}
+                    >
+                      <SelectTrigger 
+                        className="w-full px-4 py-3 rounded-2xl text-[13px] font-medium outline-none border-none h-auto focus:ring-2 focus:ring-[#5B4FE9]/20 transition-all duration-150 disabled:opacity-50"
+                        style={{ background: S.bg, boxShadow: S.insetDeep, color: S.fg }}
+                      >
+                        <SelectValue placeholder="Select Department" />
+                      </SelectTrigger>
+                      <SelectContent
+                        style={{ background: S.bg, color: S.fg, boxShadow: S.extruded, border: '1px solid #b0b8cc', borderRadius: '16px' }}
+                      >
+                        <SelectItem value="all" className="rounded-xl focus:bg-[#5B4FE9] focus:text-white cursor-pointer">Select Department</SelectItem>
+                        {departmentList.map(d => (
+                          <SelectItem key={d} value={d} className="rounded-xl focus:bg-[#5B4FE9] focus:text-white cursor-pointer">{d}</SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
                   </div>
                 </div>
                 <div>
                   <label className="block text-[10px] font-extrabold uppercase tracking-widest text-[#4A3FD8] mb-1.5">Semester</label>
                   <div className="relative">
-                    <select required value={form.semester} onChange={e => setForm({...form, semester: e.target.value, courseCode: '', courseName: ''})}
-                      className="w-full appearance-none px-4 py-3 rounded-2xl text-[13px] font-medium outline-none focus:ring-2 focus:ring-[#5B4FE9]/20 cursor-pointer disabled:opacity-50"
-                      disabled={!form.department} style={{ background: S.bg, boxShadow: S.insetDeep, color: S.fg }}>
-                      <option value="">Select Semester</option>
-                      {semesterOptions.map(sem => <option key={sem} value={sem}>Semester {sem}</option>)}
-                    </select>
-                    <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 text-[#475569] pointer-events-none" />
+                    <Select
+                      value={form.semester}
+                      onValueChange={val => setForm({...form, semester: val === 'all' ? '' : val, courseCode: '', courseName: ''})}
+                      disabled={!form.department}
+                    >
+                      <SelectTrigger 
+                        className="w-full px-4 py-3 rounded-2xl text-[13px] font-medium outline-none border-none h-auto focus:ring-2 focus:ring-[#5B4FE9]/20 transition-all duration-150 disabled:opacity-50"
+                        style={{ background: S.bg, boxShadow: S.insetDeep, color: S.fg }}
+                      >
+                        <SelectValue placeholder="Select Semester" />
+                      </SelectTrigger>
+                      <SelectContent
+                        style={{ background: S.bg, color: S.fg, boxShadow: S.extruded, border: '1px solid #b0b8cc', borderRadius: '16px' }}
+                      >
+                        <SelectItem value="all" className="rounded-xl focus:bg-[#5B4FE9] focus:text-white cursor-pointer">Select Semester</SelectItem>
+                        {semesterOptions.map(sem => (
+                          <SelectItem key={sem} value={sem} className="rounded-xl focus:bg-[#5B4FE9] focus:text-white cursor-pointer">Semester {sem}</SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
                   </div>
                 </div>
                 <div>
                   <label className="block text-[10px] font-extrabold uppercase tracking-widest text-[#4A3FD8] mb-1.5">Course</label>
                   <div className="relative">
-                    <select required value={form.courseCode} onChange={e => {
-                        const m = courseOptions.find((c: any) => c.code === e.target.value);
-                        setForm({...form, courseCode: e.target.value, courseName: m?.name || ''});
+                    <Select
+                      value={form.courseCode}
+                      onValueChange={val => {
+                        const code = val === 'all' ? '' : val;
+                        const m = courseOptions.find((c: any) => c.code === code);
+                        setForm({...form, courseCode: code, courseName: m?.name || ''});
                       }}
-                      className="w-full appearance-none px-4 py-3 rounded-2xl text-[13px] font-medium outline-none focus:ring-2 focus:ring-[#5B4FE9]/20 cursor-pointer disabled:opacity-50"
-                      disabled={!form.semester} style={{ background: S.bg, boxShadow: S.insetDeep, color: S.fg }}>
-                      <option value="">Select Course</option>
-                      {courseOptions.map((c: any) => <option key={c.code} value={c.code}>{c.code} — {c.name}</option>)}
-                    </select>
-                    <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 text-[#475569] pointer-events-none" />
+                      disabled={!form.semester}
+                    >
+                      <SelectTrigger 
+                        className="w-full px-4 py-3 rounded-2xl text-[13px] font-medium outline-none border-none h-auto focus:ring-2 focus:ring-[#5B4FE9]/20 transition-all duration-150 disabled:opacity-50"
+                        style={{ background: S.bg, boxShadow: S.insetDeep, color: S.fg }}
+                      >
+                        <SelectValue placeholder="Select Course" />
+                      </SelectTrigger>
+                      <SelectContent
+                        style={{ background: S.bg, color: S.fg, boxShadow: S.extruded, border: '1px solid #b0b8cc', borderRadius: '16px' }}
+                      >
+                        <SelectItem value="all" className="rounded-xl focus:bg-[#5B4FE9] focus:text-white cursor-pointer">Select Course</SelectItem>
+                        {courseOptions.map((c: any) => (
+                          <SelectItem key={c.code} value={c.code} className="rounded-xl focus:bg-[#5B4FE9] focus:text-white cursor-pointer">{c.code} — {c.name}</SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
                   </div>
                 </div>
               </div>

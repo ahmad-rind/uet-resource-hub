@@ -6,6 +6,13 @@ import {
   RefreshCw, Search, Hash, Layers, Eye, EyeOff,
 } from 'lucide-react';
 import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '../../components/ui/interfaces-select';
+import {
   adminLogout,
   getAdminSession,
   adminGetDepartments,
@@ -914,22 +921,44 @@ function CourseModal({ mode, initial, deptName, allDeptNames, onSave, onClose }:
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
             <label className="block text-xs font-semibold text-[#475569] uppercase tracking-wider mb-1.5">Department *</label>
-            <select value={form.department_name} onChange={e => setForm(p => ({ ...p, department_name: e.target.value }))}
+            <Select
+              value={form.department_name}
+              onValueChange={val => setForm(p => ({ ...p, department_name: val }))}
               disabled={mode === 'edit'}
-              className="w-full px-4 py-2.5 text-sm text-[#1a1d2e] bg-[#d6dae8] border-0 outline-none focus:ring-2 focus:ring-[#5B4FE9] transition-all disabled:opacity-60"
-              style={Inp}>
-              {allDeptNames.map(n => <option key={n} value={n}>{n}</option>)}
-            </select>
+            >
+              <SelectTrigger 
+                className="w-full px-4 py-2.5 text-sm text-[#1a1d2e] bg-[#d6dae8] border-none h-auto outline-none focus:ring-2 focus:ring-[#5B4FE9] transition-all disabled:opacity-60"
+                style={Inp}
+              >
+                <SelectValue placeholder="Select Department" />
+              </SelectTrigger>
+              <SelectContent
+                style={{ background: '#d6dae8', color: '#1a1d2e', boxShadow: '8px 8px 16px #b0b8cc,-8px -8px 16px #ffffff', border: '1px solid #b0b8cc', borderRadius: '16px' }}
+              >
+                {allDeptNames.map(n => <SelectItem key={n} value={n} className="rounded-xl focus:bg-[#5B4FE9] focus:text-white cursor-pointer">{n}</SelectItem>)}
+              </SelectContent>
+            </Select>
           </div>
           <div className="grid grid-cols-2 gap-4">
             <div>
               <label className="block text-xs font-semibold text-[#475569] uppercase tracking-wider mb-1.5">Semester *</label>
-              <select value={form.semester} onChange={e => setForm(p => ({ ...p, semester: Number(e.target.value) }))}
+              <Select
+                value={form.semester.toString()}
+                onValueChange={val => setForm(p => ({ ...p, semester: Number(val) }))}
                 disabled={isBuiltInStatic}
-                className="w-full px-4 py-2.5 text-sm text-[#1a1d2e] bg-[#d6dae8] border-0 outline-none focus:ring-2 focus:ring-[#5B4FE9] transition-all disabled:opacity-60"
-                style={Inp}>
-                {[1,2,3,4,5,6,7,8].map(s => <option key={s} value={s}>Semester {s}</option>)}
-              </select>
+              >
+                <SelectTrigger 
+                  className="w-full px-4 py-2.5 text-sm text-[#1a1d2e] bg-[#d6dae8] border-none h-auto outline-none focus:ring-2 focus:ring-[#5B4FE9] transition-all disabled:opacity-60"
+                  style={Inp}
+                >
+                  <SelectValue placeholder="Select Semester" />
+                </SelectTrigger>
+                <SelectContent
+                  style={{ background: '#d6dae8', color: '#1a1d2e', boxShadow: '8px 8px 16px #b0b8cc,-8px -8px 16px #ffffff', border: '1px solid #b0b8cc', borderRadius: '16px' }}
+                >
+                  {[1,2,3,4,5,6,7,8].map(s => <SelectItem key={s} value={s.toString()} className="rounded-xl focus:bg-[#5B4FE9] focus:text-white cursor-pointer">Semester {s}</SelectItem>)}
+                </SelectContent>
+              </Select>
             </div>
             <div>
               <label className="block text-xs font-semibold text-[#475569] uppercase tracking-wider mb-1.5">Credit Hours</label>

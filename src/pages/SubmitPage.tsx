@@ -7,6 +7,13 @@ import {
   Type, Link as LinkIcon, User, Send, ChevronRight, ChevronLeft, ChevronDown,
   FileText, FlaskConical, ClipboardList, PenTool, Layout, Layers
 } from 'lucide-react';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '../components/ui/interfaces-select';
 import { submitResource, getLiveCoursesData } from '../lib/supabase.js';
 import { useToast } from '../components/Toast';
 import { resourceTypes, departments as staticDepartments } from '../data/courses.js';
@@ -420,10 +427,9 @@ export default function SubmitPage() {
                   <div>
                     <label className="text-[10px] lg:text-xs font-black uppercase tracking-widest pl-1 block mb-3 lg:mb-4" style={{ color: 'var(--neu-fg)' }}>Choose <span style={{ color: 'var(--neu-accent)' }}>Course</span></label>
                     <div className="relative">
-                      <select
+                      <Select
                         value={form.courseCode}
-                        onChange={e => {
-                          const code = e.target.value;
+                        onValueChange={code => {
                           const course = semesterCourses.find((c: any) => c.code === code);
                           if (course) {
                             setForm(f => ({ ...f, courseCode: course.code, courseName: course.name }));
@@ -432,15 +438,26 @@ export default function SubmitPage() {
                           }
                         }}
                         disabled={!form.semester}
-                        className="w-full appearance-none px-4 py-3.5 rounded-2xl text-[13px] font-medium outline-none focus:ring-2 focus:ring-[#5B4FE9]/20 transition-all duration-300 cursor-pointer disabled:opacity-40 disabled:grayscale"
-                        style={{ boxShadow: 'var(--neu-shadow-inset)', fontFamily: "'DM Sans', sans-serif", background: 'var(--neu-bg)', color: 'var(--neu-fg)' }}
                       >
-                        <option value="">Select a course...</option>
-                        {semesterCourses.map((c: any) => (
-                          <option key={c.code} value={c.code}>{c.code} — {c.name}</option>
-                        ))}
-                      </select>
-                      <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 pointer-events-none" style={{ color: 'var(--neu-muted)' }} />
+                        <SelectTrigger 
+                          className="w-full px-4 py-3.5 rounded-2xl text-[13px] font-medium outline-none border-none h-auto focus:ring-2 focus:ring-[#5B4FE9]/20 transition-all duration-300 disabled:opacity-40 disabled:grayscale"
+                          style={{ boxShadow: 'var(--neu-shadow-inset)', fontFamily: "'DM Sans', sans-serif", background: 'var(--neu-bg)', color: 'var(--neu-fg)' }}
+                        >
+                          <SelectValue placeholder="Select a course..." />
+                        </SelectTrigger>
+                        <SelectContent
+                          style={{ background: 'var(--neu-bg)', color: 'var(--neu-fg)', boxShadow: 'var(--neu-shadow-extruded)', border: '1px solid var(--neu-border)', borderRadius: '16px' }}
+                        >
+                          {semesterCourses.map((c: any) => (
+                            <SelectItem key={c.code} value={c.code}
+                              style={{ fontFamily: "'DM Sans', sans-serif" }}
+                              className="rounded-xl focus:bg-[var(--neu-accent)] focus:text-white transition-colors cursor-pointer data-[state=checked]:bg-[var(--neu-bg)] data-[state=checked]:text-[var(--neu-accent)]"
+                            >
+                              {c.code} — {c.name}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
                     </div>
                     <div className="flex justify-end mt-8">
                       <button type="button" onClick={nextStep} disabled={!form.courseCode}

@@ -1,6 +1,13 @@
 import { useState, useEffect } from 'react';
 import { useSearchParams, Link } from 'react-router-dom';
 import { Search, Filter, Loader, ChevronDown, SearchX, Upload } from 'lucide-react';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '../components/ui/interfaces-select';
 import { resourceTypes } from '../data/courses.js';
 import ResourceCard from '../components/ResourceCard.js';
 import ResourceDetailModal from '../components/ResourceDetailModal.js';
@@ -99,7 +106,7 @@ export default function SearchPage() {
   const updateSearchParams = (updates: Record<string, string>) => {
     const newParams = new URLSearchParams(searchParams);
     Object.entries(updates).forEach(([key, value]) => {
-      if (value) newParams.set(key, value);
+      if (value && value !== 'all') newParams.set(key, value);
       else newParams.delete(key);
     });
     setSearchParams(newParams);
@@ -221,19 +228,32 @@ export default function SearchPage() {
                       {f.label}
                     </label>
                     <div className="relative">
-                      <select
+                      <Select
                         value={f.value}
-                        onChange={e => f.onChange(e.target.value)}
+                        onValueChange={val => f.onChange(val)}
                         disabled={f.disabled}
-                        className="w-full appearance-none px-4 py-3.5 rounded-2xl text-[13px] font-medium outline-none focus:ring-2 focus:ring-[#5B4FE9]/20 transition-all duration-150 cursor-pointer disabled:opacity-40 disabled:grayscale"
-                        style={selectStyle}
                       >
-                        <option value="">All {f.label}s</option>
-                        {f.options.map((o: { value: string; label: string }) => (
-                          <option key={o.value} value={o.value}>{o.label}</option>
-                        ))}
-                      </select>
-                      <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 pointer-events-none" style={{ color: 'var(--neu-muted)' }} />
+                        <SelectTrigger 
+                          className="w-full px-4 py-3.5 rounded-2xl text-[13px] font-medium outline-none border-none h-auto focus:ring-2 focus:ring-[#5B4FE9]/20 transition-all duration-150 disabled:opacity-40 disabled:grayscale"
+                          style={selectStyle}
+                        >
+                          <SelectValue placeholder={`All ${f.label}s`} />
+                        </SelectTrigger>
+                        <SelectContent
+                          style={{ background: 'var(--neu-bg)', color: 'var(--neu-fg)', boxShadow: 'var(--neu-shadow-extruded)', border: '1px solid var(--neu-border)', borderRadius: '16px' }}
+                        >
+                          <SelectItem value="all" className="rounded-xl focus:bg-[var(--neu-accent)] focus:text-white transition-colors cursor-pointer data-[state=checked]:bg-[var(--neu-bg)] data-[state=checked]:text-[var(--neu-accent)]">
+                            All {f.label}s
+                          </SelectItem>
+                          {f.options.map((o: { value: string; label: string }) => (
+                            <SelectItem key={o.value} value={o.value}
+                              className="rounded-xl focus:bg-[var(--neu-accent)] focus:text-white transition-colors cursor-pointer data-[state=checked]:bg-[var(--neu-bg)] data-[state=checked]:text-[var(--neu-accent)]"
+                            >
+                              {o.label}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
                     </div>
                   </div>
                 ))}
