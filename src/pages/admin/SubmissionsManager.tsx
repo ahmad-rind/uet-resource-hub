@@ -13,16 +13,7 @@ import {
 } from 'lucide-react';
 import { adminGetContactSubmissions, adminDeleteContactSubmission, adminMarkSubmissionRead } from '../../lib/supabase.js';
 
-const S = {
-  bg: '#d6dae8',
-  fg: '#1a1d2e',
-  muted: '#475569',
-  accent: '#5B4FE9',
-  extruded: '8px 8px 16px #b0b8cc, -8px -8px 16px #ffffff',
-  small: '5px 5px 10px #b0b8cc, -5px -5px 10px #ffffff',
-  inset: 'inset 6px 6px 10px #b0b8cc, inset -6px -6px 10px #ffffff',
-  insetDeep: 'inset 10px 10px 20px #b0b8cc, inset -10px -10px 20px #ffffff',
-};
+import { useAdminTheme } from '../../context/AdminThemeContext';
 
 interface Submission {
   id: string;
@@ -36,6 +27,7 @@ interface Submission {
 }
 
 export default function SubmissionsManager() {
+  const { S, isDark } = useAdminTheme();
   const [submissions, setSubmissions] = useState<Submission[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState('');
@@ -102,10 +94,10 @@ export default function SubmissionsManager() {
     return matchesSearch && matchesFilter;
   });
 
-  const typeStyles: Record<string, string> = {
-    Suggestion: 'text-blue-500 bg-blue-50',
-    Issue:      'text-red-500 bg-red-50',
-    Other:      'text-gray-500 bg-gray-50'
+  const typeStyles: Record<string, React.CSSProperties> = {
+    Suggestion: { backgroundColor: 'rgba(59,130,246,0.12)',  color: '#2563eb' },
+    Issue:      { backgroundColor: 'rgba(239,68,68,0.12)',   color: '#dc2626' },
+    Other:      { backgroundColor: 'rgba(71,85,105,0.12)',   color: S.muted },
   };
 
   return (
@@ -149,8 +141,8 @@ export default function SubmissionsManager() {
           <button 
             onClick={() => loadData()}
             disabled={loading}
-            className="w-10 h-10 flex items-center justify-center rounded-2xl transition-all duration-300 hover:-translate-y-0.5"
-            style={{ boxShadow: S.small, color: S.muted }}
+            className="w-10 h-10 flex items-center justify-center rounded-2xl transition-all duration-300 hover:-translate-y-0.5 active:scale-95"
+            style={{ background: S.bg, boxShadow: S.small, color: S.muted }}
           >
             <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin' : ''}`} />
           </button>
@@ -160,7 +152,7 @@ export default function SubmissionsManager() {
       {/* List */}
       {loading ? (
         <div className="flex flex-col items-center justify-center py-20 gap-4">
-          <div className="w-12 h-12 rounded-[24px] flex items-center justify-center" style={{ boxShadow: S.extruded }}>
+          <div className="w-12 h-12 rounded-[24px] flex items-center justify-center" style={{ background: S.bg, boxShadow: S.extruded }}>
             <div className="w-6 h-6 border-2 border-[#5B4FE9] border-t-transparent rounded-full animate-spin" />
           </div>
           <p className="text-sm font-medium" style={{ color: S.muted }}>Loading feedback...</p>
@@ -177,7 +169,7 @@ export default function SubmissionsManager() {
             <div 
               key={sub.id}
               onClick={() => setExpandedId(expandedId === sub.id ? null : sub.id)}
-              className="rounded-[32px] p-6 transition-all duration-300 hover:-translate-y-1 cursor-pointer"
+              className="rounded-[32px] p-6 transition-all duration-300 hover:-translate-y-1 active:scale-95 cursor-pointer"
               style={{ 
                 background: S.bg, 
                 boxShadow: expandedId === sub.id ? S.inset : S.extruded,
@@ -187,11 +179,11 @@ export default function SubmissionsManager() {
               <div className="flex items-start justify-between gap-4">
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-3 mb-2 flex-wrap">
-                    <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider ${typeStyles[sub.type] || 'bg-gray-100 text-gray-500'}`}>
+                    <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider" style={typeStyles[sub.type] ?? { backgroundColor: 'rgba(71,85,105,0.12)', color: S.muted }}>
                       {sub.type}
                     </span>
                     {!sub.is_read && (
-                      <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-indigo-50 text-indigo-500">
+                      <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider" style={{ backgroundColor: 'rgba(91,79,233,0.12)', color: S.accent }}>
                         New
                       </span>
                     )}
@@ -235,7 +227,7 @@ export default function SubmissionsManager() {
               </div>
 
               {expandedId === sub.id && (
-                <div className="mt-6 pt-6 border-t border-gray-200 animate-fadeIn">
+                <div className="mt-6 pt-6 animate-fadeIn" style={{ borderTop: `1px solid ${isDark ? 'rgba(255,255,255,0.07)' : '#e5e7eb'}` }}>
                   <div className="flex items-start gap-3 p-5 rounded-2xl" style={{ background: S.bg, boxShadow: S.inset }}>
                     <MessageSquare className="w-5 h-5 mt-1 shrink-0" style={{ color: S.accent }} />
                     <p className="text-sm leading-relaxed whitespace-pre-wrap" style={{ color: S.fg }}>

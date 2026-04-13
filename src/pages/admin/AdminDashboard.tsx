@@ -3,10 +3,10 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import {
   LogOut, Clock, CheckCircle, XCircle, Flag, Trash2,
-  RefreshCw, Search, BarChart3,
+  Search, BarChart3,
   Check, X, AlertTriangle, User, BookOpen,
-  Bell, ArrowUpRight, Layers, Copy, Pencil,
-  FolderTree, ChevronDown, Home, Menu, PartyPopper, Inbox, ShieldCheck
+  ArrowUpRight, Layers, Copy, Pencil,
+  FolderTree, ChevronDown, Home, PartyPopper, Inbox, ShieldCheck, Sun, Moon
 } from 'lucide-react';
 import {
   Select,
@@ -29,24 +29,7 @@ import ModeratorsManager from './ModeratorsManager';
 import CategoryManager from './CategoryManager';
 import AddResourceManager from './AddResourceManager';
 import { Reveal } from '../../components/Reveal.js';
-
-// ── Design tokens ─────────────────────────────────────────────────────────────
-const S = {
-  bg:           '#d6dae8',
-  fg:           '#1a1d2e',
-  muted:        '#475569',
-  accent:       '#5B4FE9',
-  accentLight:  '#8B84FF',
-  extruded:     '8px 8px 16px #b0b8cc, -8px -8px 16px #ffffff',
-  extrudedHover:'12px 12px 20px #b0b8cc, -12px -12px 20px #ffffff',
-  inset:        'inset 6px 6px 10px #b0b8cc, inset -6px -6px 10px #ffffff',
-  insetDeep:    'inset 10px 10px 20px #b0b8cc, inset -10px -10px 20px #ffffff',
-  small:        '5px 5px 10px #b0b8cc, -5px -5px 10px #ffffff',
-  smallInset:   'inset 3px 3px 6px #b0b8cc, inset -3px -3px 6px #ffffff',
-  glass:        'rgba(255, 255, 255, 0.4)',
-  glassHover:   'rgba(255, 255, 255, 0.6)',
-  glassActive:  'rgba(255, 255, 255, 0.2)',
-};
+import { useAdminTheme } from '../../context/AdminThemeContext';
 
 // ── Types ─────────────────────────────────────────────────────────────────────
 type TabType   = 'pending' | 'approved' | 'rejected' | 'flagged' | 'all' | 'submissions' | 'moderators' | 'categories' | 'add';
@@ -94,6 +77,7 @@ function getSessionExpiry() {
 
 // ── Toast ─────────────────────────────────────────────────────────────────────
 function Toast({ message, type }: { message: string; type: 'success' | 'error' | 'info' }) {
+  const { S } = useAdminTheme();
   const colors = { success: '#10B981', error: '#EF4444', info: S.accent }[type];
   const icons  = {
     success: <CheckCircle className="w-4 h-4" />,
@@ -118,6 +102,7 @@ function PreviewModal({ resource, onClose, onApprove, onReject, onDismissFlags, 
   onDismissFlags: (id: string) => void;
   processing: string | null;
 }) {
+  const { S, isDark } = useAdminTheme();
   const [note, setNote] = useState(resource.adminNote || '');
   const colors = (resourceTypeBadgeColors as Record<string, { bg: string; text: string }>)[resource.type]
     ?? (resourceTypeBadgeColors as Record<string, { bg: string; text: string }>)['Other'];
@@ -160,17 +145,17 @@ function PreviewModal({ resource, onClose, onApprove, onReject, onDismissFlags, 
           <div className="flex items-start justify-between gap-4 mb-4">
             <div className="flex items-center gap-4">
               <div 
-                className="w-12 h-12 rounded-xl flex items-center justify-center shrink-0 bg-[#d6dae8]"
-                style={{ boxShadow: 'inset 4px 4px 8px #b0b8cc, inset -4px -4px 8px #ffffff' }}
+                className="w-12 h-12 rounded-xl flex items-center justify-center shrink-0"
+                style={{ background: S.bg, boxShadow: S.smallInset }}
               >
                 <FileIcon className="w-6 h-6 text-[#4A3FD8]" />
               </div>
               <div className="min-w-0">
-                <h3 className="text-lg font-extrabold text-[#1a1d2e] tracking-tight leading-tight mb-0.5"
-                  style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
+                <h3 className="text-lg font-extrabold tracking-tight leading-tight mb-0.5"
+                  style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: S.fg }}>
                   {resource.title}
                 </h3>
-                <p className="text-[11px] font-bold text-[#475569] uppercase tracking-wider">
+                <p className="text-[11px] font-bold uppercase tracking-wider" style={{ color: S.muted }}>
                   {resource.courseCode} · {resource.courseName}
                 </p>
               </div>
@@ -196,16 +181,16 @@ function PreviewModal({ resource, onClose, onApprove, onReject, onDismissFlags, 
         </div>
 
         {/* Metadata Multi-col Stripe */}
-        <div className="bg-[#ced4e0] border-y border-[#b0b8cc]/50 grid grid-cols-4 px-2 shrink-0 shadow-[inset_0_4px_12px_rgba(0,0,0,0.03)]">
+        <div className="border-y border-[#b0b8cc]/50 grid grid-cols-4 px-2 shrink-0 shadow-[inset_0_4px_12px_rgba(0,0,0,0.03)]" style={{ background: isDark ? '#252838' : '#ced4e0' }}>
           {[
             { label: 'DEPT', value: resource.department.split(' ')[0] },
             { label: 'SEM',  value: `Sem ${resource.semester}` },
             { label: 'BY',   value: (resource.uploadedBy || 'Anon').split(' ')[0] },
             { label: 'TIME', value: fmtRelative(resource.uploadedAt) },
           ].map((item, idx) => (
-            <div key={idx} className={`py-4 px-3 text-center ${idx < 3 ? 'border-r border-[#b0b8cc]/40' : ''}`}>
+            <div key={idx} className={`py-4 px-3 text-center ${idx < 3 ? 'border-r' : ''}`} style={{ borderColor: isDark ? 'rgba(255,255,255,0.1)' : 'rgba(176,184,204,0.4)' }}>
               <p className="text-[8px] font-extrabold text-[#4A3FD8] uppercase tracking-[0.1em] mb-1">{item.label}</p>
-              <p className="text-[11px] font-extrabold text-[#1a1d2e] truncate">{item.value}</p>
+              <p className="text-[11px] font-extrabold truncate" style={{ color: S.fg }}>{item.value}</p>
             </div>
           ))}
         </div>
@@ -214,12 +199,12 @@ function PreviewModal({ resource, onClose, onApprove, onReject, onDismissFlags, 
         <div className="p-7 space-y-6 overflow-y-auto no-scrollbar">
           {/* External Link */}
           <div>
-            <label className="block text-[9px] font-extrabold uppercase tracking-widest text-[#475569]/70 mb-2 flex items-center gap-1.5">
+            <label className="block text-[9px] font-extrabold uppercase tracking-widest mb-2 flex items-center gap-1.5" style={{ color: S.muted }}>
               <ArrowUpRight className="w-2.5 h-2.5" /> External Link
             </label>
-            <div className="flex items-center p-1.5 rounded-xl bg-[#d6dae8]" 
-              style={{ boxShadow: S.insetDeep }}>
-              <div className="flex-1 px-3 py-1.5 text-[11px] font-medium text-[#1a1d2e] truncate font-mono opacity-80">
+            <div className="flex items-center p-1.5 rounded-xl" 
+              style={{ background: S.bg, boxShadow: S.insetDeep }}>
+              <div className="flex-1 px-3 py-1.5 text-[11px] font-medium truncate font-mono opacity-80" style={{ color: S.fg }}>
                 {resource.link}
               </div>
               <a href={resource.link} target="_blank" rel="noopener noreferrer"
@@ -232,7 +217,7 @@ function PreviewModal({ resource, onClose, onApprove, onReject, onDismissFlags, 
 
           {/* Admin Note */}
           <div>
-            <label className="block text-[9px] font-extrabold uppercase tracking-widest text-[#475569]/70 mb-2 flex items-center gap-1.5">
+            <label className="block text-[9px] font-extrabold uppercase tracking-widest mb-2 flex items-center gap-1.5" style={{ color: S.muted }}>
                Admin Note <span className="normal-case opacity-50 ml-1 font-bold">(optional)</span>
             </label>
             <textarea 
@@ -290,6 +275,7 @@ function EditResourceModal({ resource, onClose, onSave }: {
   onClose: () => void;
   onSave: (id: string, data: Record<string, any>) => Promise<void>;
 }) {
+  const { S, isDark } = useAdminTheme();
   const [form, setForm] = useState({
     title: resource.title,
     type: resource.type,
@@ -351,17 +337,17 @@ function EditResourceModal({ resource, onClose, onSave }: {
           <div className="flex items-start justify-between gap-4 mb-3">
             <div className="flex items-center gap-4">
               <div 
-                className="w-12 h-12 rounded-xl flex items-center justify-center shrink-0 bg-[#d6dae8]"
-                style={{ boxShadow: 'inset 4px 4px 8px #b0b8cc, inset -4px -4px 8px #ffffff' }}
+                className="w-12 h-12 rounded-xl flex items-center justify-center shrink-0"
+                style={{ background: S.bg, boxShadow: S.smallInset }}
               >
                 <Pencil className="w-6 h-6 text-[#4A3FD8]" />
               </div>
               <div className="min-w-0">
-                <h3 className="text-lg font-extrabold text-[#1a1d2e] tracking-tight leading-tight mb-0.5"
-                  style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
+                <h3 className="text-lg font-extrabold tracking-tight leading-tight mb-0.5"
+                  style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: S.fg }}>
                   Edit Resource
                 </h3>
-                <p className="text-[11px] font-bold text-[#475569] uppercase tracking-wider">
+                <p className="text-[11px] font-bold uppercase tracking-wider" style={{ color: S.muted }}>
                   Updating details for "{resource.title}"
                 </p>
               </div>
@@ -376,16 +362,16 @@ function EditResourceModal({ resource, onClose, onSave }: {
         </div>
 
         {/* Info Stripe (Read Only) */}
-        <div className="bg-[#ced4e0] border-y border-[#b0b8cc]/50 grid grid-cols-4 px-2 shrink-0 shadow-[inset_0_4px_12px_rgba(0,0,0,0.03)]">
+        <div className="border-y border-[#b0b8cc]/50 grid grid-cols-4 px-2 shrink-0 shadow-[inset_0_4px_12px_rgba(0,0,0,0.03)]" style={{ background: isDark ? '#252838' : '#ced4e0' }}>
           {[
             { label: 'DEPT', value: resource.department.split(' ')[0] },
             { label: 'SEM',  value: `Sem ${resource.semester}` },
             { label: 'CODE', value: resource.courseCode },
             { label: 'TYPE', value: resource.type },
           ].map((item, idx) => (
-            <div key={idx} className={`py-3 px-3 text-center ${idx < 3 ? 'border-r border-[#b0b8cc]/40' : ''}`}>
+            <div key={idx} className={`py-3 px-3 text-center ${idx < 3 ? 'border-r' : ''}`} style={{ borderColor: isDark ? 'rgba(255,255,255,0.1)' : 'rgba(176,184,204,0.4)' }}>
               <p className="text-[8px] font-extrabold text-[#4A3FD8] uppercase tracking-[0.1em] mb-1">{item.label}</p>
-              <p className="text-[11px] font-extrabold text-[#1a1d2e] truncate">{item.value}</p>
+              <p className="text-[11px] font-extrabold truncate" style={{ color: S.fg }}>{item.value}</p>
             </div>
           ))}
         </div>
@@ -421,7 +407,7 @@ function EditResourceModal({ resource, onClose, onSave }: {
                   <SelectValue placeholder="Resource Type" />
                 </SelectTrigger>
                 <SelectContent
-                  style={{ background: S.bg, color: S.fg, boxShadow: S.extruded, border: '1px solid #b0b8cc', borderRadius: '16px' }}
+                  style={{ background: S.bg, color: S.fg, boxShadow: S.extruded, border: `1px solid ${isDark ? 'rgba(255,255,255,0.05)' : '#b0b8cc'}`, borderRadius: '16px' }}
                 >
                   {(resourceTypes as string[]).map(t => (
                     <SelectItem key={t} value={t}
@@ -473,7 +459,7 @@ function EditResourceModal({ resource, onClose, onSave }: {
           {/* Footer Save Button */}
           <div className="pt-2">
             <button type="submit" disabled={saving}
-              className="w-full py-4 rounded-2xl bg-[#5B4FE9] text-white text-[12px] font-extrabold uppercase tracking-widest flex items-center justify-center gap-2 shadow-[0_10px_25px_rgba(91,79,233,0.3)] transition-all duration-300 hover:scale-[1.02] active:scale-95 disabled:opacity-50"
+              className="w-full py-4 rounded-2xl bg-[#5B4FE9] text-white text-[12px] font-extrabold uppercase tracking-widest flex items-center justify-center gap-2 transition-all duration-300 hover:scale-[1.02] active:scale-95 disabled:opacity-50"
             >
               {saving ? <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" /> : <Check className="w-4 h-4" />}
               Save Changes
@@ -519,6 +505,7 @@ function ResourceCard({ resource, onApprove, onReject, onPreview, onDelete, onDi
   processing:    string | null;
   deleteConfirm: string | null;
 }) {
+  const { S, isDark } = useAdminTheme();
   const [note, setNote]       = useState('');
   const [expanded, setExpanded] = useState(false);
   const [copied, setCopied]   = useState(false);
@@ -539,8 +526,8 @@ function ResourceCard({ resource, onApprove, onReject, onPreview, onDelete, onDi
   const status = statusMap[resource.status as keyof typeof statusMap] || statusMap.pending;
 
   return (
-    <div className="rounded-[24px] p-4.5 transition-all duration-300 hover:-translate-y-1 group bg-[#d6dae8] relative flex flex-col h-full"
-      style={{ boxShadow: S.extruded }}>
+    <div className="rounded-[24px] p-4.5 transition-all duration-300 hover:-translate-y-1 active:scale-95 group relative flex flex-col h-full"
+      style={{ background: S.bg, boxShadow: S.extruded }}>
       
       {/* Quick Actions (Top Right) */}
       <div className="absolute top-4.5 right-4.5 flex items-center gap-1">
@@ -569,19 +556,19 @@ function ResourceCard({ resource, onApprove, onReject, onPreview, onDelete, onDi
       <div className="flex items-start gap-2.5 mb-2.5 max-w-[calc(100%-75px)]">
         {/* Icon Badge */}
         <div 
-          className="w-11 h-11 rounded-xl flex items-center justify-center shrink-0 bg-[#d6dae8]"
-          style={{ boxShadow: 'inset 4px 4px 8px #b0b8cc, inset -4px -4px 8px #ffffff' }}
+          className="w-11 h-11 rounded-xl flex items-center justify-center shrink-0"
+          style={{ background: S.bg, boxShadow: S.smallInset }}
         >
           <FileIcon className="w-5.5 h-5.5 text-[#4A3FD8]" />
         </div>
 
         {/* Title & Stats Meta */}
         <div className="min-w-0">
-          <h3 className="text-sm font-extrabold text-[#1a1d2e] leading-tight tracking-tight mb-1 line-clamp-1"
-            style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
+          <h3 className="text-sm font-extrabold leading-tight tracking-tight mb-1 line-clamp-1"
+            style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: S.fg }}>
             {resource.title}
           </h3>
-          <div className="flex flex-wrap items-center gap-x-2 gap-y-0.5 text-[9px] font-bold text-[#475569]/60 uppercase tracking-widest">
+          <div className="flex flex-wrap items-center gap-x-2 gap-y-0.5 text-[9px] font-bold uppercase tracking-widest" style={{ color: S.muted }}>
             <span className="flex items-center gap-1"><BookOpen className="w-2.5 h-2.5" />{resource.department.split(' ')[0]}</span>
             <span className="opacity-30">•</span>
             <span className="flex items-center gap-1"><Layers className="w-2.5 h-2.5" />S{resource.semester}</span>
@@ -605,13 +592,13 @@ function ResourceCard({ resource, onApprove, onReject, onPreview, onDelete, onDi
         )}
       </div>
 
-      <div className="h-[1px] w-full bg-[#1a1d2e]/5 mb-3.5" />
+      <div className="h-[1px] w-full mb-3.5" style={{ background: isDark ? 'rgba(255,255,255,0.06)' : 'rgba(26,29,46,0.05)' }} />
 
       {/* Review Section */}
       <div className="mb-4 flex-1">
         <button 
           onClick={() => setExpanded(!expanded)}
-          className="flex items-center gap-1 text-[9px] font-extrabold text-[#4A3FD8] uppercase tracking-widest transition-opacity hover:opacity-80"
+          className="flex items-center gap-1 text-[9px] font-extrabold uppercase tracking-widest transition-opacity hover:opacity-80" style={{ color: S.accent }}
         >
           <ChevronDown className={`w-3 h-3 transition-transform duration-200 ${expanded ? 'rotate-180' : ''}`} />
           Review & note
@@ -619,8 +606,8 @@ function ResourceCard({ resource, onApprove, onReject, onPreview, onDelete, onDi
         {expanded && (
           <div className="mt-2.5 space-y-2.5 animate-in fade-in slide-in-from-top-2 duration-200">
             {resource.description && (
-              <div className="p-2.5 rounded-lg text-[11px] leading-relaxed text-[#475569] font-medium" 
-                style={{ background: S.bg, boxShadow: 'inset 2px 2px 4px #b0b8cc, inset -2px -2px 4px #ffffff' }}>
+              <div className="p-2.5 rounded-lg text-[11px] leading-relaxed font-medium" 
+                style={{ background: S.bg, boxShadow: S.smallInset, color: S.muted }}>
                 {resource.description}
               </div>
             )}
@@ -714,11 +701,12 @@ function SideNavItem({ icon, label, active, onClick, badge }: {
   icon: React.ReactNode; label: string; active?: boolean;
   onClick: () => void; badge?: number;
 }) {
+  const { S, isDark } = useAdminTheme();
   return (
     <button onClick={onClick}
       className={`w-full flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm font-medium transition-all duration-300 text-left focus:outline-none focus:ring-2 focus:ring-[#5B4FE9] group ${active ? 'scale-[1.02]' : 'hover:translate-x-1'}`}
       style={{
-        background: active ? S.glassHover : 'transparent',
+        background: active ? (isDark ? 'rgba(255,255,255,0.05)' : 'rgba(255,255,255,0.4)') : 'transparent',
         boxShadow: active ? S.small : 'none',
         color: active ? S.accent : S.fg,
         fontFamily: "'DM Sans',sans-serif",
@@ -742,6 +730,7 @@ function SideNavItem({ icon, label, active, onClick, badge }: {
 
 // ── Main Dashboard ─────────────────────────────────────────────────────────────
 export default function AdminDashboard() {
+  const { S, isDark, toggleTheme } = useAdminTheme();
   const navigate = useNavigate();
   const [authChecked, setAuthChecked] = useState(false);
   const [adminSession, setAdminSession] = useState<any>({});
@@ -923,7 +912,7 @@ export default function AdminDashboard() {
       {/* Logo */}
       <div className="flex items-center gap-2 px-2 mb-1">
         <div className="w-9 h-9 rounded-xl flex items-center justify-center shrink-0"
-          style={{ boxShadow: S.small, background: S.glass }}>
+          style={{ boxShadow: S.small, background: isDark ? 'rgba(255,255,255,0.05)' : 'rgba(255,255,255,0.4)' }}>
           <div className="w-6 h-6 rounded-lg flex items-center justify-center overflow-hidden p-0.5">
             <img src="/uettaxilalogo.webp" alt="University of Engineering and Technology Taxila official logo" className="w-full h-full object-contain" />
           </div>
@@ -958,7 +947,7 @@ export default function AdminDashboard() {
               onClick={() => { setActiveTab('categories'); setSidebarOpen(false); }} 
             />
             <a href="/" target="_blank" rel="noopener noreferrer"
-              className="w-full flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm font-medium transition-all duration-300 hover:translate-x-1 hover:bg-[rgba(255,255,255,0.4)]"
+              className={`w-full flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm font-medium transition-all duration-300 hover:translate-x-1 ${isDark ? 'hover:bg-white/5' : 'hover:bg-white/40'}`}
               style={{ color: S.fg, fontFamily: "'DM Sans',sans-serif" }}>
               <Home className="w-4 h-4" /> <span className="flex-1 truncate">Public Site</span>
             </a>
@@ -980,10 +969,21 @@ export default function AdminDashboard() {
       <div className="flex-1" />
 
       {/* Session + logout */}
-      <div className="space-y-2 mt-auto pt-2 border-t border-white/20">
+      <div className="space-y-2 mt-auto pt-2" style={{ borderTop: `1px solid ${isDark ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.06)'}` }}>
+        <button onClick={toggleTheme}
+          className="w-full flex items-center justify-between px-4 py-2.5 rounded-xl text-sm font-bold transition-all duration-300 hover:opacity-80 active:scale-95 focus:outline-none"
+          style={{ fontFamily: "'DM Sans',sans-serif", color: S.fg }}>
+          <div className="flex items-center gap-3">
+            {isDark ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
+            <span>Theme</span>
+          </div>
+          <span className="text-[10px] uppercase tracking-widest opacity-60">
+            {isDark ? 'Dark' : 'Light'}
+          </span>
+        </button>
         {sessionExpiry && (
           <div className="px-3 py-2 rounded-xl text-[10px] flex items-center gap-2"
-            style={{ background: S.glass, color: S.muted }}>
+            style={{ background: isDark ? 'rgba(255,255,255,0.05)' : 'rgba(255,255,255,0.4)', color: S.muted }}>
             <div className="w-1.5 h-1.5 rounded-full bg-green-500 shrink-0" />
             <span className="truncate">
               {adminSession.role === 'super_admin' ? 'Super Admin' : `Mod: ${adminSession.department}`}
@@ -1035,49 +1035,6 @@ export default function AdminDashboard() {
       {/* Main area */}
       <div className="flex-1 flex flex-col min-w-0 overflow-hidden">
 
-        {/* Top bar */}
-        <header className="shrink-0 h-16 flex items-center justify-between px-4 md:px-6"
-          style={{ background: S.bg, boxShadow: '0 4px 12px #b0b8cc' }}>
-          <div className="flex items-center gap-3">
-            <button onClick={() => setSidebarOpen(true)}
-              className="lg:hidden w-10 h-10 flex items-center justify-center rounded-2xl transition-all duration-300 hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-[#5B4FE9]"
-              style={{ boxShadow: S.small, color: S.muted }}>
-              <Menu className="w-5 h-5" />
-            </button>
-            <div>
-              <h1 className="text-base font-extrabold tracking-tight" style={{ color: S.fg, fontFamily: "'Plus Jakarta Sans',sans-serif" }}>
-                {activeTab === 'categories' ? 'Departments' : activeTab === 'moderators' ? 'Moderators' : activeTab === 'add' ? 'Add Resources' : (navItems.find(n => n.id === activeTab)?.label ?? 'Dashboard')}
-              </h1>
-              <p className="text-xs" style={{ color: S.muted }}>
-                {activeTab === 'submissions' 
-                  ? `${submissionCount} new submission${submissionCount !== 1 ? 's' : ''}`
-                  : activeTab === 'categories'
-                    ? 'Manage departments and courses'
-                    : activeTab === 'moderators'
-                      ? 'Manage platform moderators'
-                      : activeTab === 'add'
-                        ? 'Upload new resources instantly'
-                        : `${filtered.length} resource${filtered.length !== 1 ? 's' : ''}`
-                }
-              </p>
-            </div>
-          </div>
-
-          <div className="flex items-center gap-2">
-            {stats.pending > 0 && (
-              <button onClick={() => setActiveTab('pending')}
-                className="hidden sm:flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-bold text-amber-600 transition-all duration-300 hover:-translate-y-0.5 focus:outline-none"
-                style={{ background: S.bg, boxShadow: S.small }}>
-                <Bell className="w-3.5 h-3.5" /> {stats.pending} pending
-              </button>
-            )}
-            <button onClick={() => loadData()} disabled={loading}
-              className="w-10 h-10 flex items-center justify-center rounded-2xl transition-all duration-300 hover:-translate-y-0.5 active:translate-y-0.5 disabled:opacity-40 focus:outline-none focus:ring-2 focus:ring-[#5B4FE9]"
-              style={{ boxShadow: S.small, color: S.muted }}>
-              <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin' : ''}`} />
-            </button>
-          </div>
-        </header>
 
         {/* Scrollable content */}
         <main className={`flex-1 overflow-y-auto ${activeTab === 'categories' ? 'p-0' : 'p-4 md:p-6 space-y-6'}`}>
@@ -1093,7 +1050,7 @@ export default function AdminDashboard() {
                   { label: 'Flagged',  value: stats.flagged,  icon: <AlertTriangle className="w-5 h-5" />,  accent: '#F97316',   tab: 'flagged'  as TabType },
                 ].map(s => (
                   <div key={s.label} onClick={() => setActiveTab(s.tab)}
-                    className="rounded-[24px] sm:rounded-[32px] p-4 sm:p-5 cursor-pointer transition-all duration-300 hover:-translate-y-1"
+                    className="rounded-[24px] sm:rounded-[32px] p-4 sm:p-5 cursor-pointer transition-all duration-300 hover:-translate-y-1 active:scale-95"
                     style={{ background: S.bg, boxShadow: activeTab === s.tab ? S.inset : S.extruded }}>
                     <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-xl sm:rounded-2xl flex items-center justify-center mb-3 sm:mb-4"
                       style={{ boxShadow: S.inset, color: s.accent }}>
@@ -1131,7 +1088,7 @@ export default function AdminDashboard() {
                       if (sortField === f) setSortDir(d => d === 'asc' ? 'desc' : 'asc');
                       else { setSortField(f); setSortDir('desc'); }
                     }}
-                      className="px-2.5 py-2 rounded-xl text-[11px] sm:text-xs font-bold capitalize transition-all duration-300 hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-[#5B4FE9]"
+                      className="px-2.5 py-2 rounded-xl text-[11px] sm:text-xs font-bold capitalize transition-all duration-300 hover:-translate-y-0.5 active:scale-95 focus:outline-none focus:ring-2 focus:ring-[#5B4FE9]"
                       style={{
                         background: S.bg,
                         boxShadow: sortField === f ? S.inset : S.small,

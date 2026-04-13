@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useSearchParams, Link } from 'react-router-dom';
-import { Search, Filter, Loader, ChevronDown, SearchX, Upload } from 'lucide-react';
+import { Search, Filter, Loader, SearchX, Upload } from 'lucide-react';
 import {
   Select,
   SelectContent,

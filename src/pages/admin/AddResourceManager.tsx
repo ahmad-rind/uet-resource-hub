@@ -10,15 +10,10 @@ import {
 import { adminAddResource, adminBulkAddResources, getLiveCoursesData } from '../../lib/supabase.js';
 import { resourceTypes } from '../../data/courses.js';
 import { Reveal } from '../../components/Reveal.js';
-
-// Design matching AdminDashboard
-const S = {
-  bg: '#d6dae8', fg: '#1a1d2e', muted: '#475569', accent: '#5B4FE9',
-  extruded: '8px 8px 16px #b0b8cc, -8px -8px 16px #ffffff',
-  insetDeep: 'inset 10px 10px 20px #b0b8cc, inset -10px -10px 20px #ffffff',
-};
+import { useAdminTheme } from '../../context/AdminThemeContext';
 
 export default function AddResourceManager() {
+  const { S, isDark } = useAdminTheme();
   const [activeMode, setActiveMode] = useState<'single' | 'bulk'>('single');
   const [departments, setDepartments] = useState<any>({});
   const [departmentList, setDepartmentList] = useState<string[]>([]);
@@ -127,13 +122,13 @@ export default function AddResourceManager() {
       <div className="flex gap-4">
         <button onClick={() => setActiveMode('single')}
           className="flex-1 py-4 rounded-[24px] font-bold text-sm tracking-wide transition-all duration-300 flex items-center justify-center gap-2"
-          style={{ background: S.bg, boxShadow: activeMode === 'single' ? S.insetDeep : S.extruded, color: activeMode === 'single' ? S.accent : S.muted }}
+          style={{ background: S.bg, boxShadow: activeMode === 'single' ? S.insetDeep : S.small, color: activeMode === 'single' ? S.accent : S.muted }}
         >
           <UploadCloud className="w-5 h-5" /> Single Upload
         </button>
         <button onClick={() => setActiveMode('bulk')}
           className="flex-1 py-4 rounded-[24px] font-bold text-sm tracking-wide transition-all duration-300 flex items-center justify-center gap-2"
-          style={{ background: S.bg, boxShadow: activeMode === 'bulk' ? S.insetDeep : S.extruded, color: activeMode === 'bulk' ? S.accent : S.muted }}
+          style={{ background: S.bg, boxShadow: activeMode === 'bulk' ? S.insetDeep : S.small, color: activeMode === 'bulk' ? S.accent : S.muted }}
         >
           <FileJson className="w-5 h-5" /> Bulk JSON Upload
         </button>
@@ -145,9 +140,9 @@ export default function AddResourceManager() {
           {/* SINGLE MODE */}
           {activeMode === 'single' && (
             <form onSubmit={handleSingleSubmit} className="space-y-5">
-              <div className="mb-6 border-b border-[#b0b8cc]/40 pb-4">
-                <h2 className="text-xl font-extrabold tracking-tight text-[#1a1d2e]">Add Single Resource</h2>
-                <p className="text-sm text-[#475569]">Upload a resource directly without pending review.</p>
+              <div className="mb-6 pb-4" style={{ borderBottom: `1px solid ${isDark ? 'rgba(255,255,255,0.07)' : 'rgba(176,184,204,0.4)'}` }}>
+                <h2 className="text-xl font-extrabold tracking-tight" style={{ color: S.fg }}>Add Single Resource</h2>
+                <p className="text-sm" style={{ color: S.muted }}>Upload a resource directly without pending review.</p>
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
@@ -294,7 +289,7 @@ export default function AddResourceManager() {
 
               <button type="submit" disabled={singleSaving}
                 className="w-full py-4 rounded-2xl text-white font-extrabold uppercase tracking-widest text-xs flex items-center justify-center gap-2 transition-all hover:scale-[1.01] active:scale-95 disabled:opacity-60"
-                style={{ background: '#5B4FE9', boxShadow: '0 8px 16px rgba(91,79,233,0.2)' }}>
+                style={{ background: '#5B4FE9', boxShadow: isDark ? '0 4px 12px rgba(0,0,0,0.5)' : '0 8px 16px rgba(91,79,233,0.2)' }}>
                 {singleSaving ? <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" /> : <UploadCloud className="w-4 h-4" />}
                 Publish Resource
               </button>
@@ -304,16 +299,16 @@ export default function AddResourceManager() {
           {/* BULK MODE */}
           {activeMode === 'bulk' && (
             <div className="space-y-5">
-              <div className="mb-6 border-b border-[#b0b8cc]/40 pb-4">
-                <h2 className="text-xl font-extrabold tracking-tight text-[#1a1d2e] flex items-center justify-between">
+              <div className="mb-6 pb-4" style={{ borderBottom: `1px solid ${isDark ? 'rgba(255,255,255,0.07)' : 'rgba(176,184,204,0.4)'}` }}>
+                <h2 className="text-xl font-extrabold tracking-tight flex items-center justify-between" style={{ color: S.fg }}>
                   Bulk JSON Upload
                   <button onClick={() => { navigator.clipboard.writeText(sampleJSON); setCopied(true); setTimeout(() => setCopied(false), 2000); }}
-                    className="flex items-center gap-1.5 px-3 py-1.5 text-[10px] rounded-lg tracking-widest uppercase transition-all bg-[#d6dae8] active:scale-95 text-[#4A3FD8]"
-                    style={{ boxShadow: S.extruded }}>
+                    className="flex items-center gap-1.5 px-3 py-1.5 text-[10px] rounded-lg tracking-widest uppercase transition-all active:scale-95"
+                    style={{ background: S.bg, boxShadow: S.small, color: S.accent }}>
                     {copied ? <Check className="w-3 h-3" /> : <Copy className="w-3 h-3" />} Sample format
                   </button>
                 </h2>
-                <p className="text-sm text-[#475569] mt-1">Paste a JSON array containing resource objects. All items will be auto-approved.</p>
+                <p className="text-sm mt-1" style={{ color: S.muted }}>Paste a JSON array containing resource objects. All items will be auto-approved.</p>
               </div>
 
               <div>
@@ -324,8 +319,8 @@ export default function AddResourceManager() {
               </div>
 
               {bulkResult && (
-                <div className="p-4 rounded-xl bg-white/50 border border-white space-y-2 text-[12px]">
-                  <p className="font-bold text-[#1a1d2e]">Results ({bulkResult.total} items parsed):</p>
+                <div className="p-4 rounded-xl space-y-2 text-[12px]" style={{ background: isDark ? 'rgba(255,255,255,0.03)' : 'rgba(255,255,255,0.5)', border: `1px solid ${isDark ? 'rgba(255,255,255,0.08)' : 'rgba(255,255,255,1)'}` }}>
+                  <p className="font-bold" style={{ color: S.fg }}>Results ({bulkResult.total} items parsed):</p>
                   <p className="text-green-600 font-semibold flex items-center gap-2"><CheckCircle className="w-4 h-4" /> {bulkResult.successful} successfully added</p>
                   {bulkResult.failed > 0 && (
                     <div className="text-red-500 font-semibold space-y-1">
@@ -340,7 +335,7 @@ export default function AddResourceManager() {
 
               <button onClick={handleBulkSubmit} disabled={bulkSaving || !bulkData.trim()}
                 className="w-full py-4 rounded-2xl bg-[#5B4FE9] text-white font-extrabold uppercase tracking-widest text-xs flex items-center justify-center gap-2 transition-all hover:scale-[1.01] active:scale-95 disabled:opacity-60"
-                style={{ boxShadow: '0 8px 16px rgba(91,79,233,0.2)' }}>
+                style={{ boxShadow: isDark ? '0 4px 12px rgba(0,0,0,0.5)' : '0 8px 16px rgba(91,79,233,0.2)' }}>
                 {bulkSaving ? <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" /> : <UploadCloud className="w-4 h-4" />}
                 Upload Bulk Resources
               </button>

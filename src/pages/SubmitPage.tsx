@@ -4,7 +4,7 @@ import { useSearchParams, Link } from 'react-router-dom';
 import { 
   CheckCircle, 
   BookOpen, 
-  Type, Link as LinkIcon, User, Send, ChevronRight, ChevronLeft, ChevronDown,
+  Type, Link as LinkIcon, User, Send, ChevronRight, ChevronLeft,
   FileText, FlaskConical, ClipboardList, PenTool, Layout, Layers
 } from 'lucide-react';
 import {

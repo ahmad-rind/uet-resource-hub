@@ -17,17 +17,7 @@ import {
   SelectValue,
 } from '../../components/ui/interfaces-select';
 import { adminGetModerators, adminCreateModerator, adminDeleteModerator, adminGetDepartments } from '../../lib/supabase.js';
-
-const S = {
-  bg: '#d6dae8',
-  fg: '#1a1d2e',
-  muted: '#475569',
-  accent: '#5B4FE9',
-  extruded: '8px 8px 16px #b0b8cc, -8px -8px 16px #ffffff',
-  small: '5px 5px 10px #b0b8cc, -5px -5px 10px #ffffff',
-  inset: 'inset 6px 6px 10px #b0b8cc, inset -6px -6px 10px #ffffff',
-  insetDeep: 'inset 10px 10px 20px #b0b8cc, inset -10px -10px 20px #ffffff',
-};
+import { useAdminTheme } from '../../context/AdminThemeContext';
 
 interface Moderator {
   id: string;
@@ -38,6 +28,7 @@ interface Moderator {
 }
 
 export default function ModeratorsManager() {
+  const { S, isDark } = useAdminTheme();
   const [moderators, setModerators] = useState<Moderator[]>([]);
   const [departments, setDepartments] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
@@ -115,7 +106,7 @@ export default function ModeratorsManager() {
         </h2>
         <button 
           onClick={() => setShowAdd(!showAdd)}
-          className="flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-bold text-white transition-all duration-300 hover:-translate-y-0.5 active:translate-y-0.5"
+          className="flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-bold text-white transition-all duration-300 hover:-translate-y-0.5 active:scale-95"
           style={{ background: S.accent, boxShadow: S.small }}
         >
           {showAdd ? <X className="w-4 h-4" /> : <Plus className="w-4 h-4" />}
@@ -190,7 +181,7 @@ export default function ModeratorsManager() {
               <button 
                 type="submit"
                 disabled={processing === 'create'}
-                className="w-full py-2.5 rounded-xl text-sm font-bold text-white transition-all transform hover:-translate-y-0.5 disabled:opacity-50"
+                className="w-full py-2.5 rounded-xl text-sm font-bold text-white transition-all transform hover:-translate-y-0.5 active:scale-95 disabled:opacity-50"
                 style={{ background: S.accent, boxShadow: S.small }}
               >
                 {processing === 'create' ? 'Creating...' : 'Register Access Key'}
@@ -207,13 +198,13 @@ export default function ModeratorsManager() {
 
       {loading ? (
         <div className="flex flex-col items-center justify-center py-20 gap-4">
-          <div className="w-12 h-12 rounded-[24px] flex items-center justify-center" style={{ boxShadow: S.extruded }}>
+          <div className="w-12 h-12 rounded-[24px] flex items-center justify-center" style={{ background: S.bg, boxShadow: S.extruded }}>
             <div className="w-6 h-6 border-2 border-[#5B4FE9] border-t-transparent rounded-full animate-spin" />
           </div>
         </div>
       ) : moderators.length === 0 ? (
         <div className="rounded-[32px] p-16 text-center" style={{ background: S.bg, boxShadow: S.extruded }}>
-          <ShieldCheck className="w-16 h-16 text-[#A3B1C6] mx-auto mb-4" />
+          <ShieldCheck className="w-16 h-16 mx-auto mb-4" style={{ color: S.muted }} />
           <h3 className="text-xl font-bold mb-2" style={{ color: S.fg }}>No Moderators Defined</h3>
           <p className="text-sm" style={{ color: S.muted }}>Assign Access Keys to department heads to decentralize resource review.</p>
         </div>
@@ -222,13 +213,13 @@ export default function ModeratorsManager() {
           {moderators.map(m => (
             <div key={m.id} className="rounded-[32px] p-6 animate-fadeIn" style={{ background: S.bg, boxShadow: S.extruded }}>
               <div className="flex items-start justify-between mb-4">
-                <div className="w-10 h-10 rounded-2xl flex items-center justify-center" style={{ boxShadow: S.inset, color: S.accent }}>
+                <div className="w-10 h-10 rounded-2xl flex items-center justify-center" style={{ background: S.bg, boxShadow: S.inset, color: S.accent }}>
                   <Key className="w-5 h-5" />
                 </div>
                 <button 
                   onClick={() => handleDelete(m.id)}
                   className="w-8 h-8 flex items-center justify-center rounded-xl text-red-500 transition-all hover:scale-110"
-                  style={{ boxShadow: S.small }}
+                  style={{ background: S.bg, boxShadow: S.small }}
                 >
                   {processing === m.id ? (
                     <div className="w-3 h-3 border border-red-500 border-t-transparent rounded-full animate-spin" />
@@ -242,7 +233,7 @@ export default function ModeratorsManager() {
               <p className="text-xs font-bold flex items-center gap-1.5" style={{ color: S.muted }}>
                 <GraduationCap className="w-3.5 h-3.5" /> {m.department}
               </p>
-              <div className="mt-4 pt-4 border-t border-gray-200/50 flex items-center justify-between text-[10px] uppercase tracking-widest font-bold" style={{ color: S.muted }}>
+              <div className="mt-4 pt-4 flex items-center justify-between text-[10px] uppercase tracking-widest font-bold" style={{ color: S.muted, borderTop: `1px solid ${isDark ? 'rgba(255,255,255,0.07)' : 'rgba(0,0,0,0.07)'}` }}>
                  <span>Created</span>
                  <span>{new Date(m.created_at).toLocaleDateString()}</span>
               </div>

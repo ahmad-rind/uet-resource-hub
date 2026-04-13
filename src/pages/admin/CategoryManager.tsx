@@ -26,28 +26,26 @@ import {
   adminBulkImportCourses,
 } from '../../lib/supabase.js';
 import { departments as staticDepts } from '../../data/courses.js';
+import { useAdminTheme } from '../../context/AdminThemeContext';
 
 // ── Design tokens ────────────────────────────────────────────────
-const S = {
-  card:      { borderRadius: 24, background: '#d6dae8', boxShadow: '8px 8px 16px #b0b8cc,-8px -8px 16px #ffffff' },
-  cardSm:    { borderRadius: 16, background: '#d6dae8', boxShadow: '5px 5px 10px #b0b8cc,-5px -5px 10px #ffffff' },
-  inset:     { borderRadius: 12, background: '#d6dae8', boxShadow: 'inset 6px 6px 10px #b0b8cc,inset -6px -6px 10px #ffffff' },
-  insetDeep: { borderRadius: 12, background: '#d6dae8', boxShadow: 'inset 10px 10px 20px #b0b8cc,inset -10px -10px 20px #ffffff' },
-  font:      { fontFamily: "'DM Sans',sans-serif" },
-  display:   { fontFamily: "'Plus Jakarta Sans',sans-serif" },
-};
+
 const btn = {
-  primary: 'bg-[#5B4FE9] text-white rounded-2xl px-4 py-2 text-sm font-semibold transition-all duration-300 hover:-translate-y-0.5 active:translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-[#5B4FE9] focus:ring-offset-2 focus:ring-offset-[#d6dae8]',
-  ghost:   'rounded-2xl px-3 py-2 text-sm font-medium text-[#475569] transition-all duration-300 hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-[#5B4FE9]',
-  danger:  'bg-red-500 text-white rounded-2xl px-3 py-2 text-sm font-semibold transition-all duration-300 hover:-translate-y-0.5 active:translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-red-400',
-  success: 'bg-[#10B981] text-white rounded-2xl px-3 py-2 text-sm font-semibold transition-all duration-300 hover:-translate-y-0.5 focus:outline-none',
+  primary: 'bg-[#5B4FE9] text-white rounded-2xl px-4 py-2 text-sm font-semibold transition-all duration-300 hover:-translate-y-0.5 active:scale-95 focus:outline-none focus:ring-2 focus:ring-[#5B4FE9]',
+  ghost:   'rounded-2xl px-3 py-2 text-sm font-medium text-[#475569] transition-all duration-300 hover:-translate-y-0.5 active:scale-95 focus:outline-none focus:ring-2 focus:ring-[#5B4FE9]',
+  danger:  'bg-red-500 text-white rounded-2xl px-3 py-2 text-sm font-semibold transition-all duration-300 hover:-translate-y-0.5 active:scale-95 focus:outline-none focus:ring-2 focus:ring-red-400',
+  success: 'bg-[#10B981] text-white rounded-2xl px-3 py-2 text-sm font-semibold transition-all duration-300 hover:-translate-y-0.5 active:scale-95 focus:outline-none',
   icon:    'w-8 h-8 rounded-xl flex items-center justify-center text-[#475569] hover:text-[#4A3FD8] transition-colors focus:outline-none focus:ring-2 focus:ring-[#5B4FE9]',
 };
 const SEM_COLORS = [
-  'bg-blue-100 text-blue-700', 'bg-purple-100 text-purple-700',
-  'bg-green-100 text-green-700', 'bg-yellow-100 text-yellow-700',
-  'bg-red-100 text-red-700', 'bg-pink-100 text-pink-700',
-  'bg-indigo-100 text-indigo-700', 'bg-teal-100 text-teal-700',
+  { color: '#3b82f6'  },
+  { color: '#a855f7'  },
+  { color: '#10b981'  },
+  { color: '#f59e0b'  },
+  { color: '#ef4444'  },
+  { color: '#ec4899'  },
+  { color: '#6366f1'  },
+  { color: '#14b8a6'  },
 ];
 
 // ── Build a flat merged list from static data ─────────────────────
@@ -79,6 +77,8 @@ interface ConfirmState { show: boolean; title: string; msg: string; onConfirm: (
 
 // ════════════════════════════════════════════════════════════════
 export default function CategoryManager({ isEmbedded = false }: { isEmbedded?: boolean }) {
+  const { S, isDark } = useAdminTheme();
+
   const navigate = useNavigate();
   const { toasts, add: toast } = useToast();
 
@@ -355,13 +355,13 @@ export default function CategoryManager({ isEmbedded = false }: { isEmbedded?: b
   };
 
   if (!authChecked) return (
-    <div className="min-h-screen bg-[#d6dae8] flex items-center justify-center" style={S.font}>
+    <div className="min-h-screen flex items-center justify-center" style={{ background: S.bg, fontFamily: "'DM Sans',sans-serif", color: S.fg }}>
       <div className="w-12 h-12 rounded-full border-4 border-[#5B4FE9] border-t-transparent animate-spin" />
     </div>
   );
 
   return (
-    <div className={`${isEmbedded ? '' : 'min-h-screen'} bg-[#d6dae8]`} style={S.font}>
+    <div className={`${isEmbedded ? '' : 'min-h-screen'}`} style={{ background: S.bg, fontFamily: "'DM Sans',sans-serif", color: S.fg }}>
 
       {/* Toast */}
       <div className="fixed top-4 right-4 z-[200] space-y-2 pointer-events-none">
@@ -377,14 +377,14 @@ export default function CategoryManager({ isEmbedded = false }: { isEmbedded?: b
       {/* Confirm */}
       {confirm.show && (
         <div className="fixed inset-0 z-[150] flex items-center justify-center p-4" style={{ background: 'rgba(26,29,46,0.4)', backdropFilter: 'blur(8px)' }}>
-          <div className="max-w-sm w-full p-6 rounded-[24px]" style={S.card}>
+          <div className="max-w-sm w-full p-6 rounded-[24px]" style={{ background: S.bg, boxShadow: S.extruded, borderRadius: 24 }}>
             <div className="w-12 h-12 rounded-2xl bg-red-100 flex items-center justify-center mx-auto mb-4">
               <AlertCircle size={24} className="text-red-500"/>
             </div>
-            <h3 className="text-lg font-bold text-[#1a1d2e] text-center mb-2" style={S.display}>{confirm.title}</h3>
-            <p className="text-sm text-[#475569] text-center mb-6">{confirm.msg}</p>
+            <h3 className="text-lg font-bold text-center mb-2" style={{ fontFamily: "'Plus Jakarta Sans',sans-serif", color: S.fg }}>{confirm.title}</h3>
+            <p className="text-sm text-center mb-6" style={{ color: S.muted }}>{confirm.msg}</p>
             <div className="flex gap-3">
-              <button className="flex-1 py-2.5 rounded-2xl text-sm font-semibold text-[#475569]" style={S.cardSm}
+              <button className="flex-1 py-2.5 rounded-2xl text-sm font-semibold" style={{ background: S.bg, boxShadow: S.small, borderRadius: 16, color: S.muted }}
                 onClick={() => setConfirm(p => ({ ...p, show: false }))}>Cancel</button>
               <button className={`flex-1 py-2.5 ${btn.danger}`} onClick={confirm.onConfirm}>Delete</button>
             </div>
@@ -394,18 +394,18 @@ export default function CategoryManager({ isEmbedded = false }: { isEmbedded?: b
 
       {/* Header */}
       {!isEmbedded && (
-        <div className="sticky top-0 z-40 px-4 md:px-6 py-4" style={{ background: '#d6dae8', boxShadow: '0 4px 20px #b0b8cc' }}>
+        <div className="sticky top-0 z-40 px-4 md:px-6 py-4" style={{ background: S.bg, boxShadow: S.extruded }}>
           <div className="max-w-7xl mx-auto flex items-center justify-between gap-4 flex-wrap">
             <div className="flex items-center gap-3">
               <Link to="/admin/dashboard"
-                className={`${btn.icon}`} style={S.cardSm} title="Back to Dashboard">
+                className={`${btn.icon}`} style={{ background: S.bg, boxShadow: S.small, borderRadius: 16 }} title="Back to Dashboard">
                 <ArrowLeft size={18}/>
               </Link>
               <div>
-                <h1 className="text-xl font-extrabold text-[#1a1d2e] tracking-tight" style={S.display}>
-                  Category Manager
+                <h1 className="text-xl font-extrabold tracking-tight" style={{ fontFamily: "'Plus Jakarta Sans',sans-serif", color: S.fg }}>
+                  Resource Categories
                 </h1>
-                <p className="text-xs text-[#475569]">
+                <p className="text-xs" style={{ color: S.muted }}>
                   {mergedDepts.length} departments · {mergedCourses.length || '—'} courses shown
                 </p>
               </div>
@@ -413,7 +413,7 @@ export default function CategoryManager({ isEmbedded = false }: { isEmbedded?: b
             <div className="flex items-center gap-2">
               <button onClick={() => setShowInactive(p => !p)}
                 className={`flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-semibold transition-all`}
-                style={S.cardSm}
+                style={{ background: S.bg, boxShadow: S.small, borderRadius: 16 }}
                 title={showInactive ? 'Hide inactive' : 'Show inactive'}>
                 {showInactive ? <Eye size={13} className="text-[#4A3FD8]"/> : <EyeOff size={13} className="text-[#A0AEC0]"/>}
                 <span className={showInactive ? 'text-[#4A3FD8]' : 'text-[#A0AEC0]'}>
@@ -422,7 +422,7 @@ export default function CategoryManager({ isEmbedded = false }: { isEmbedded?: b
               </button>
               <button onClick={fetchDb}
                 className={`w-10 h-10 rounded-2xl flex items-center justify-center text-[#475569]`}
-                style={S.cardSm} title="Refresh from Supabase">
+                style={{ background: S.bg, boxShadow: S.small, borderRadius: 16 }} title="Refresh from Supabase">
                 <RefreshCw size={16} className={loading ? 'animate-spin' : ''}/>
               </button>
             </div>
@@ -432,13 +432,13 @@ export default function CategoryManager({ isEmbedded = false }: { isEmbedded?: b
 
       <div className="max-w-7xl mx-auto px-4 md:px-6 py-6">
         {/* Tab toggle */}
-        <div className="flex gap-2 mb-6 p-1.5 rounded-2xl w-fit" style={S.inset}>
+        <div className="flex gap-2 mb-6 p-1.5 rounded-2xl w-fit" style={{ background: S.bg, boxShadow: S.inset, borderRadius: 12 }}>
           {(['departments', 'courses'] as const).map(tab => (
             <button key={tab} onClick={() => setActiveTab(tab)}
               className={`px-5 py-2 rounded-xl text-sm font-semibold capitalize transition-all duration-300 ${
-                activeTab === tab ? 'text-white' : 'text-[#475569] hover:text-[#1a1d2e]'
+                activeTab === tab ? 'text-white' : ''
               }`}
-              style={activeTab === tab ? { background: '#5B4FE9', boxShadow: '5px 5px 10px #b0b8cc,-5px -5px 10px #ffffff' } : {}}>
+              style={activeTab === tab ? { background: '#5B4FE9', boxShadow: isDark ? '0 4px 12px rgba(0,0,0,0.5)' : '0 8px 16px rgba(91,79,233,0.2)' } : { color: S.muted }}>
               {tab === 'departments'
                 ? <span className="flex items-center gap-1.5"><GraduationCap size={14}/>{tab}</span>
                 : <span className="flex items-center gap-1.5"><BookOpen size={14}/>{tab}</span>}
@@ -454,12 +454,12 @@ export default function CategoryManager({ isEmbedded = false }: { isEmbedded?: b
                 <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-[#A0AEC0]"/>
                 <input value={searchDept} onChange={e => setSearchDept(e.target.value)}
                   placeholder="Search departments…"
-                  className="w-full pl-9 pr-4 py-2.5 text-sm text-[#1a1d2e] placeholder-[#A0AEC0] bg-[#d6dae8] border-0 outline-none focus:ring-2 focus:ring-[#5B4FE9] transition-all rounded-2xl"
-                  style={S.inset}/>
+                  className="w-full pl-9 pr-4 py-2.5 text-sm placeholder-[#A0AEC0] border-0 outline-none focus:ring-2 focus:ring-[#5B4FE9] transition-all rounded-2xl"
+                  style={{ background: S.bg, boxShadow: S.insetDeep, color: S.fg, borderRadius: 12 }}/>
               </div>
-              <button onClick={() => setDeptModal({ open: true, mode: 'create', data: null })}
+                <button onClick={() => setDeptModal({ open: true, mode: 'create', data: null })}
                 className={`${btn.primary} flex items-center gap-2`}
-                style={{ boxShadow: '5px 5px 10px #b0b8cc,-5px -5px 10px #ffffff' }}>
+                style={{ boxShadow: isDark ? '0 4px 12px rgba(0,0,0,0.5)' : '0 8px 16px rgba(91,79,233,0.2)' }}>
                 <Plus size={14}/> Add Department
               </button>
             </div>
@@ -471,9 +471,9 @@ export default function CategoryManager({ isEmbedded = false }: { isEmbedded?: b
                 { label: 'Active', value: mergedDepts.filter(d => d.is_active).length, color: '#10B981' },
                 { label: 'In DB', value: dbDepts.length, color: '#F59E0B' },
               ].map(s => (
-                <div key={s.label} className="p-3 rounded-[20px] text-center" style={S.cardSm}>
-                  <div className="text-2xl font-extrabold" style={{ color: s.color, ...S.display }}>{s.value}</div>
-                  <div className="text-xs text-[#475569] font-medium mt-0.5">{s.label}</div>
+                <div key={s.label} className="p-3 rounded-[20px] text-center" style={{ background: S.bg, boxShadow: S.small, borderRadius: 16 }}>
+                  <div className="text-2xl font-extrabold" style={{ fontFamily: "'Plus Jakarta Sans',sans-serif", color: s.color }}>{s.value}</div>
+                  <div className="text-xs font-medium mt-0.5" style={{ color: S.muted }}>{s.label}</div>
                 </div>
               ))}
             </div>
@@ -485,19 +485,19 @@ export default function CategoryManager({ isEmbedded = false }: { isEmbedded?: b
                 const inDb = !!dept.id;
 
                 return (
-                  <div key={dept.name} className="rounded-[24px] overflow-hidden transition-all duration-300" style={S.card}>
+                  <div key={dept.name} className="rounded-[24px] overflow-hidden transition-all duration-300" style={{ background: S.bg, boxShadow: S.extruded, borderRadius: 24 }}>
                     {/* Row */}
                     <div className="flex items-center gap-3 p-4">
                       <button onClick={() => setExpandedDept(isExpanded ? null : dept.name)}
-                        className={`${btn.icon}`} style={S.inset}>
+                        className={`${btn.icon}`} style={{ background: S.bg, boxShadow: S.inset, borderRadius: 12 }}>
                         {isExpanded ? <ChevronDown size={16}/> : <ChevronRight size={16}/>}
                       </button>
-                      <div className="w-10 h-10 rounded-2xl flex items-center justify-center flex-shrink-0" style={S.inset}>
+                      <div className="w-10 h-10 rounded-2xl flex items-center justify-center flex-shrink-0" style={{ background: S.bg, boxShadow: S.inset, borderRadius: 12 }}>
                         <GraduationCap size={18} style={{ color: dept.is_active ? '#5B4FE9' : '#A0AEC0' }}/>
                       </div>
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center gap-2 flex-wrap">
-                          <span className="font-bold text-[#1a1d2e] truncate" style={S.display}>{dept.name}</span>
+                          <span className="font-bold truncate" style={{ fontFamily: "'Plus Jakarta Sans',sans-serif", color: S.fg }}>{dept.name}</span>
                           {!dept.is_active && (
                             <span className="px-2 py-0.5 rounded-full text-[10px] font-semibold bg-gray-200 text-gray-500">Inactive</span>
                           )}
@@ -511,32 +511,32 @@ export default function CategoryManager({ isEmbedded = false }: { isEmbedded?: b
                           )}
                         </div>
                         <div className="flex items-center gap-3 mt-0.5 text-xs text-[#A0AEC0]">
-                          <span><strong className="text-[#475569]">{totalCourses}</strong> courses</span>
-                          <span><strong className="text-[#475569]">{Object.keys(dept.semesters).length}</strong> semesters</span>
+                          <span style={{ color: S.muted }}><strong>{totalCourses}</strong> courses</span>
+                          <span style={{ color: S.muted }}><strong>{Object.keys(dept.semesters).length}</strong> semesters</span>
                         </div>
                       </div>
                       <div className="flex items-center gap-1.5 flex-shrink-0">
                         {/* Sync to DB */}
                         {!inDb && (
                           <button onClick={() => bulkImportAll(dept.name)}
-                            className="px-2.5 py-1.5 rounded-xl text-xs font-semibold text-[#10B981] transition-all hover:-translate-y-0.5"
-                            style={S.cardSm} title="Sync to Supabase">
+                            className="px-2.5 py-1.5 rounded-xl text-xs font-semibold text-[#10B981] transition-all hover:-translate-y-0.5 active:scale-95"
+                            style={{ background: S.bg, boxShadow: S.small, borderRadius: 16 }} title="Sync to Supabase">
                             Sync
                           </button>
                         )}
                         <button onClick={() => setDeptModal({ open: true, mode: 'edit', data: dept })}
-                          className={btn.icon} style={S.cardSm} title="Edit">
+                          className={btn.icon} style={{ background: S.bg, boxShadow: S.small, borderRadius: 16 }} title="Edit">
                           <Pencil size={13}/>
                         </button>
                         {!dept.fromStatic && (
                           <button onClick={() => deleteDept(dept)}
-                            className={`${btn.icon} hover:text-red-500`} style={S.cardSm} title="Delete">
+                            className={`${btn.icon} hover:text-red-500`} style={{ background: S.bg, boxShadow: S.small, borderRadius: 16 }} title="Delete">
                             <Trash2 size={13}/>
                           </button>
                         )}
                         <button onClick={() => { setSelectedDeptName(dept.name); setActiveTab('courses'); setSelectedSemester(null); }}
-                          className="px-2.5 py-1.5 rounded-xl text-xs font-semibold text-[#4A3FD8] transition-all hover:-translate-y-0.5"
-                          style={S.cardSm} title="View courses">
+                          className="px-2.5 py-1.5 rounded-xl text-xs font-semibold text-[#4A3FD8] transition-all hover:-translate-y-0.5 active:scale-95"
+                          style={{ background: S.bg, boxShadow: S.small, borderRadius: 16 }} title="View courses">
                           Courses →
                         </button>
                       </div>
@@ -545,8 +545,8 @@ export default function CategoryManager({ isEmbedded = false }: { isEmbedded?: b
                     {/* Expanded: semester grid */}
                     {isExpanded && (
                       <div className="px-4 pb-4">
-                        <div className="p-3 rounded-[18px]" style={S.inset}>
-                          <p className="text-xs font-semibold text-[#475569] uppercase tracking-wider mb-3">
+                        <div className="p-3 rounded-[18px]" style={{ background: S.bg, boxShadow: S.inset, borderRadius: 12 }}>
+                          <p className="text-xs font-semibold uppercase tracking-wider mb-3" style={{ color: S.muted }}>
                             Semester Overview
                           </p>
                           <div className="grid grid-cols-4 md:grid-cols-8 gap-2">
@@ -555,10 +555,10 @@ export default function CategoryManager({ isEmbedded = false }: { isEmbedded?: b
                               return (
                                 <button key={sem}
                                   onClick={() => { setSelectedDeptName(dept.name); setActiveTab('courses'); setSelectedSemester(sem); }}
-                                  className={`p-2 rounded-xl text-center transition-all hover:-translate-y-0.5 ${count > 0 ? '' : 'opacity-40'}`}
-                                  style={S.cardSm}>
-                                  <div className={`text-xs font-bold mb-0.5 ${SEM_COLORS[(sem-1) % 8].split(' ')[1]}`}>S{sem}</div>
-                                  <div className="text-sm font-extrabold text-[#1a1d2e]">{count}</div>
+                                  className={`p-2 rounded-xl text-center transition-all hover:-translate-y-0.5 active:scale-95 ${count > 0 ? '' : 'opacity-40'}`}
+                                  style={{ background: S.bg, boxShadow: S.small, borderRadius: 16 }}>
+                                  <div className={`text-xs font-bold mb-0.5`} style={{ color: SEM_COLORS[(sem-1) % 8].color }}>S{sem}</div>
+                                  <div className="text-sm font-extrabold" style={{ color: S.fg }}>{count}</div>
                                   <div className="text-[10px] text-[#A0AEC0]">courses</div>
                                 </button>
                               );
@@ -566,8 +566,8 @@ export default function CategoryManager({ isEmbedded = false }: { isEmbedded?: b
                           </div>
                           {inDb && (
                             <button onClick={() => bulkImportAll(dept.name)}
-                              className="mt-3 w-full py-2 rounded-xl text-xs font-semibold text-[#10B981] flex items-center justify-center gap-1.5 transition-all hover:-translate-y-0.5"
-                              style={S.cardSm}>
+                              className="mt-3 w-full py-2 rounded-xl text-xs font-semibold text-[#10B981] flex items-center justify-center gap-1.5 transition-all hover:-translate-y-0.5 active:scale-95"
+                              style={{ background: S.bg, boxShadow: S.small, borderRadius: 16 }}>
                               <RefreshCw size={12}/> Re-sync all courses to Supabase
                             </button>
                           )}
@@ -586,16 +586,16 @@ export default function CategoryManager({ isEmbedded = false }: { isEmbedded?: b
           <div className="flex flex-col lg:flex-row gap-4">
             {/* Left: dept selector */}
             <div className="lg:w-72 flex-shrink-0">
-              <div className="p-4 rounded-[24px] sticky top-24" style={S.card}>
-                <p className="text-xs font-semibold text-[#475569] uppercase tracking-wider mb-3">
+              <div className="p-4 rounded-[24px] sticky top-24" style={{ background: S.bg, boxShadow: S.extruded, borderRadius: 24 }}>
+                <p className="text-xs font-semibold uppercase tracking-wider mb-3" style={{ color: S.muted }}>
                   Select Department
                 </p>
                 <div className="relative mb-3">
                   <Search size={12} className="absolute left-3 top-1/2 -translate-y-1/2 text-[#A0AEC0]"/>
                   <input value={searchDept} onChange={e => setSearchDept(e.target.value)}
                     placeholder="Filter departments…"
-                    className="w-full pl-8 pr-3 py-2 text-xs text-[#1a1d2e] placeholder-[#A0AEC0] bg-[#d6dae8] border-0 outline-none focus:ring-2 focus:ring-[#5B4FE9] transition-all rounded-xl"
-                    style={S.inset}/>
+                    className="w-full pl-8 pr-3 py-2 text-xs placeholder-[#A0AEC0] border-0 outline-none focus:ring-2 focus:ring-[#5B4FE9] transition-all rounded-xl"
+                    style={{ background: S.bg, boxShadow: S.insetDeep, color: S.fg, borderRadius: 12 }}/>
                 </div>
                 <div className="space-y-1.5 max-h-[60vh] overflow-y-auto pr-1">
                   {filteredDepts.map(dept => {
@@ -604,14 +604,14 @@ export default function CategoryManager({ isEmbedded = false }: { isEmbedded?: b
                     return (
                       <button key={dept.name}
                         onClick={() => { setSelectedDeptName(dept.name); setSelectedSemester(null); }}
-                        className="w-full text-left px-3 py-2.5 rounded-xl transition-all duration-200 hover:-translate-y-0.5"
+                        className="w-full text-left px-3 py-2.5 rounded-xl transition-all duration-200 hover:-translate-y-0.5 active:scale-95"
                         style={isSelected
-                          ? { background: '#5B4FE9', boxShadow: '5px 5px 10px #b0b8cc,-5px -5px 10px #ffffff', borderRadius: 14 }
-                          : S.cardSm}>
-                        <div className={`text-xs font-semibold truncate ${isSelected ? 'text-white' : 'text-[#1a1d2e]'}`}>
+                          ? { background: '#5B4FE9', boxShadow: isDark ? '0 4px 12px rgba(0,0,0,0.5)' : '0 8px 16px rgba(91,79,233,0.2)', borderRadius: 14 }
+                          : { background: S.bg, boxShadow: S.small, borderRadius: 16 }}>
+                        <div className={`text-xs font-semibold truncate ${isSelected ? 'text-white' : ''}`} style={isSelected ? {} : { color: S.fg }}>
                           {dept.name}
                         </div>
-                        <div className={`text-[10px] ${isSelected ? 'text-white/70' : 'text-[#A0AEC0]'}`}>
+                        <div className={`text-[10px] mt-0.5 ${isSelected ? 'text-white/80' : ''}`} style={isSelected ? {} : { color: S.muted }}>
                           {totalCourses} courses
                         </div>
                       </button>
@@ -624,11 +624,11 @@ export default function CategoryManager({ isEmbedded = false }: { isEmbedded?: b
             {/* Right: course list */}
             <div className="flex-1 min-w-0">
               {!selectedDeptName ? (
-                <div className="flex flex-col items-center justify-center py-20 rounded-[24px]" style={S.card}>
-                  <div className="w-16 h-16 rounded-[20px] flex items-center justify-center mb-4" style={S.inset}>
+                <div className="flex flex-col items-center justify-center py-20 rounded-[24px]" style={{ background: S.bg, boxShadow: S.extruded, borderRadius: 24 }}>
+                  <div className="w-16 h-16 rounded-[20px] flex items-center justify-center mb-4" style={{ background: S.bg, boxShadow: S.inset, borderRadius: 12 }}>
                     <Layers size={28} className="text-[#A0AEC0]"/>
                   </div>
-                  <p className="text-[#475569] font-semibold">Select a department</p>
+                  <p className="font-semibold" style={{ color: S.muted }}>Select a department</p>
                   <p className="text-sm text-[#A0AEC0] mt-1">Choose from the left panel to view its courses</p>
                 </div>
               ) : (
@@ -639,21 +639,21 @@ export default function CategoryManager({ isEmbedded = false }: { isEmbedded?: b
                       <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-[#A0AEC0]"/>
                       <input value={searchCourse} onChange={e => setSearchCourse(e.target.value)}
                         placeholder="Search courses…"
-                        className="w-full pl-9 pr-4 py-2.5 text-sm text-[#1a1d2e] placeholder-[#A0AEC0] bg-[#d6dae8] border-0 outline-none focus:ring-2 focus:ring-[#5B4FE9] transition-all rounded-2xl"
-                        style={S.inset}/>
+                        className="w-full pl-9 pr-4 py-2.5 text-sm placeholder-[#A0AEC0] border-0 outline-none focus:ring-2 focus:ring-[#5B4FE9] transition-all rounded-2xl"
+                        style={{ background: S.bg, boxShadow: S.insetDeep, color: S.fg, borderRadius: 12 }}/>
                     </div>
                     <button
                       onClick={() => setCourseModal({ open: true, mode: 'create', data: null, deptName: selectedDeptName })}
                       className={`${btn.primary} flex items-center gap-2`}
-                      style={{ boxShadow: '5px 5px 10px #b0b8cc,-5px -5px 10px #ffffff' }}>
+                      style={{ boxShadow: isDark ? '0 4px 12px rgba(0,0,0,0.5)' : '0 8px 16px rgba(91,79,233,0.2)' }}>
                       <Plus size={14}/> Add Course
                     </button>
                   </div>
 
                   {/* Dept info bar */}
-                  <div className="flex items-center justify-between flex-wrap gap-2 mb-4 p-3 rounded-[20px]" style={S.cardSm}>
+                  <div className="flex items-center justify-between flex-wrap gap-2 mb-4 p-3 rounded-[20px]" style={{ background: S.bg, boxShadow: S.small, borderRadius: 16 }}>
                     <div>
-                      <span className="font-bold text-[#1a1d2e] text-sm" style={S.display}>{selectedDeptName}</span>
+                      <span className="font-bold text-sm" style={{ fontFamily: "'Plus Jakarta Sans',sans-serif", color: S.fg }}>{selectedDeptName}</span>
                       <span className="text-xs text-[#A0AEC0] ml-2">
                         {filteredCourses.length} of {mergedCourses.length} courses
                         {selectedDeptObj && !selectedDeptObj.id && (
@@ -663,8 +663,8 @@ export default function CategoryManager({ isEmbedded = false }: { isEmbedded?: b
                     </div>
                     {selectedDeptObj && (
                       <button onClick={() => bulkImportAll(selectedDeptName)}
-                        className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold text-[#10B981] transition-all hover:-translate-y-0.5"
-                        style={S.cardSm}>
+                        className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold text-[#10B981] transition-all hover:-translate-y-0.5 active:scale-95"
+                        style={{ background: S.bg, boxShadow: S.small, borderRadius: 16 }}>
                         <RefreshCw size={11}/> Sync to DB
                       </button>
                     )}
@@ -673,20 +673,18 @@ export default function CategoryManager({ isEmbedded = false }: { isEmbedded?: b
                   {/* Semester filter pills */}
                   <div className="flex gap-2 flex-wrap mb-4">
                     <button
-                      onClick={() => setSelectedSemester(null)}
-                      className={`px-3 py-1.5 rounded-xl text-xs font-semibold transition-all ${selectedSemester === null ? 'text-white' : 'text-[#475569]'}`}
+                      className={`px-3 py-1.5 rounded-xl text-xs font-semibold transition-all ${selectedSemester === null ? 'text-white' : ''}`}
                       style={selectedSemester === null
-                        ? { background: '#5B4FE9', boxShadow: '4px 4px 8px #b0b8cc,-4px -4px 8px #ffffff', borderRadius: 12 }
-                        : S.cardSm}>
+                        ? { background: '#5B4FE9', boxShadow: isDark ? '0 4px 12px rgba(0,0,0,0.5)' : '0 8px 16px rgba(91,79,233,0.2)', borderRadius: 12 }
+                        : { background: S.bg, boxShadow: S.small, borderRadius: 16, color: S.muted }}>
                       All Semesters
                     </button>
                     {semestersForSelected.map(sem => (
                       <button key={sem}
-                        onClick={() => setSelectedSemester(sem)}
-                        className={`px-3 py-1.5 rounded-xl text-xs font-semibold transition-all ${selectedSemester === sem ? 'text-white' : 'text-[#475569]'}`}
+                        className={`px-3 py-1.5 rounded-xl text-xs font-semibold transition-all ${selectedSemester === sem ? 'text-white' : ''}`}
                         style={selectedSemester === sem
-                          ? { background: '#5B4FE9', boxShadow: '4px 4px 8px #b0b8cc,-4px -4px 8px #ffffff', borderRadius: 12 }
-                          : S.cardSm}>
+                          ? { background: '#5B4FE9', boxShadow: isDark ? '0 4px 12px rgba(0,0,0,0.5)' : '0 8px 16px rgba(91,79,233,0.2)', borderRadius: 12 }
+                          : { background: S.bg, boxShadow: S.small, borderRadius: 16, color: S.muted }}>
                         Sem {sem}
                       </button>
                     ))}
@@ -694,29 +692,29 @@ export default function CategoryManager({ isEmbedded = false }: { isEmbedded?: b
 
                   {/* Course cards */}
                   {filteredCourses.length === 0 ? (
-                    <div className="text-center py-12 rounded-[24px]" style={S.card}>
+                    <div className="text-center py-12 rounded-[24px]" style={{ background: S.bg, boxShadow: S.extruded, borderRadius: 24 }}>
                       <BookOpen size={32} className="text-[#A0AEC0] mx-auto mb-2"/>
-                      <p className="text-[#475569] font-medium">No courses found</p>
+                      <p className="font-medium" style={{ color: S.muted }}>No courses found</p>
                     </div>
                   ) : (
                     <div className="space-y-2">
                       {filteredCourses.map((course, idx) => (
                         <div key={`${course.code}-${course.semester}-${idx}`}
-                          className="flex items-center gap-3 p-3 rounded-[20px] transition-all duration-300 hover:-translate-y-0.5"
-                          style={S.card}>
+                          className="flex items-center gap-3 p-3 rounded-[20px] transition-all duration-300 hover:-translate-y-0.5 active:scale-95"
+                          style={{ background: S.bg, boxShadow: S.extruded, borderRadius: 24 }}>
                           {/* Sem badge */}
-                          <div className={`px-2 py-1 rounded-lg text-xs font-bold flex-shrink-0 ${SEM_COLORS[(course.semester-1) % 8]}`}>
+                          <div className={`px-2 py-1 rounded-lg text-xs font-bold flex-shrink-0 `} style={{ background: S.bg, boxShadow: S.smallInset, color: SEM_COLORS[(course.semester-1) % 8].color }}>
                             S{course.semester}
                           </div>
                           {/* Code icon */}
-                          <div className="w-8 h-8 rounded-xl flex items-center justify-center flex-shrink-0" style={S.inset}>
+                          <div className="w-8 h-8 rounded-xl flex items-center justify-center flex-shrink-0" style={{ background: S.bg, boxShadow: S.inset, borderRadius: 12 }}>
                             <Hash size={12} className="text-[#4A3FD8]"/>
                           </div>
                           {/* Info */}
                           <div className="flex-1 min-w-0">
                             <div className="flex items-center gap-2 flex-wrap">
                               <span className="text-xs font-bold text-[#4A3FD8]">{course.code}</span>
-                              <span className="font-semibold text-[#1a1d2e] text-sm truncate">{course.name}</span>
+                              <span className="font-semibold text-sm truncate" style={{ color: S.fg }}>{course.name}</span>
                               {!course.is_active && (
                                 <span className="px-1.5 py-0.5 rounded-full text-[10px] bg-gray-200 text-gray-500">Inactive</span>
                               )}
@@ -733,12 +731,12 @@ export default function CategoryManager({ isEmbedded = false }: { isEmbedded?: b
                           <div className="flex items-center gap-1.5 flex-shrink-0">
                             <button
                               onClick={() => setCourseModal({ open: true, mode: 'edit', data: course, deptName: selectedDeptName })}
-                              className={`${btn.icon}`} style={S.cardSm} title="Edit">
+                              className={`${btn.icon}`} style={{ background: S.bg, boxShadow: S.small, borderRadius: 16 }} title="Edit">
                               <Pencil size={12}/>
                             </button>
                             {(!course.fromStatic || course.id) && (
                               <button onClick={() => deleteCourse(course)}
-                                className={`${btn.icon} hover:text-red-500`} style={S.cardSm} title="Delete">
+                                className={`${btn.icon} hover:text-red-500`} style={{ background: S.bg, boxShadow: S.small, borderRadius: 16 }} title="Delete">
                                 <Trash2 size={12}/>
                               </button>
                             )}
@@ -782,6 +780,8 @@ export default function CategoryManager({ isEmbedded = false }: { isEmbedded?: b
 // ── Dept Modal ────────────────────────────────────────────────────
 function DeptModal({ mode, initial, onSave, onClose }:
   { mode: 'create'|'edit'; initial: any; onSave: (d:any)=>void; onClose: ()=>void }) {
+  const { S, isDark } = useAdminTheme();
+
   const [form, setForm] = useState({
     name:        initial?.name        || '',
     description: initial?.description || '',
@@ -799,54 +799,51 @@ function DeptModal({ mode, initial, onSave, onClose }:
     setSaving(false);
   };
 
-  const Inp = { borderRadius: 12, background: '#d6dae8', boxShadow: 'inset 6px 6px 10px #b0b8cc, inset -6px -6px 10px #ffffff' };
-  const InpD = { borderRadius: 12, background: '#d6dae8', boxShadow: 'inset 10px 10px 20px #b0b8cc, inset -10px -10px 20px #ffffff' };
-
   return (
     <div className="fixed inset-0 z-[100] flex items-center justify-center p-4" style={{ background: 'rgba(26,29,46,0.4)', backdropFilter: 'blur(8px)' }}>
       <div className="max-w-lg w-full p-6 rounded-[24px]"
-        style={{ borderRadius: 24, background: '#d6dae8', boxShadow: '8px 8px 16px #b0b8cc,-8px -8px 16px #ffffff' }}>
+        style={{ background: S.bg, boxShadow: S.extruded, borderRadius: 24 }}>
         <div className="flex items-center justify-between mb-5">
           <div>
-            <h2 className="text-lg font-extrabold text-[#1a1d2e]" style={{ fontFamily: "'Plus Jakarta Sans',sans-serif" }}>
+            <h2 className="text-lg font-extrabold" style={{ fontFamily: "'Plus Jakarta Sans',sans-serif", color: S.fg }}>
               {mode === 'create' ? 'Add Department' : `Edit: ${initial?.name}`}
             </h2>
             {isBuiltIn && <p className="text-xs text-amber-600 mt-0.5">Built-in department — name cannot be changed</p>}
           </div>
-          <button onClick={onClose} className="w-8 h-8 rounded-xl flex items-center justify-center text-[#475569]"
-            style={{ borderRadius: 12, background: '#d6dae8', boxShadow: '5px 5px 10px #b0b8cc,-5px -5px 10px #ffffff' }}>
+          <button onClick={onClose} className="w-8 h-8 rounded-xl flex items-center justify-center transition-all active:scale-95 text-[#475569]"
+            style={{ background: S.bg, boxShadow: S.small, color: S.muted }}>
             <X size={16}/>
           </button>
         </div>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label className="block text-xs font-semibold text-[#475569] uppercase tracking-wider mb-1.5">Department Name *</label>
+            <label className="block text-xs font-semibold uppercase tracking-wider mb-1.5" style={{ color: S.muted }}>Department Name *</label>
             <input value={form.name} onChange={e => setForm(p => ({ ...p, name: e.target.value }))}
               placeholder="e.g. Computer Science (BSc)" required
               disabled={isBuiltIn}
-              className="w-full px-4 py-2.5 text-sm text-[#1a1d2e] placeholder-[#A0AEC0] bg-[#d6dae8] border-0 outline-none focus:ring-2 focus:ring-[#5B4FE9] transition-all disabled:opacity-60"
-              style={InpD}/>
+              className="w-full px-4 py-2.5 text-sm placeholder-[#A0AEC0] border-0 outline-none focus:ring-2 focus:ring-[#5B4FE9] transition-all disabled:opacity-60"
+              style={{ background: S.bg, boxShadow: S.insetDeep, color: S.fg, borderRadius: 12 }}/>
           </div>
           <div>
-            <label className="block text-xs font-semibold text-[#475569] uppercase tracking-wider mb-1.5">Description</label>
+            <label className="block text-xs font-semibold uppercase tracking-wider mb-1.5" style={{ color: S.muted }}>Description</label>
             <input value={form.description} onChange={e => setForm(p => ({ ...p, description: e.target.value }))}
               placeholder="Brief description of the program"
-              className="w-full px-4 py-2.5 text-sm text-[#1a1d2e] placeholder-[#A0AEC0] bg-[#d6dae8] border-0 outline-none focus:ring-2 focus:ring-[#5B4FE9] transition-all"
-              style={Inp}/>
+              className="w-full px-4 py-2.5 text-sm placeholder-[#A0AEC0] border-0 outline-none focus:ring-2 focus:ring-[#5B4FE9] transition-all"
+              style={{ background: S.bg, boxShadow: S.insetDeep, color: S.fg, borderRadius: 12 }}/>
           </div>
           <div className="flex gap-4">
             <div className="flex-1">
-              <label className="block text-xs font-semibold text-[#475569] uppercase tracking-wider mb-1.5">Sort Order</label>
+              <label className="block text-xs font-semibold uppercase tracking-wider mb-1.5" style={{ color: S.muted }}>Sort Order</label>
               <input type="number" value={form.sort_order} onChange={e => setForm(p => ({ ...p, sort_order: Number(e.target.value) }))}
-                className="w-full px-4 py-2.5 text-sm text-[#1a1d2e] bg-[#d6dae8] border-0 outline-none focus:ring-2 focus:ring-[#5B4FE9] transition-all"
-                style={Inp}/>
+                className="w-full px-4 py-2.5 text-sm border-0 outline-none focus:ring-2 focus:ring-[#5B4FE9] transition-all"
+                style={{ background: S.bg, boxShadow: S.insetDeep, color: S.fg, borderRadius: 12 }}/>
             </div>
             {mode === 'edit' && (
               <div className="flex-1">
-                <label className="block text-xs font-semibold text-[#475569] uppercase tracking-wider mb-1.5">Status</label>
+                <label className="block text-xs font-semibold uppercase tracking-wider mb-1.5" style={{ color: S.muted }}>Status</label>
                 <button type="button" onClick={() => setForm(p => ({ ...p, is_active: !p.is_active }))}
                   className="w-full flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-medium transition-all"
-                  style={Inp}>
+                  style={{ background: S.bg, boxShadow: S.inset, borderRadius: 12 }}>
                   <span className="w-9 h-5 rounded-full relative transition-colors duration-300"
                     style={{ background: form.is_active ? '#10B981' : '#D1D5DB' }}>
                     <span className="absolute top-0.5 w-4 h-4 rounded-full bg-white shadow transition-all duration-300"
@@ -859,13 +856,13 @@ function DeptModal({ mode, initial, onSave, onClose }:
           </div>
           <div className="flex gap-3 pt-2">
             <button type="button" onClick={onClose}
-              className="flex-1 py-2.5 rounded-2xl text-sm font-semibold text-[#475569] transition-all"
-              style={{ borderRadius: 16, background: '#d6dae8', boxShadow: '5px 5px 10px #b0b8cc,-5px -5px 10px #ffffff' }}>
+              className="flex-1 py-2.5 rounded-2xl text-sm font-semibold transition-all"
+              style={{ background: S.bg, boxShadow: S.small, color: S.muted, borderRadius: 16 }}>
               Cancel
             </button>
             <button type="submit" disabled={saving || !form.name.trim()}
               className="flex-1 py-2.5 rounded-2xl text-sm font-semibold text-white transition-all"
-              style={{ background: '#5B4FE9', boxShadow: '5px 5px 10px #b0b8cc,-5px -5px 10px #ffffff', opacity: saving ? 0.7 : 1 }}>
+              style={{ background: '#5B4FE9', boxShadow: isDark ? '0 4px 12px rgba(0,0,0,0.5)' : '0 8px 16px rgba(91,79,233,0.2)', opacity: saving ? 0.7 : 1 }}>
               {saving ? 'Saving…' : mode === 'create' ? 'Create Department' : 'Save Changes'}
             </button>
           </div>
@@ -878,6 +875,8 @@ function DeptModal({ mode, initial, onSave, onClose }:
 // ── Course Modal ──────────────────────────────────────────────────
 function CourseModal({ mode, initial, deptName, allDeptNames, onSave, onClose }:
   { mode: 'create'|'edit'; initial: any; deptName: string; allDeptNames: string[]; onSave: (d:any)=>void; onClose: ()=>void }) {
+  const { S, isDark } = useAdminTheme();
+
   const [form, setForm] = useState({
     department_name: deptName || allDeptNames[0] || '',
     semester:     initial?.semester     || 1,
@@ -897,43 +896,40 @@ function CourseModal({ mode, initial, deptName, allDeptNames, onSave, onClose }:
     setSaving(false);
   };
 
-  const Inp = { borderRadius: 12, background: '#d6dae8', boxShadow: 'inset 6px 6px 10px #b0b8cc,inset -6px -6px 10px #ffffff' };
-  const InpD = { borderRadius: 12, background: '#d6dae8', boxShadow: 'inset 10px 10px 20px #b0b8cc,inset -10px -10px 20px #ffffff' };
-
   return (
     <div className="fixed inset-0 z-[100] flex items-center justify-center p-4" style={{ background: 'rgba(26,29,46,0.4)', backdropFilter: 'blur(8px)' }}>
       <div className="max-w-lg w-full p-6 rounded-[24px]"
-        style={{ borderRadius: 24, background: '#d6dae8', boxShadow: '8px 8px 16px #b0b8cc,-8px -8px 16px #ffffff' }}>
+        style={{ background: S.bg, boxShadow: S.extruded, borderRadius: 24 }}>
         <div className="flex items-center justify-between mb-5">
           <div>
-            <h2 className="text-lg font-extrabold text-[#1a1d2e]" style={{ fontFamily: "'Plus Jakarta Sans',sans-serif" }}>
+            <h2 className="text-lg font-extrabold" style={{ fontFamily: "'Plus Jakarta Sans',sans-serif", color: S.fg }}>
               {mode === 'create' ? 'Add Course' : 'Edit Course'}
             </h2>
             {isBuiltInStatic && (
               <p className="text-xs text-blue-600 mt-0.5">Editing built-in course — will save override to database</p>
             )}
           </div>
-          <button onClick={onClose} className="w-8 h-8 rounded-xl flex items-center justify-center text-[#475569]"
-            style={{ borderRadius: 12, background: '#d6dae8', boxShadow: '5px 5px 10px #b0b8cc,-5px -5px 10px #ffffff' }}>
+          <button onClick={onClose} className="w-8 h-8 rounded-xl flex items-center justify-center transition-all active:scale-95"
+            style={{ background: S.bg, boxShadow: S.small, color: S.muted, borderRadius: 12 }}>
             <X size={16}/>
           </button>
         </div>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label className="block text-xs font-semibold text-[#475569] uppercase tracking-wider mb-1.5">Department *</label>
+            <label className="block text-xs font-semibold uppercase tracking-wider mb-1.5" style={{ color: S.muted }}>Department *</label>
             <Select
               value={form.department_name}
               onValueChange={val => setForm(p => ({ ...p, department_name: val }))}
               disabled={mode === 'edit'}
             >
               <SelectTrigger 
-                className="w-full px-4 py-2.5 text-sm text-[#1a1d2e] bg-[#d6dae8] border-none h-auto outline-none focus:ring-2 focus:ring-[#5B4FE9] transition-all disabled:opacity-60"
-                style={Inp}
+                className="w-full px-4 py-2.5 text-sm border-none h-auto outline-none focus:ring-2 focus:ring-[#5B4FE9] transition-all disabled:opacity-60"
+                style={{ background: S.bg, boxShadow: S.insetDeep, color: S.fg, borderRadius: 12 }}
               >
                 <SelectValue placeholder="Select Department" />
               </SelectTrigger>
               <SelectContent
-                style={{ background: '#d6dae8', color: '#1a1d2e', boxShadow: '8px 8px 16px #b0b8cc,-8px -8px 16px #ffffff', border: '1px solid #b0b8cc', borderRadius: '16px' }}
+                style={{ background: S.bg, color: S.fg, boxShadow: S.extruded, border: `1px solid ${isDark ? 'rgba(255,255,255,0.05)' : '#b0b8cc'}`, borderRadius: '16px' }}
               >
                 {allDeptNames.map(n => <SelectItem key={n} value={n} className="rounded-xl focus:bg-[#5B4FE9] focus:text-white cursor-pointer">{n}</SelectItem>)}
               </SelectContent>
@@ -941,54 +937,54 @@ function CourseModal({ mode, initial, deptName, allDeptNames, onSave, onClose }:
           </div>
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <label className="block text-xs font-semibold text-[#475569] uppercase tracking-wider mb-1.5">Semester *</label>
+              <label className="block text-xs font-semibold uppercase tracking-wider mb-1.5" style={{ color: S.muted }}>Semester *</label>
               <Select
                 value={form.semester.toString()}
                 onValueChange={val => setForm(p => ({ ...p, semester: Number(val) }))}
                 disabled={isBuiltInStatic}
               >
                 <SelectTrigger 
-                  className="w-full px-4 py-2.5 text-sm text-[#1a1d2e] bg-[#d6dae8] border-none h-auto outline-none focus:ring-2 focus:ring-[#5B4FE9] transition-all disabled:opacity-60"
-                  style={Inp}
+                  className="w-full px-4 py-2.5 text-sm border-none h-auto outline-none focus:ring-2 focus:ring-[#5B4FE9] transition-all disabled:opacity-60"
+                  style={{ background: S.bg, boxShadow: S.insetDeep, color: S.fg, borderRadius: 12 }}
                 >
                   <SelectValue placeholder="Select Semester" />
                 </SelectTrigger>
                 <SelectContent
-                  style={{ background: '#d6dae8', color: '#1a1d2e', boxShadow: '8px 8px 16px #b0b8cc,-8px -8px 16px #ffffff', border: '1px solid #b0b8cc', borderRadius: '16px' }}
+                  style={{ background: S.bg, color: S.fg, boxShadow: S.extruded, border: `1px solid ${isDark ? 'rgba(255,255,255,0.05)' : '#b0b8cc'}`, borderRadius: '16px' }}
                 >
                   {[1,2,3,4,5,6,7,8].map(s => <SelectItem key={s} value={s.toString()} className="rounded-xl focus:bg-[#5B4FE9] focus:text-white cursor-pointer">Semester {s}</SelectItem>)}
                 </SelectContent>
               </Select>
             </div>
             <div>
-              <label className="block text-xs font-semibold text-[#475569] uppercase tracking-wider mb-1.5">Credit Hours</label>
+              <label className="block text-xs font-semibold uppercase tracking-wider mb-1.5" style={{ color: S.muted }}>Credit Hours</label>
               <input type="number" min={1} max={6} value={form.credit_hours}
                 onChange={e => setForm(p => ({ ...p, credit_hours: Number(e.target.value) }))}
-                className="w-full px-4 py-2.5 text-sm text-[#1a1d2e] bg-[#d6dae8] border-0 outline-none focus:ring-2 focus:ring-[#5B4FE9] transition-all"
-                style={Inp}/>
+                className="w-full px-4 py-2.5 text-sm border-0 outline-none focus:ring-2 focus:ring-[#5B4FE9] transition-all"
+                style={{ background: S.bg, boxShadow: S.insetDeep, color: S.fg, borderRadius: 12 }}/>
             </div>
           </div>
           <div>
-            <label className="block text-xs font-semibold text-[#475569] uppercase tracking-wider mb-1.5">Course Code *</label>
+            <label className="block text-xs font-semibold uppercase tracking-wider mb-1.5" style={{ color: S.muted }}>Course Code *</label>
             <input value={form.code} onChange={e => setForm(p => ({ ...p, code: e.target.value.toUpperCase() }))}
               placeholder="e.g. CS-101" required
               disabled={isBuiltInStatic}
-              className="w-full px-4 py-2.5 text-sm text-[#1a1d2e] placeholder-[#A0AEC0] bg-[#d6dae8] border-0 outline-none focus:ring-2 focus:ring-[#5B4FE9] transition-all disabled:opacity-60"
-              style={InpD}/>
+              className="w-full px-4 py-2.5 text-sm placeholder-[#A0AEC0] border-0 outline-none focus:ring-2 focus:ring-[#5B4FE9] transition-all disabled:opacity-60"
+              style={{ background: S.bg, boxShadow: S.insetDeep, color: S.fg, borderRadius: 12 }}/>
           </div>
           <div>
-            <label className="block text-xs font-semibold text-[#475569] uppercase tracking-wider mb-1.5">Course Name *</label>
+            <label className="block text-xs font-semibold uppercase tracking-wider mb-1.5" style={{ color: S.muted }}>Course Name *</label>
             <input value={form.name} onChange={e => setForm(p => ({ ...p, name: e.target.value }))}
               placeholder="e.g. Programming Fundamentals" required
-              className="w-full px-4 py-2.5 text-sm text-[#1a1d2e] placeholder-[#A0AEC0] bg-[#d6dae8] border-0 outline-none focus:ring-2 focus:ring-[#5B4FE9] transition-all"
-              style={InpD}/>
+              className="w-full px-4 py-2.5 text-sm placeholder-[#A0AEC0] border-0 outline-none focus:ring-2 focus:ring-[#5B4FE9] transition-all"
+              style={{ background: S.bg, boxShadow: S.insetDeep, color: S.fg, borderRadius: 12 }}/>
           </div>
           {mode === 'edit' && !isBuiltInStatic && (
             <div>
-              <label className="block text-xs font-semibold text-[#475569] uppercase tracking-wider mb-1.5">Status</label>
+              <label className="block text-xs font-semibold uppercase tracking-wider mb-1.5" style={{ color: S.muted }}>Status</label>
               <button type="button" onClick={() => setForm(p => ({ ...p, is_active: !p.is_active }))}
                 className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-medium transition-all"
-                style={Inp}>
+                style={{ background: S.bg, boxShadow: S.inset, borderRadius: 12 }}>
                 <span className="w-9 h-5 rounded-full relative transition-colors duration-300"
                   style={{ background: form.is_active ? '#10B981' : '#D1D5DB' }}>
                   <span className="absolute top-0.5 w-4 h-4 rounded-full bg-white shadow transition-all duration-300"
@@ -1000,13 +996,13 @@ function CourseModal({ mode, initial, deptName, allDeptNames, onSave, onClose }:
           )}
           <div className="flex gap-3 pt-2">
             <button type="button" onClick={onClose}
-              className="flex-1 py-2.5 rounded-2xl text-sm font-semibold text-[#475569] transition-all"
-              style={{ borderRadius: 16, background: '#d6dae8', boxShadow: '5px 5px 10px #b0b8cc,-5px -5px 10px #ffffff' }}>
+              className="flex-1 py-2.5 rounded-2xl text-sm font-semibold transition-all"
+              style={{ background: S.bg, boxShadow: S.small, color: S.muted, borderRadius: 16 }}>
               Cancel
             </button>
             <button type="submit" disabled={saving || !form.code.trim() || !form.name.trim()}
               className="flex-1 py-2.5 rounded-2xl text-sm font-semibold text-white transition-all"
-              style={{ background: '#5B4FE9', boxShadow: '5px 5px 10px #b0b8cc,-5px -5px 10px #ffffff', opacity: saving ? 0.7 : 1 }}>
+              style={{ background: '#5B4FE9', boxShadow: isDark ? '0 4px 12px rgba(0,0,0,0.5)' : '0 8px 16px rgba(91,79,233,0.2)', opacity: saving ? 0.7 : 1 }}>
               {saving ? 'Saving…' : mode === 'create' ? 'Create Course' : 'Save Changes'}
             </button>
           </div>

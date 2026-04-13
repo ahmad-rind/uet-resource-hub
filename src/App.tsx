@@ -12,6 +12,8 @@ const ContactPage = lazy(() => import('./pages/ContactPage'));
 const AdminLoginPage = lazy(() => import('./pages/admin/AdminLoginPage'));
 const AdminDashboard = lazy(() => import('./pages/admin/AdminDashboard'));
 
+import { AdminThemeProvider } from './context/AdminThemeContext';
+
 /** Prefetch all public page chunks during idle time so navigation is instant */
 const pagePrefetches = [
   () => import('./pages/BrowsePage'),
@@ -124,16 +126,18 @@ function Root() {
   if (isAdmin) {
     // Admin routes — no Navbar, no Footer, dark background
     return (
-      <div style={{ minHeight: '100vh', background: '#0F1117' }}>
-        <Suspense fallback={<PageLoader />}>
-          <Routes>
-            <Route path="/admin" element={<AdminLoginPage />} />
-            <Route path="/admin/login" element={<AdminLoginPage />} />
-            <Route path="/admin/dashboard" element={<AdminDashboard />} />
-            <Route path="*" element={<NotFound />} />
-          </Routes>
-        </Suspense>
-      </div>
+      <AdminThemeProvider>
+        <div style={{ minHeight: '100vh', background: '#0F1117' }}>
+          <Suspense fallback={<PageLoader />}>
+            <Routes>
+              <Route path="/admin" element={<AdminLoginPage />} />
+              <Route path="/admin/login" element={<AdminLoginPage />} />
+              <Route path="/admin/dashboard" element={<AdminDashboard />} />
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+          </Suspense>
+        </div>
+      </AdminThemeProvider>
     );
   }
 
