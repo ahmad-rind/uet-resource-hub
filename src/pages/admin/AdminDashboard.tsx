@@ -6,7 +6,7 @@ import {
   Search, BarChart3,
   Check, X, AlertTriangle, User, BookOpen,
   ArrowUpRight, Layers, Copy, Pencil,
-  FolderTree, ChevronDown, Home, PartyPopper, Inbox, ShieldCheck, Sun, Moon
+  FolderTree, ChevronDown, Home, PartyPopper, Inbox, ShieldCheck, Sun, Moon, Bell
 } from 'lucide-react';
 import {
   Select,
