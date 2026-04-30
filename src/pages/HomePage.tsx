@@ -1,29 +1,56 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowRight, BookOpen, Users, Library, ChevronRight, Building2, Leaf, Zap, Cpu, Settings, Bot, Factory, Laptop, Brain, Monitor, Signal, Mouse, Calculator, Atom, Upload } from 'lucide-react';
+import { ArrowRight, BookOpen, Users, Library, ChevronRight, Upload } from 'lucide-react';
 import { getRecentResources, getTotalResourceCount, getContributorCount, prefetchCoursesData } from '../lib/supabase.js';
 import ResourceCard from '../components/ResourceCard.js';
 import ResourceDetailModal from '../components/ResourceDetailModal.js';
 import { Reveal } from '../components/Reveal.js';
 import { ScrollProgress } from '../components/ScrollProgress.js';
 import { Helmet } from 'react-helmet-async';
+import {
+  CivilIcon,
+  EnvironmentalIcon,
+  ElectricalIcon,
+  ElectronicsIcon,
+  MechanicalIcon,
+  MechatronicsIcon,
+  IndustrialIcon,
+  ComputerIcon,
+  AIIcon,
+  SoftwareIcon,
+  TelecomIcon,
+  CSIcon,
+  MathIcon,
+  PhysicsIcon,
+} from '../components/DepartmentIcons.js';
 
-export const deptIcons: Record<string, React.ReactNode> = {
-  'Civil Engineering (BSc)': <Building2 className="w-6 h-6 text-[#F59E0B]" />,
-  'Environmental Engineering (BSc)': <Leaf className="w-6 h-6 text-[#10B981]" />,
-  'Electrical Engineering (BSc)': <Zap className="w-6 h-6 text-[#EAB308]" />,
-  'Electronics Engineering (BSc)': <Cpu className="w-6 h-6 text-[#3B82F6]" />,
-  'Mechanical Engineering (BSc)': <Settings className="w-6 h-6 text-[#475569]" />,
-  'Mechatronics Engineering (BSc)': <Bot className="w-6 h-6 text-[#8B5CF6]" />,
-  'Industrial & Manufacturing Engineering (BSc)': <Factory className="w-6 h-6 text-[#F97316]" />,
-  'Computer Engineering (BSc)': <Laptop className="w-6 h-6 text-[#0EA5E9]" />,
-  'Artificial Intelligence (BS)': <Brain className="w-6 h-6 text-[#EC4899]" />,
-  'Software Engineering (BSc)': <Monitor className="w-6 h-6 text-[#14B8A6]" />,
-  'Telecommunication Engineering (BSc)': <Signal className="w-6 h-6 text-[#06B6D4]" />,
-  'Computer Science (BSc)': <Mouse className="w-6 h-6 text-[#6366F1]" />,
-  'Mathematics (BS)': <Calculator className="w-6 h-6 text-[#EF4444]" />,
-  'Physics (BS)': <Atom className="w-6 h-6 text-[#8B5CF6]" />,
+interface DeptData {
+  Icon: React.ComponentType<{ className?: string }>;
+  accent: string;
+  glow: string;
+}
+
+export const deptData: Record<string, DeptData> = {
+  'Civil Engineering (BSc)': { Icon: CivilIcon, accent: '#F59E0B', glow: 'rgba(251,191,36,0.18)' },
+  'Environmental Engineering (BSc)': { Icon: EnvironmentalIcon, accent: '#10B981', glow: 'rgba(52,211,153,0.18)' },
+  'Electrical Engineering (BSc)': { Icon: ElectricalIcon, accent: '#EAB308', glow: 'rgba(250,204,21,0.18)' },
+  'Electronics Engineering (BSc)': { Icon: ElectronicsIcon, accent: '#3B82F6', glow: 'rgba(96,165,250,0.18)' },
+  'Mechanical Engineering (BSc)': { Icon: MechanicalIcon, accent: '#94A3B8', glow: 'rgba(148,163,184,0.18)' },
+  'Mechatronics Engineering (BSc)': { Icon: MechatronicsIcon, accent: '#A855F7', glow: 'rgba(192,132,252,0.18)' },
+  'Industrial & Manufacturing Engineering (BSc)': { Icon: IndustrialIcon, accent: '#FB923C', glow: 'rgba(251,146,60,0.18)' },
+  'Computer Engineering (BSc)': { Icon: ComputerIcon, accent: '#38BDF8', glow: 'rgba(56,189,248,0.18)' },
+  'Artificial Intelligence (BS)': { Icon: AIIcon, accent: '#F472B6', glow: 'rgba(244,114,182,0.18)' },
+  'Software Engineering (BSc)': { Icon: SoftwareIcon, accent: '#22D3EE', glow: 'rgba(34,211,238,0.18)' },
+  'Telecommunication Engineering (BSc)': { Icon: TelecomIcon, accent: '#A78BFA', glow: 'rgba(167,139,250,0.18)' },
+  'Computer Science (BSc)': { Icon: CSIcon, accent: '#818CF8', glow: 'rgba(129,140,248,0.18)' },
+  'Mathematics (BS)': { Icon: MathIcon, accent: '#FB7185', glow: 'rgba(251,113,133,0.18)' },
+  'Physics (BS)': { Icon: PhysicsIcon, accent: '#A855F7', glow: 'rgba(168,85,247,0.18)' },
 };
+
+// Backwards-compatible export for SubmitPage (renders the Icon as ReactNode)
+export const deptIcons: Record<string, React.ReactNode> = Object.fromEntries(
+  Object.entries(deptData).map(([key, { Icon }]) => [key, <Icon className="w-6 h-6" />])
+);
 
 export default function HomePage() {
 
@@ -146,52 +173,89 @@ export default function HomePage() {
 
           {loading ? (
             /* Skeleton Grid */
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
               {[...Array(8)].map((_, i) => (
                 <div
                   key={i}
-                  className="rounded-[20px] p-4 flex items-center gap-4 animate-pulse"
-                  style={{ background: 'var(--neu-bg)', boxShadow: 'var(--neu-shadow-extruded-sm)' }}
+                  className="rounded-3xl p-6 animate-pulse"
+                  style={{ background: 'var(--neu-bg)', boxShadow: 'var(--neu-shadow-extruded)' }}
                 >
-                  <div className="w-12 h-12 shrink-0 rounded-[14px]"
-                    style={{ background: 'var(--neu-bg)', boxShadow: 'var(--neu-shadow-inset-sm)' }} />
-                  <div className="flex-1 space-y-2">
-                    <div className="h-3.5 rounded-full w-3/4" style={{ background: 'var(--neu-shadow-dark)', opacity: 0.4 }} />
-                    <div className="h-2.5 rounded-full w-1/2" style={{ background: 'var(--neu-shadow-dark)', opacity: 0.25 }} />
+                  <div className="flex items-start justify-between mb-6">
+                    <div className="w-16 h-16 rounded-2xl"
+                      style={{ background: 'var(--neu-bg)', boxShadow: 'var(--neu-shadow-inset-sm)' }} />
+                    <div className="w-9 h-9 rounded-full"
+                      style={{ background: 'var(--neu-bg)', boxShadow: 'var(--neu-shadow-extruded-sm)' }} />
+                  </div>
+                  <div className="space-y-2 mt-auto">
+                    <div className="h-4 rounded-full w-3/4" style={{ background: 'var(--neu-shadow-dark)', opacity: 0.4 }} />
+                    <div className="h-3 rounded-full w-8 mt-3" style={{ background: 'var(--neu-shadow-dark)', opacity: 0.25 }} />
                   </div>
                 </div>
               ))}
             </div>
           ) : (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-              {departmentList.map((dept) => (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+              {departmentList.map((dept) => {
+                const d = deptData[dept];
+                if (!d) return null;
+                const DeptIcon = d.Icon;
+                return (
                   <Link
                     key={dept}
                     to={`/browse?department=${encodeURIComponent(dept)}`}
-                    className="rounded-[20px] p-4 flex items-center gap-4 transition-transform duration-200 ease-[cubic-bezier(0.22,0.61,0.36,1)] hover:-translate-y-1 hover:scale-[1.01] group focus:outline-none focus:ring-2 focus:ring-[#5B4FE9]"
-                    style={{ background: 'var(--neu-bg)', boxShadow: 'var(--neu-shadow-extruded-sm)' }}
+                    className="group relative overflow-hidden rounded-3xl p-6 text-left transition-all duration-500 hover:-translate-y-1.5 focus:outline-none focus:ring-2 focus:ring-[#5B4FE9]"
+                    style={{ background: 'var(--neu-bg)', boxShadow: 'var(--neu-shadow-extruded)' }}
                   >
+                    {/* Hover glow */}
                     <div
-                      className="w-12 h-12 shrink-0 rounded-[14px] flex items-center justify-center transition-all duration-150 [&>svg]:w-5 [&>svg]:h-5 [&>svg]:opacity-80 group-hover:[&>svg]:opacity-100 group-hover:[&>svg]:scale-110"
-                      style={{ background: 'var(--neu-bg)', boxShadow: 'var(--neu-shadow-inset-sm)' }}
-                    >
-                      {deptIcons[dept] || <BookOpen style={{ color: 'var(--neu-muted)' }} />}
-                    </div>
-                    <div className="flex-1 min-w-0 pr-2">
-                      <h3
-                        className="font-bold text-[13px] sm:text-[15px] leading-snug transition-colors duration-200 line-clamp-2"
-                        style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: 'var(--neu-fg)' }}
-                        title={dept}
-                      >
-                        {dept.replace(/\s*\(BS[C]?\)$/i, '')}
-                      </h3>
-                    </div>
-                    <div className="shrink-0 opacity-0 group-hover:opacity-100 transition-[opacity,transform] duration-200 ease-out -translate-x-2 group-hover:translate-x-0">
-                      <ArrowRight className="w-4 h-4" style={{ color: 'var(--neu-accent)' }} />
+                      className="absolute -top-16 -right-16 w-40 h-40 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-3xl pointer-events-none"
+                      style={{ background: d.glow }}
+                    />
+                    {/* Top accent line */}
+                    <div
+                      className="absolute inset-x-0 top-0 h-px opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+                      style={{ background: `linear-gradient(90deg, transparent, ${d.accent}, transparent)` }}
+                    />
+
+                    <div className="relative flex flex-col gap-6 min-h-[150px]">
+                      <div className="flex items-start justify-between">
+                        <div
+                          className="w-16 h-16 rounded-2xl flex items-center justify-center transition-transform duration-500 group-hover:scale-105"
+                          style={{ background: 'var(--neu-bg)', boxShadow: 'var(--neu-shadow-inset-sm)' }}
+                        >
+                          <DeptIcon className="w-11 h-11" />
+                        </div>
+                        <div
+                          className="w-9 h-9 rounded-full flex items-center justify-center transition-all duration-500"
+                          style={{ background: 'var(--neu-bg)', boxShadow: 'var(--neu-shadow-extruded-sm)' }}
+                        >
+                          <ArrowRight
+                            className="w-4 h-4 transition-all duration-500 group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
+                            style={{ color: 'var(--neu-muted)' }}
+                          />
+                        </div>
+                      </div>
+
+                      <div className="mt-auto">
+                        <h3
+                          className="leading-snug tracking-tight"
+                          style={{ fontSize: '16px', fontWeight: 600, fontFamily: "'Plus Jakarta Sans', sans-serif", color: 'var(--neu-fg)' }}
+                        >
+                          {dept.replace(/\s*\(BS[C]?\)$/i, '')}
+                        </h3>
+                        <div className="flex items-center gap-2 mt-3">
+                          <div
+                            className="h-[3px] w-8 rounded-full transition-all duration-500 group-hover:w-14"
+                            style={{ background: `linear-gradient(90deg, ${d.accent}, transparent)` }}
+                          />
+                          <div className="w-1 h-1 rounded-full" style={{ background: d.accent, opacity: 0.5 }} />
+                        </div>
+                      </div>
                     </div>
                   </Link>
-                ))}
-              </div>
+                );
+              })}
+            </div>
           )}
         </section>
       </Reveal>
