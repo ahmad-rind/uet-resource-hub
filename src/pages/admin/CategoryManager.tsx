@@ -35,7 +35,7 @@ const btn = {
   ghost:   'rounded-2xl px-3 py-2 text-sm font-medium text-[#475569] transition-all duration-300 hover:-translate-y-0.5 active:scale-95 focus:outline-none focus:ring-2 focus:ring-[#5B4FE9]',
   danger:  'bg-red-500 text-white rounded-2xl px-3 py-2 text-sm font-semibold transition-all duration-300 hover:-translate-y-0.5 active:scale-95 focus:outline-none focus:ring-2 focus:ring-red-400',
   success: 'bg-[#10B981] text-white rounded-2xl px-3 py-2 text-sm font-semibold transition-all duration-300 hover:-translate-y-0.5 active:scale-95 focus:outline-none',
-  icon:    'w-8 h-8 rounded-xl flex items-center justify-center text-[#475569] hover:text-[#4A3FD8] transition-colors focus:outline-none focus:ring-2 focus:ring-[#5B4FE9]',
+  icon:    'w-10 h-10 rounded-xl flex items-center justify-center hover:opacity-80 transition-opacity focus:outline-none focus:ring-2 focus:ring-[#5B4FE9] cursor-pointer',
 };
 const SEM_COLORS = [
   { color: '#3b82f6'  },
@@ -398,7 +398,7 @@ export default function CategoryManager({ isEmbedded = false }: { isEmbedded?: b
           <div className="max-w-7xl mx-auto flex items-center justify-between gap-4 flex-wrap">
             <div className="flex items-center gap-3">
               <Link to="/admin/dashboard"
-                className={`${btn.icon}`} style={{ background: S.bg, boxShadow: S.small, borderRadius: 16 }} title="Back to Dashboard">
+                className={`${btn.icon}`} style={{ background: S.bg, boxShadow: S.small, borderRadius: 16, color: S.muted }} title="Back to Dashboard">
                 <ArrowLeft size={18}/>
               </Link>
               <div>
@@ -489,7 +489,7 @@ export default function CategoryManager({ isEmbedded = false }: { isEmbedded?: b
                     {/* Row */}
                     <div className="flex items-center gap-3 p-4">
                       <button onClick={() => setExpandedDept(isExpanded ? null : dept.name)}
-                        className={`${btn.icon}`} style={{ background: S.bg, boxShadow: S.inset, borderRadius: 12 }}>
+                        className={`${btn.icon}`} style={{ background: S.bg, boxShadow: S.inset, borderRadius: 12, color: S.muted }}>
                         {isExpanded ? <ChevronDown size={16}/> : <ChevronRight size={16}/>}
                       </button>
                       <div className="w-10 h-10 rounded-2xl flex items-center justify-center flex-shrink-0" style={{ background: S.bg, boxShadow: S.inset, borderRadius: 12 }}>
@@ -499,15 +499,15 @@ export default function CategoryManager({ isEmbedded = false }: { isEmbedded?: b
                         <div className="flex items-center gap-2 flex-wrap">
                           <span className="font-bold truncate" style={{ fontFamily: "'Plus Jakarta Sans',sans-serif", color: S.fg }}>{dept.name}</span>
                           {!dept.is_active && (
-                            <span className="px-2 py-0.5 rounded-full text-[10px] font-semibold bg-gray-200 text-gray-500">Inactive</span>
+                            <span className="px-2 py-0.5 rounded-full text-[11px] font-semibold" style={{ background: isDark ? 'rgba(100,116,139,0.2)' : '#e2e8f0', color: S.muted }}>Inactive</span>
                           )}
                           {dept.fromStatic && (
-                            <span className="px-2 py-0.5 rounded-full text-[10px] font-semibold bg-blue-100 text-blue-600">Built-in</span>
+                            <span className="px-2 py-0.5 rounded-full text-[11px] font-semibold" style={{ background: isDark ? 'rgba(59,130,246,0.15)' : '#dbeafe', color: '#3b82f6' }}>Built-in</span>
                           )}
                           {inDb ? (
-                            <span className="px-2 py-0.5 rounded-full text-[10px] font-semibold bg-green-100 text-green-600">✓ In DB</span>
+                            <span className="px-2 py-0.5 rounded-full text-[11px] font-semibold" style={{ background: isDark ? 'rgba(16,185,129,0.15)' : '#d1fae5', color: '#10b981' }}>✓ In DB</span>
                           ) : (
-                            <span className="px-2 py-0.5 rounded-full text-[10px] font-semibold bg-yellow-100 text-yellow-600">Not synced</span>
+                            <span className="px-2 py-0.5 rounded-full text-[11px] font-semibold" style={{ background: isDark ? 'rgba(245,158,11,0.15)' : '#fef3c7', color: '#f59e0b' }}>Not synced</span>
                           )}
                         </div>
                         <div className="flex items-center gap-3 mt-0.5 text-xs text-[#A0AEC0]">
@@ -525,12 +525,12 @@ export default function CategoryManager({ isEmbedded = false }: { isEmbedded?: b
                           </button>
                         )}
                         <button onClick={() => setDeptModal({ open: true, mode: 'edit', data: dept })}
-                          className={btn.icon} style={{ background: S.bg, boxShadow: S.small, borderRadius: 16 }} title="Edit">
+                          className={btn.icon} style={{ background: S.bg, boxShadow: S.small, borderRadius: 16, color: S.muted }} title="Edit">
                           <Pencil size={13}/>
                         </button>
                         {!dept.fromStatic && (
                           <button onClick={() => deleteDept(dept)}
-                            className={`${btn.icon} hover:text-red-500`} style={{ background: S.bg, boxShadow: S.small, borderRadius: 16 }} title="Delete">
+                            className={`${btn.icon} hover:text-red-500`} style={{ background: S.bg, boxShadow: S.small, borderRadius: 16, color: S.muted }} title="Delete">
                             <Trash2 size={13}/>
                           </button>
                         )}
@@ -801,8 +801,8 @@ function DeptModal({ mode, initial, onSave, onClose }:
 
   return (
     <div className="fixed inset-0 z-[100] flex items-center justify-center p-4" style={{ background: 'rgba(26,29,46,0.4)', backdropFilter: 'blur(8px)' }}>
-      <div className="max-w-lg w-full p-6 rounded-[24px]"
-        style={{ background: S.bg, boxShadow: S.extruded, borderRadius: 24 }}>
+      <div className="max-w-lg w-full p-6 rounded-[28px]"
+        style={{ background: S.bg, boxShadow: S.extruded, borderRadius: 28 }}>
         <div className="flex items-center justify-between mb-5">
           <div>
             <h2 className="text-lg font-extrabold" style={{ fontFamily: "'Plus Jakarta Sans',sans-serif", color: S.fg }}>
@@ -898,8 +898,8 @@ function CourseModal({ mode, initial, deptName, allDeptNames, onSave, onClose }:
 
   return (
     <div className="fixed inset-0 z-[100] flex items-center justify-center p-4" style={{ background: 'rgba(26,29,46,0.4)', backdropFilter: 'blur(8px)' }}>
-      <div className="max-w-lg w-full p-6 rounded-[24px]"
-        style={{ background: S.bg, boxShadow: S.extruded, borderRadius: 24 }}>
+      <div className="max-w-lg w-full p-6 rounded-[28px]"
+        style={{ background: S.bg, boxShadow: S.extruded, borderRadius: 28 }}>
         <div className="flex items-center justify-between mb-5">
           <div>
             <h2 className="text-lg font-extrabold" style={{ fontFamily: "'Plus Jakarta Sans',sans-serif", color: S.fg }}>

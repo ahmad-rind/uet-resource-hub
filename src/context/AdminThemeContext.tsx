@@ -1,7 +1,10 @@
 import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
 
 export const LIGHT_S = {
-  bg: '#d6dae8', fg: '#1a1d2e', muted: '#475569', accent: '#5B4FE9',
+  bg: '#d6dae8', fg: '#1a1d2e', muted: '#334155', accent: '#5B4FE9',
+  surfaceAlt: '#e2e6f0', border: 'rgba(0, 0, 0, 0.1)',
+  success: '#10B981', danger: '#EF4444', warning: '#F59E0B', info: '#3B82F6', focusRing: 'rgba(91,79,233,0.3)',
+  iconSm: '16px', iconMd: '20px', iconLg: '24px',
   extruded: '8px 8px 16px #b0b8cc, -8px -8px 16px #ffffff',
   extrudedHover: '12px 12px 20px #b0b8cc, -12px -12px 20px #ffffff',
   small: '5px 5px 10px #b0b8cc, -5px -5px 10px #ffffff',
@@ -14,7 +17,10 @@ export const LIGHT_S = {
 };
 
 export const DARK_S = {
-  bg: '#1e2130', fg: '#e2e8f0', muted: '#94a3b8', accent: '#7C71FF',
+  bg: '#1e2130', fg: '#e2e8f0', muted: '#cbd5e1', accent: '#7C71FF',
+  surfaceAlt: '#282b3e', border: 'rgba(255, 255, 255, 0.08)',
+  success: '#34D399', danger: '#F87171', warning: '#FBBF24', info: '#60A5FA', focusRing: 'rgba(124,113,255,0.3)',
+  iconSm: '16px', iconMd: '20px', iconLg: '24px',
   extruded: '8px 8px 16px #141620, -8px -8px 16px #282b3e',
   extrudedHover: '12px 12px 20px #141620, -12px -12px 20px #282b3e',
   small: '5px 5px 10px #141620, -5px -5px 10px #282b3e',

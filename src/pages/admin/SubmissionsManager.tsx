@@ -202,25 +202,27 @@ export default function SubmissionsManager() {
                     <button 
                       onClick={(e) => handleMarkRead(sub.id, e)}
                       title="Mark as read"
-                      className="w-8 h-8 flex items-center justify-center rounded-xl transition-all duration-300 hover:scale-110 active:scale-95"
+                      aria-label="Mark submission as read"
+                      className="w-10 h-10 flex items-center justify-center rounded-xl transition-all duration-300 hover:scale-110 active:scale-95 cursor-pointer"
                       style={{ boxShadow: S.small, color: '#10B981', background: S.bg }}
                     >
-                      <CheckCircle className="w-4 h-4" />
+                      <CheckCircle className="w-5 h-5" />
                     </button>
                   )}
                   <button 
                     onClick={(e) => handleDelete(sub.id, e)}
-                    className="w-8 h-8 flex items-center justify-center rounded-xl transition-all duration-300 hover:scale-110 active:scale-95"
+                    aria-label="Delete submission"
+                    className="w-10 h-10 flex items-center justify-center rounded-xl transition-all duration-300 hover:scale-110 active:scale-95 cursor-pointer"
                     style={{ 
-                      boxShadow: deleteConfirm === sub.id ? 'none' : S.small, 
-                      background: deleteConfirm === sub.id ? 'linear-gradient(135deg,#DC2626,#EF4444)' : S.bg,
+                      boxShadow: deleteConfirm === sub.id ? 'inset 2px 2px 4px #b0b8cc, inset -2px -2px 4px #ffffff' : S.small, 
+                      background: deleteConfirm === sub.id ? '#EF4444' : S.bg,
                       color: deleteConfirm === sub.id ? '#FFF' : '#EF4444'
                     }}
                   >
                     {processing === sub.id ? (
-                      <div className="w-3 h-3 border border-white border-t-transparent rounded-full animate-spin" />
+                      <div className="w-4 h-4 border border-current border-t-transparent rounded-full animate-spin" />
                     ) : (
-                      <Trash2 className="w-4 h-4" />
+                      <Trash2 className="w-5 h-5" />
                     )}
                   </button>
                 </div>

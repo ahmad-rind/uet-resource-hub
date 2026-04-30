@@ -85,7 +85,7 @@ function Toast({ message, type }: { message: string; type: 'success' | 'error' |
     info:    <Bell className="w-4 h-4" />,
   }[type];
   return (
-    <div className="fixed top-5 right-5 z-[200] flex items-center gap-3 px-5 py-4 rounded-2xl text-white text-sm font-semibold"
+    <div role="alert" aria-live="assertive" className="fixed top-5 right-5 z-[200] flex items-center gap-3 px-5 py-4 rounded-2xl text-white text-sm font-semibold"
       style={{ background: colors, boxShadow: S.extruded, fontFamily: "'DM Sans',sans-serif", maxWidth: 360, animation: 'slideInRight .3s ease-out' }}>
       {icons}<span>{message}</span>
     </div>
@@ -533,7 +533,7 @@ function ResourceCard({ resource, onApprove, onReject, onPreview, onDelete, onDi
       <div className="absolute top-4.5 right-4.5 flex items-center gap-1">
         <button 
           onClick={copyLink}
-          className="w-8.5 h-8.5 flex items-center justify-center rounded-lg transition-all duration-300 hover:-translate-y-0.5 active:scale-95"
+          className="w-10 h-10 flex items-center justify-center rounded-lg transition-all duration-300 hover:-translate-y-0.5 active:scale-95 cursor-pointer"
           style={{ 
             boxShadow: S.small, 
             background: S.bg,
@@ -545,7 +545,7 @@ function ResourceCard({ resource, onApprove, onReject, onPreview, onDelete, onDi
         </button>
         <button 
           onClick={() => onPreview(resource)}
-          className="w-8.5 h-8.5 flex items-center justify-center rounded-lg transition-all duration-300 hover:-translate-y-0.5 active:scale-95"
+          className="w-10 h-10 flex items-center justify-center rounded-lg transition-all duration-300 hover:-translate-y-0.5 active:scale-95 cursor-pointer"
           style={{ boxShadow: S.small, background: S.bg, color: S.muted }}
           title="Open Link"
         >
@@ -657,10 +657,10 @@ function ResourceCard({ resource, onApprove, onReject, onPreview, onDelete, onDi
         </div>
 
         {/* Secondary Actions (Edit/Delete) */}
-        <div className="flex items-center gap-1.5">
+        <div className="flex items-center gap-2">
           <button 
             onClick={() => onEdit(resource)}
-            className="w-8.5 h-8.5 flex items-center justify-center rounded-lg transition-all duration-300 hover:-translate-y-0.5 active:scale-95"
+            className="w-10 h-10 flex items-center justify-center rounded-lg transition-all duration-300 hover:-translate-y-0.5 active:scale-95 cursor-pointer"
             style={{ boxShadow: S.small, color: S.accent, background: S.bg }}
             title="Edit Resource"
           >
@@ -669,7 +669,7 @@ function ResourceCard({ resource, onApprove, onReject, onPreview, onDelete, onDi
           <button 
             onClick={() => onDelete(resource.id)}
             disabled={isProc}
-            className="w-8.5 h-8.5 flex items-center justify-center rounded-lg transition-all duration-300 hover:-translate-y-0.5 active:scale-95"
+            className="w-10 h-10 flex items-center justify-center rounded-lg transition-all duration-300 hover:-translate-y-0.5 active:scale-95 cursor-pointer"
             style={{ 
               boxShadow: needsConfirm ? 'inset 2px 2px 4px #b0b8cc, inset -2px -2px 4px #ffffff' : S.small, 
               background: needsConfirm ? '#EF4444' : S.bg,
@@ -703,8 +703,8 @@ function SideNavItem({ icon, label, active, onClick, badge }: {
 }) {
   const { S, isDark } = useAdminTheme();
   return (
-    <button onClick={onClick}
-      className={`w-full flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm font-medium transition-all duration-300 text-left focus:outline-none focus:ring-2 focus:ring-[#5B4FE9] group ${active ? 'scale-[1.02]' : 'hover:translate-x-1'}`}
+    <button onClick={onClick} aria-current={active ? "page" : undefined}
+      className={`w-full flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm font-medium transition-all duration-300 text-left cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#5B4FE9] group ${active ? 'scale-[1.02]' : 'hover:translate-x-1'}`}
       style={{
         background: active ? (isDark ? 'rgba(255,255,255,0.05)' : 'rgba(255,255,255,0.4)') : 'transparent',
         boxShadow: active ? S.small : 'none',
@@ -740,6 +740,13 @@ export default function AdminDashboard() {
   const [activeTab, setActiveTab]     = useState<TabType>('pending');
   const [submissionCount, setSubmissionCount] = useState(0);
   const [searchQuery, setSearchQuery] = useState('');
+  const [searchInput, setSearchInput] = useState('');
+  
+  useEffect(() => {
+    const t = setTimeout(() => setSearchQuery(searchInput), 300);
+    return () => clearTimeout(t);
+  }, [searchInput]);
+  
   const [sortField, setSortField]     = useState<SortField>('date');
   const [sortDir, setSortDir]         = useState<SortDir>('desc');
   const [processing, setProcessing]   = useState<string | null>(null);
@@ -946,23 +953,19 @@ export default function AdminDashboard() {
               active={activeTab === 'categories'} 
               onClick={() => { setActiveTab('categories'); setSidebarOpen(false); }} 
             />
+            <SideNavItem 
+              icon={<ShieldCheck className="w-4 h-4" />} 
+              label="Moderators" 
+              active={activeTab === 'moderators'} 
+              onClick={() => { setActiveTab('moderators'); setSidebarOpen(false); }} 
+            />
             <a href="/" target="_blank" rel="noopener noreferrer"
-              className={`w-full flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm font-medium transition-all duration-300 hover:translate-x-1 ${isDark ? 'hover:bg-white/5' : 'hover:bg-white/40'}`}
+              className={`w-full flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm font-medium transition-all duration-300 hover:translate-x-1 cursor-pointer ${isDark ? 'hover:bg-white/5' : 'hover:bg-white/40'}`}
               style={{ color: S.fg, fontFamily: "'DM Sans',sans-serif" }}>
               <Home className="w-4 h-4" /> <span className="flex-1 truncate">Public Site</span>
             </a>
           </div>
         </div>
-      )}
-
-      {/* Moderators (Super Admin Only) - Integrated in flow */}
-      {adminSession.role === 'super_admin' && (
-        <SideNavItem 
-          icon={<ShieldCheck className="w-4 h-4" />} 
-          label="Moderators" 
-          active={activeTab === 'moderators'} 
-          onClick={() => { setActiveTab('moderators'); setSidebarOpen(false); }} 
-        />
       )}
 
       {/* Spacer */}
@@ -1034,10 +1037,19 @@ export default function AdminDashboard() {
 
       {/* Main area */}
       <div className="flex-1 flex flex-col min-w-0 overflow-hidden">
-
+        {/* Mobile Header */}
+        <div className="lg:hidden flex items-center justify-between p-4 border-b" style={{ borderColor: isDark ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.06)' }}>
+          <div className="flex items-center gap-3">
+             <button onClick={() => setSidebarOpen(true)} className="p-2 -ml-2 rounded-xl" style={{ color: S.fg }}>
+               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
+             </button>
+             <h1 className="text-lg font-extrabold" style={{ color: S.fg, fontFamily: "'Plus Jakarta Sans',sans-serif" }}>Admin Panel</h1>
+          </div>
+        </div>
 
         {/* Scrollable content */}
         <main className={`flex-1 overflow-y-auto ${activeTab === 'categories' ? 'p-0' : 'p-4 md:p-6 space-y-6'}`}>
+          <h1 className="sr-only">Admin Dashboard - {activeTab}</h1>
 
           {/* Stats row */}
           {!['submissions', 'moderators', 'categories', 'add'].includes(activeTab) && (
@@ -1050,14 +1062,14 @@ export default function AdminDashboard() {
                   { label: 'Flagged',  value: stats.flagged,  icon: <AlertTriangle className="w-5 h-5" />,  accent: '#F97316',   tab: 'flagged'  as TabType },
                 ].map(s => (
                   <div key={s.label} onClick={() => setActiveTab(s.tab)}
-                    className="rounded-[24px] sm:rounded-[32px] p-4 sm:p-5 cursor-pointer transition-all duration-300 hover:-translate-y-1 active:scale-95"
+                    className="rounded-2xl p-4 sm:p-5 cursor-pointer transition-all duration-300 hover:-translate-y-1 active:scale-95"
                     style={{ background: S.bg, boxShadow: activeTab === s.tab ? S.inset : S.extruded }}>
-                    <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-xl sm:rounded-2xl flex items-center justify-center mb-3 sm:mb-4"
+                    <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-xl flex items-center justify-center mb-3 sm:mb-4"
                       style={{ boxShadow: S.inset, color: s.accent }}>
                       {React.cloneElement(s.icon as React.ReactElement<any>, { className: 'w-4 h-4 sm:w-5 sm:h-5' })}
                     </div>
                     <p className="text-2xl sm:text-3xl font-extrabold tracking-tight" style={{ color: S.fg, fontFamily: "'Plus Jakarta Sans',sans-serif" }}>{s.value}</p>
-                    <p className="text-[10px] sm:text-xs font-semibold mt-1" style={{ color: S.muted }}>{s.label}</p>
+                    <p className="text-xs font-semibold mt-1" style={{ color: S.muted }}>{s.label}</p>
                   </div>
                 ))}
               </div>
@@ -1072,11 +1084,11 @@ export default function AdminDashboard() {
                   style={{ background: S.bg, boxShadow: S.insetDeep }}>
                   <Search className="w-4 h-4 shrink-0" style={{ color: S.muted }} />
                   <input type="text" placeholder="Search title, course, department..."
-                    value={searchQuery} onChange={e => setSearchQuery(e.target.value)}
+                    value={searchInput} onChange={e => setSearchInput(e.target.value)}
                     className="flex-1 bg-transparent text-sm outline-none" style={{ color: S.fg }} />
-                  {searchQuery && (
-                    <button onClick={() => setSearchQuery('')}
-                      className="shrink-0 focus:outline-none" style={{ color: S.muted }}>
+                  {searchInput && (
+                    <button onClick={() => { setSearchInput(''); setSearchQuery(''); }}
+                      className="shrink-0 focus:outline-none cursor-pointer hover:opacity-80 transition-opacity" style={{ color: S.muted }}>
                       <X className="w-4 h-4" />
                     </button>
                   )}

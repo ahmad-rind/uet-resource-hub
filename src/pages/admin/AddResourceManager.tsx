@@ -147,14 +147,14 @@ export default function AddResourceManager() {
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                 <div>
-                  <label className="block text-[10px] font-extrabold uppercase tracking-widest text-[#4A3FD8] mb-1.5">Resource Title</label>
+                  <label className="block text-[10px] font-extrabold uppercase tracking-widest text-[#4A3FD8] mb-1.5">Resource Title *</label>
                   <input required type="text" value={form.title} onChange={e => setForm({...form, title: e.target.value})}
                     placeholder="Enter descriptive title"
                     className="w-full px-4 py-3 rounded-2xl text-[13px] font-medium outline-none focus:ring-2 focus:ring-[#5B4FE9]/20"
                     style={{ background: S.bg, boxShadow: S.insetDeep, color: S.fg }} />
                 </div>
                 <div>
-                  <label className="block text-[10px] font-extrabold uppercase tracking-widest text-[#4A3FD8] mb-1.5">Resource Type</label>
+                  <label className="block text-[10px] font-extrabold uppercase tracking-widest text-[#4A3FD8] mb-1.5">Resource Type *</label>
                   <div className="relative">
                     <Select
                       value={form.type}
@@ -184,7 +184,7 @@ export default function AddResourceManager() {
 
               <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
                 <div>
-                  <label className="block text-[10px] font-extrabold uppercase tracking-widest text-[#4A3FD8] mb-1.5">Department</label>
+                  <label className="block text-[10px] font-extrabold uppercase tracking-widest text-[#4A3FD8] mb-1.5">Department *</label>
                   <div className="relative">
                     <Select
                       value={form.department}
@@ -209,7 +209,7 @@ export default function AddResourceManager() {
                   </div>
                 </div>
                 <div>
-                  <label className="block text-[10px] font-extrabold uppercase tracking-widest text-[#4A3FD8] mb-1.5">Semester</label>
+                  <label className="block text-[10px] font-extrabold uppercase tracking-widest text-[#4A3FD8] mb-1.5">Semester *</label>
                   <div className="relative">
                     <Select
                       value={form.semester}
@@ -234,7 +234,7 @@ export default function AddResourceManager() {
                   </div>
                 </div>
                 <div>
-                  <label className="block text-[10px] font-extrabold uppercase tracking-widest text-[#4A3FD8] mb-1.5">Course</label>
+                  <label className="block text-[10px] font-extrabold uppercase tracking-widest text-[#4A3FD8] mb-1.5">Course *</label>
                   <div className="relative">
                     <Select
                       value={form.courseCode}
@@ -265,7 +265,7 @@ export default function AddResourceManager() {
               </div>
 
               <div>
-                <label className="block text-[10px] font-extrabold uppercase tracking-widest text-[#4A3FD8] mb-1.5">External Link</label>
+                <label className="block text-[10px] font-extrabold uppercase tracking-widest text-[#4A3FD8] mb-1.5">External Link *</label>
                 <input required type="url" value={form.link} onChange={e => setForm({...form, link: e.target.value})}
                   placeholder="https://..."
                   className="w-full px-4 py-3 rounded-2xl text-[13px] font-mono outline-none focus:ring-2 focus:ring-[#5B4FE9]/20"

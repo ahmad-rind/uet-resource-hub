@@ -37,6 +37,7 @@ export default function ModeratorsManager() {
   const [newKey, setNewKey] = useState('');
   const [newDept, setNewDept] = useState('');
   const [processing, setProcessing] = useState<string | null>(null);
+  const [deleteConfirm, setDeleteConfirm] = useState<string | null>(null);
   const [error, setError] = useState('');
 
   const loadData = async () => {
@@ -86,6 +87,12 @@ export default function ModeratorsManager() {
   };
 
   const handleDelete = async (id: string) => {
+    if (deleteConfirm !== id) {
+      setDeleteConfirm(id);
+      setTimeout(() => setDeleteConfirm(null), 3000);
+      return;
+    }
+    setDeleteConfirm(null);
     setProcessing(id);
     try {
       await adminDeleteModerator(id);
@@ -218,13 +225,18 @@ export default function ModeratorsManager() {
                 </div>
                 <button 
                   onClick={() => handleDelete(m.id)}
-                  className="w-8 h-8 flex items-center justify-center rounded-xl text-red-500 transition-all hover:scale-110"
-                  style={{ background: S.bg, boxShadow: S.small }}
+                  aria-label="Delete Moderator"
+                  className="w-10 h-10 flex items-center justify-center rounded-xl transition-all hover:scale-110 cursor-pointer"
+                  style={{ 
+                    boxShadow: deleteConfirm === m.id ? 'inset 2px 2px 4px #b0b8cc, inset -2px -2px 4px #ffffff' : S.small, 
+                    background: deleteConfirm === m.id ? '#EF4444' : S.bg,
+                    color: deleteConfirm === m.id ? '#FFFFFF' : '#EF4444'
+                  }}
                 >
                   {processing === m.id ? (
-                    <div className="w-3 h-3 border border-red-500 border-t-transparent rounded-full animate-spin" />
+                    <div className="w-4 h-4 border border-current border-t-transparent rounded-full animate-spin" />
                   ) : (
-                    <Trash2 className="w-4 h-4" />
+                    <Trash2 className="w-5 h-5" />
                   )}
                 </button>
               </div>
@@ -233,7 +245,7 @@ export default function ModeratorsManager() {
               <p className="text-xs font-bold flex items-center gap-1.5" style={{ color: S.muted }}>
                 <GraduationCap className="w-3.5 h-3.5" /> {m.department}
               </p>
-              <div className="mt-4 pt-4 flex items-center justify-between text-[10px] uppercase tracking-widest font-bold" style={{ color: S.muted, borderTop: `1px solid ${isDark ? 'rgba(255,255,255,0.07)' : 'rgba(0,0,0,0.07)'}` }}>
+              <div className="mt-4 pt-4 flex items-center justify-between text-[11px] uppercase tracking-widest font-bold" style={{ color: S.muted, borderTop: `1px solid ${isDark ? 'rgba(255,255,255,0.07)' : 'rgba(0,0,0,0.07)'}` }}>
                  <span>Created</span>
                  <span>{new Date(m.created_at).toLocaleDateString()}</span>
               </div>
