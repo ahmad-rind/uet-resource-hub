@@ -378,8 +378,8 @@ export default function CategoryManager({ isEmbedded = false }: { isEmbedded?: b
       {confirm.show && (
         <div className="fixed inset-0 z-[150] flex items-center justify-center p-4" style={{ background: 'rgba(26,29,46,0.4)', backdropFilter: 'blur(8px)' }}>
           <div className="max-w-sm w-full p-6 rounded-[24px]" style={{ background: S.bg, boxShadow: S.extruded, borderRadius: 24 }}>
-            <div className="w-12 h-12 rounded-2xl bg-red-100 flex items-center justify-center mx-auto mb-4">
-              <AlertCircle size={24} className="text-red-500"/>
+            <div className="w-12 h-12 rounded-2xl flex items-center justify-center mx-auto mb-4" style={{ backgroundColor: isDark ? 'rgba(248, 113, 113, 0.1)' : 'rgba(239, 68, 68, 0.1)' }}>
+              <AlertCircle size={24} style={{ color: S.danger }}/>
             </div>
             <h3 className="text-lg font-bold text-center mb-2" style={{ fontFamily: "'Plus Jakarta Sans',sans-serif", color: S.fg }}>{confirm.title}</h3>
             <p className="text-sm text-center mb-6" style={{ color: S.muted }}>{confirm.msg}</p>
@@ -415,8 +415,8 @@ export default function CategoryManager({ isEmbedded = false }: { isEmbedded?: b
                 className={`flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-semibold transition-all`}
                 style={{ background: S.bg, boxShadow: S.small, borderRadius: 16 }}
                 title={showInactive ? 'Hide inactive' : 'Show inactive'}>
-                {showInactive ? <Eye size={13} className="text-[#4A3FD8]"/> : <EyeOff size={13} className="text-[#A0AEC0]"/>}
-                <span className={showInactive ? 'text-[#4A3FD8]' : 'text-[#A0AEC0]'}>
+                {showInactive ? <Eye size={13} style={{ color: S.accent }}/> : <EyeOff size={13} style={{ color: S.muted }}/>}
+                <span style={{ color: showInactive ? S.accent : S.muted }}>
                   {showInactive ? 'All' : 'Active only'}
                 </span>
               </button>
@@ -493,7 +493,7 @@ export default function CategoryManager({ isEmbedded = false }: { isEmbedded?: b
                         {isExpanded ? <ChevronDown size={16}/> : <ChevronRight size={16}/>}
                       </button>
                       <div className="w-10 h-10 rounded-2xl flex items-center justify-center flex-shrink-0" style={{ background: S.bg, boxShadow: S.inset, borderRadius: 12 }}>
-                        <GraduationCap size={18} style={{ color: dept.is_active ? '#5B4FE9' : '#A0AEC0' }}/>
+                        <GraduationCap size={18} style={{ color: dept.is_active ? S.accent : S.muted }}/>
                       </div>
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center gap-2 flex-wrap">
@@ -530,12 +530,12 @@ export default function CategoryManager({ isEmbedded = false }: { isEmbedded?: b
                         </button>
                         {!dept.fromStatic && (
                           <button onClick={() => deleteDept(dept)}
-                            className={`${btn.icon} hover:text-red-500`} style={{ background: S.bg, boxShadow: S.small, borderRadius: 16, color: S.muted }} title="Delete">
+                            className={`${btn.icon}`} style={{ background: S.bg, boxShadow: S.small, borderRadius: 16, color: S.danger }} title="Delete">
                             <Trash2 size={13}/>
                           </button>
                         )}
                         <button onClick={() => { setSelectedDeptName(dept.name); setActiveTab('courses'); setSelectedSemester(null); }}
-                          className="px-2.5 py-1.5 rounded-xl text-xs font-semibold text-[#4A3FD8] transition-all hover:-translate-y-0.5 active:scale-95"
+                          className="px-2.5 py-1.5 rounded-xl text-xs font-semibold transition-all hover:-translate-y-0.5 active:scale-95" style={{ color: S.accent }}
                           style={{ background: S.bg, boxShadow: S.small, borderRadius: 16 }} title="View courses">
                           Courses →
                         </button>
@@ -708,12 +708,12 @@ export default function CategoryManager({ isEmbedded = false }: { isEmbedded?: b
                           </div>
                           {/* Code icon */}
                           <div className="w-8 h-8 rounded-xl flex items-center justify-center flex-shrink-0" style={{ background: S.bg, boxShadow: S.inset, borderRadius: 12 }}>
-                            <Hash size={12} className="text-[#4A3FD8]"/>
+                            <Hash size={12} style={{ color: S.accent }}/>
                           </div>
                           {/* Info */}
                           <div className="flex-1 min-w-0">
                             <div className="flex items-center gap-2 flex-wrap">
-                              <span className="text-xs font-bold text-[#4A3FD8]">{course.code}</span>
+                              <span className="text-xs font-bold" style={{ color: S.accent }}>{course.code}</span>
                               <span className="font-semibold text-sm truncate" style={{ color: S.fg }}>{course.name}</span>
                               {!course.is_active && (
                                 <span className="px-1.5 py-0.5 rounded-full text-[10px] bg-gray-200 text-gray-500">Inactive</span>
@@ -722,7 +722,7 @@ export default function CategoryManager({ isEmbedded = false }: { isEmbedded?: b
                                 <span className="px-1.5 py-0.5 rounded-full text-[10px] bg-blue-100 text-blue-500">Built-in</span>
                               )}
                               {course.id && (
-                                <span className="px-1.5 py-0.5 rounded-full text-[10px] bg-green-100 text-green-600">✓ DB</span>
+                                <span className="px-1.5 py-0.5 rounded-full text-[10px]" style={{ color: S.success, backgroundColor: isDark ? 'rgba(16, 185, 129, 0.1)' : 'rgba(16, 185, 129, 0.15)' }}>✓ DB</span>
                               )}
                             </div>
                             <div className="text-xs text-[#A0AEC0]">{course.credit_hours} credit hrs</div>
@@ -736,7 +736,7 @@ export default function CategoryManager({ isEmbedded = false }: { isEmbedded?: b
                             </button>
                             {(!course.fromStatic || course.id) && (
                               <button onClick={() => deleteCourse(course)}
-                                className={`${btn.icon} hover:text-red-500`} style={{ background: S.bg, boxShadow: S.small, borderRadius: 16 }} title="Delete">
+                                className={`${btn.icon}`} style={{ background: S.bg, boxShadow: S.small, borderRadius: 16, color: S.danger }} title="Delete">
                                 <Trash2 size={12}/>
                               </button>
                             )}

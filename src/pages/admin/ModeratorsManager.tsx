@@ -196,7 +196,7 @@ export default function ModeratorsManager() {
             </div>
           </form>
           {error && (
-            <div className="mt-4 flex items-center gap-2 text-red-500 text-xs font-bold">
+            <div className="mt-4 flex items-center gap-2 text-xs font-bold" style={{ color: S.danger }}>
               <AlertCircle className="w-4 h-4" /> {error}
             </div>
           )}
@@ -206,7 +206,7 @@ export default function ModeratorsManager() {
       {loading ? (
         <div className="flex flex-col items-center justify-center py-20 gap-4">
           <div className="w-12 h-12 rounded-[24px] flex items-center justify-center" style={{ background: S.bg, boxShadow: S.extruded }}>
-            <div className="w-6 h-6 border-2 border-[#5B4FE9] border-t-transparent rounded-full animate-spin" />
+            <div className="w-6 h-6 border-2 border-t-transparent rounded-full animate-spin" style={{ borderColor: S.accent, borderTopColor: 'transparent' }} />
           </div>
         </div>
       ) : moderators.length === 0 ? (

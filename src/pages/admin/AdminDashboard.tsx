@@ -148,7 +148,7 @@ function PreviewModal({ resource, onClose, onApprove, onReject, onDismissFlags, 
                 className="w-12 h-12 rounded-xl flex items-center justify-center shrink-0"
                 style={{ background: S.bg, boxShadow: S.smallInset }}
               >
-                <FileIcon className="w-6 h-6 text-[#4A3FD8]" />
+                <FileIcon className="w-6 h-6" style={{ color: S.accent }} />
               </div>
               <div className="min-w-0">
                 <h3 className="text-lg font-extrabold tracking-tight leading-tight mb-0.5"
@@ -181,7 +181,7 @@ function PreviewModal({ resource, onClose, onApprove, onReject, onDismissFlags, 
         </div>
 
         {/* Metadata Multi-col Stripe */}
-        <div className="border-y border-[#b0b8cc]/50 grid grid-cols-4 px-2 shrink-0 shadow-[inset_0_4px_12px_rgba(0,0,0,0.03)]" style={{ background: isDark ? '#252838' : '#ced4e0' }}>
+        <div className="border-y grid grid-cols-4 px-2 shrink-0 shadow-[inset_0_4px_12px_rgba(0,0,0,0.03)]" style={{ borderColor: S.border, background: isDark ? '#252838' : '#ced4e0' }}>
           {[
             { label: 'DEPT', value: resource.department.split(' ')[0] },
             { label: 'SEM',  value: `Sem ${resource.semester}` },
@@ -189,7 +189,7 @@ function PreviewModal({ resource, onClose, onApprove, onReject, onDismissFlags, 
             { label: 'TIME', value: fmtRelative(resource.uploadedAt) },
           ].map((item, idx) => (
             <div key={idx} className={`py-4 px-3 text-center ${idx < 3 ? 'border-r' : ''}`} style={{ borderColor: isDark ? 'rgba(255,255,255,0.1)' : 'rgba(176,184,204,0.4)' }}>
-              <p className="text-[8px] font-extrabold text-[#4A3FD8] uppercase tracking-[0.1em] mb-1">{item.label}</p>
+              <p className="text-[8px] font-extrabold uppercase tracking-[0.1em] mb-1" style={{ color: S.accent }}>{item.label}</p>
               <p className="text-[11px] font-extrabold truncate" style={{ color: S.fg }}>{item.value}</p>
             </div>
           ))}
@@ -208,7 +208,8 @@ function PreviewModal({ resource, onClose, onApprove, onReject, onDismissFlags, 
                 {resource.link}
               </div>
               <a href={resource.link} target="_blank" rel="noopener noreferrer"
-                className="px-4 py-1.5 rounded-lg text-[11px] font-extrabold text-[#4A3FD8] transition-all duration-300 hover:bg-white/20 active:scale-95 flex items-center gap-1.5 shrink-0"
+                className="px-4 py-1.5 rounded-lg text-[11px] font-extrabold transition-all duration-300 hover:bg-white/20 active:scale-95 flex items-center gap-1.5 shrink-0"
+                style={{ color: S.accent }}
               >
                 Open <ArrowUpRight className="w-3 h-3" />
               </a>
@@ -258,7 +259,8 @@ function PreviewModal({ resource, onClose, onApprove, onReject, onDismissFlags, 
             <button 
               onClick={() => { onDismissFlags(resource.id); onClose(); }} 
               disabled={isProc}
-              className="w-full flex items-center justify-center gap-2 py-2 rounded-xl text-[10px] font-extrabold text-orange-600 uppercase tracking-widest transition-all duration-300 hover:bg-orange-50/50 disabled:opacity-60"
+              className="w-full flex items-center justify-center gap-2 py-2 rounded-xl text-[10px] font-extrabold uppercase tracking-widest transition-all duration-300 disabled:opacity-60"
+              style={{ color: S.warning, backgroundColor: isDark ? 'rgba(251, 191, 36, 0.1)' : 'rgba(245, 158, 11, 0.1)' }}
             >
               <ShieldCheck className="w-3.5 h-3.5" /> Clear Flags
             </button>
@@ -340,7 +342,7 @@ function EditResourceModal({ resource, onClose, onSave }: {
                 className="w-12 h-12 rounded-xl flex items-center justify-center shrink-0"
                 style={{ background: S.bg, boxShadow: S.smallInset }}
               >
-                <Pencil className="w-6 h-6 text-[#4A3FD8]" />
+                <Pencil className="w-6 h-6" style={{ color: S.accent }} />
               </div>
               <div className="min-w-0">
                 <h3 className="text-lg font-extrabold tracking-tight leading-tight mb-0.5"
@@ -362,7 +364,7 @@ function EditResourceModal({ resource, onClose, onSave }: {
         </div>
 
         {/* Info Stripe (Read Only) */}
-        <div className="border-y border-[#b0b8cc]/50 grid grid-cols-4 px-2 shrink-0 shadow-[inset_0_4px_12px_rgba(0,0,0,0.03)]" style={{ background: isDark ? '#252838' : '#ced4e0' }}>
+        <div className="border-y grid grid-cols-4 px-2 shrink-0 shadow-[inset_0_4px_12px_rgba(0,0,0,0.03)]" style={{ borderColor: S.border, background: isDark ? '#252838' : '#ced4e0' }}>
           {[
             { label: 'DEPT', value: resource.department.split(' ')[0] },
             { label: 'SEM',  value: `Sem ${resource.semester}` },
@@ -370,7 +372,7 @@ function EditResourceModal({ resource, onClose, onSave }: {
             { label: 'TYPE', value: resource.type },
           ].map((item, idx) => (
             <div key={idx} className={`py-3 px-3 text-center ${idx < 3 ? 'border-r' : ''}`} style={{ borderColor: isDark ? 'rgba(255,255,255,0.1)' : 'rgba(176,184,204,0.4)' }}>
-              <p className="text-[8px] font-extrabold text-[#4A3FD8] uppercase tracking-[0.1em] mb-1">{item.label}</p>
+              <p className="text-[8px] font-extrabold uppercase tracking-[0.1em] mb-1" style={{ color: S.accent }}>{item.label}</p>
               <p className="text-[11px] font-extrabold truncate" style={{ color: S.fg }}>{item.value}</p>
             </div>
           ))}
@@ -380,7 +382,7 @@ function EditResourceModal({ resource, onClose, onSave }: {
         <form onSubmit={handleSubmit} className="flex-1 overflow-y-auto no-scrollbar p-6 space-y-4">
           {/* Title */}
           <div>
-            <label className="block text-[9px] font-extrabold uppercase tracking-widest text-[#4A3FD8] mb-1.5">Title</label>
+            <label className="block text-[9px] font-extrabold uppercase tracking-widest mb-1.5" style={{ color: S.accent }}>Title</label>
             <input 
               type="text"
               value={form.title} 
@@ -394,7 +396,7 @@ function EditResourceModal({ resource, onClose, onSave }: {
 
           {/* Type Selection */}
           <div>
-            <label className="block text-[9px] font-extrabold uppercase tracking-widest text-[#4A3FD8] mb-1.5">Resource Type</label>
+            <label className="block text-[9px] font-extrabold uppercase tracking-widest mb-1.5" style={{ color: S.accent }}>Resource Type</label>
             <div className="relative group">
               <Select
                 value={form.type}
@@ -423,7 +425,7 @@ function EditResourceModal({ resource, onClose, onSave }: {
 
           {/* Link */}
           <div>
-            <label className="block text-[9px] font-extrabold uppercase tracking-widest text-[#4A3FD8] mb-1.5 flex items-center gap-1.5">
+            <label className="block text-[9px] font-extrabold uppercase tracking-widest mb-1.5 flex items-center gap-1.5" style={{ color: S.accent }}>
               <ArrowUpRight className="w-2.5 h-2.5" /> External Link
             </label>
             <input 
@@ -439,7 +441,7 @@ function EditResourceModal({ resource, onClose, onSave }: {
 
           {/* Description */}
           <div>
-             <label className="block text-[9px] font-extrabold uppercase tracking-widest text-[#4A3FD8] mb-1.5">Description</label>
+             <label className="block text-[9px] font-extrabold uppercase tracking-widest mb-1.5" style={{ color: S.accent }}>Description</label>
              <textarea 
                value={form.description} 
                onChange={e => setForm(f => ({ ...f, description: e.target.value }))}
@@ -451,7 +453,8 @@ function EditResourceModal({ resource, onClose, onSave }: {
           </div>
 
           {error && (
-            <div className="p-4 rounded-2xl bg-red-50 text-red-600 text-[11px] font-bold border border-red-100 flex items-center gap-2">
+            <div className="p-4 rounded-2xl text-[11px] font-bold border flex items-center gap-2"
+                 style={{ color: S.danger, backgroundColor: isDark ? 'rgba(248, 113, 113, 0.1)' : 'rgba(239, 68, 68, 0.1)', borderColor: isDark ? 'rgba(248, 113, 113, 0.2)' : 'rgba(239, 68, 68, 0.2)' }}>
               <AlertTriangle className="w-3.5 h-3.5" /> {error}
             </div>
           )}
@@ -559,7 +562,7 @@ function ResourceCard({ resource, onApprove, onReject, onPreview, onDelete, onDi
           className="w-11 h-11 rounded-xl flex items-center justify-center shrink-0"
           style={{ background: S.bg, boxShadow: S.smallInset }}
         >
-          <FileIcon className="w-5.5 h-5.5 text-[#4A3FD8]" />
+          <FileIcon className="w-5.5 h-5.5" style={{ color: S.accent }} />
         </div>
 
         {/* Title & Stats Meta */}
@@ -585,8 +588,8 @@ function ResourceCard({ resource, onApprove, onReject, onPreview, onDelete, onDi
           {status.icon} {status.label}
         </div>
         {resource.reportCount > 0 && (
-          <div className="px-2 py-0.5 rounded-full text-[9px] font-extrabold tracking-widest uppercase flex items-center gap-1.5 text-orange-600 bg-orange-50/50"
-            style={{ boxShadow: 'inset 0 0 0 1px rgba(234, 88, 12, 0.1)' }}>
+          <div className="px-2 py-0.5 rounded-full text-[9px] font-extrabold tracking-widest uppercase flex items-center gap-1.5"
+            style={{ color: S.warning, backgroundColor: isDark ? 'rgba(251, 191, 36, 0.1)' : 'rgba(245, 158, 11, 0.1)', boxShadow: 'inset 0 0 0 1px rgba(234, 88, 12, 0.1)' }}>
             <Flag className="w-2.5 h-2.5" /> {resource.reportCount}
           </div>
         )}
@@ -687,7 +690,8 @@ function ResourceCard({ resource, onApprove, onReject, onPreview, onDelete, onDi
         <button 
           onClick={() => onDismissFlags(resource.id)}
           disabled={isProc}
-          className="w-full mt-2.5 flex items-center justify-center gap-1 py-1 rounded text-[8px] font-extrabold text-orange-600 uppercase tracking-widest transition-all duration-300 hover:bg-orange-50/50 disabled:opacity-60"
+          className="w-full mt-2.5 flex items-center justify-center gap-1 py-1 rounded text-[8px] font-extrabold uppercase tracking-widest transition-all duration-300 disabled:opacity-60"
+          style={{ color: S.warning, backgroundColor: isDark ? 'rgba(251, 191, 36, 0.1)' : 'rgba(245, 158, 11, 0.1)' }}
         >
           <ShieldCheck className="w-2.5 h-2.5" /> Clear Flags
         </button>
@@ -704,22 +708,31 @@ function SideNavItem({ icon, label, active, onClick, badge }: {
   const { S, isDark } = useAdminTheme();
   return (
     <button onClick={onClick} aria-current={active ? "page" : undefined}
-      className={`w-full flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm font-medium transition-all duration-300 text-left cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#5B4FE9] group ${active ? 'scale-[1.02]' : 'hover:translate-x-1'}`}
+      className={`w-full flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm font-semibold transition-all duration-200 text-left cursor-pointer focus:outline-none group
+        ${active ? 'active:scale-[0.97]' : 'hover:translate-x-0.5 active:scale-[0.97]'}`}
       style={{
-        background: active ? (isDark ? 'rgba(255,255,255,0.05)' : 'rgba(255,255,255,0.4)') : 'transparent',
-        boxShadow: active ? S.small : 'none',
-        color: active ? S.accent : S.fg,
+        background: active
+          ? (isDark ? 'rgba(124,113,255,0.12)' : 'rgba(91,79,233,0.08)')
+          : 'transparent',
+        boxShadow: active ? S.smallInset : 'none',
+        color: active ? S.accent : S.muted,
         fontFamily: "'DM Sans',sans-serif",
+      }}
+      onMouseEnter={e => {
+        if (!active) e.currentTarget.style.background = isDark ? 'rgba(255,255,255,0.04)' : 'rgba(0,0,0,0.03)';
+      }}
+      onMouseLeave={e => {
+        if (!active) e.currentTarget.style.background = 'transparent';
       }}>
-      <span className={`transition-transform duration-300 ${active ? 'scale-110' : 'group-hover:scale-110'}`}>{icon}</span>
+      <span className={`transition-transform duration-200 ${active ? 'scale-110' : 'group-hover:scale-110'}`}>{icon}</span>
       <span className="flex-1 truncate">{label}</span>
       {badge !== undefined && badge > 0 && (
         <span className="text-[10px] font-extrabold px-1.5 py-0.5 rounded-full text-white"
           style={{ 
-            background: active ? S.accent : '#F59E0B', 
+            background: active ? S.accent : S.warning, 
             minWidth: 18, 
             textAlign: 'center', 
-            boxShadow: active ? '0 2px 8px rgba(108, 99, 255, 0.4)' : '0 2px 8px rgba(245, 158, 11, 0.3)' 
+            boxShadow: `0 2px 6px ${active ? (isDark ? 'rgba(124,113,255,0.35)' : 'rgba(91,79,233,0.25)') : (isDark ? 'rgba(251,191,36,0.25)' : 'rgba(245,158,11,0.2)')}`,
           }}>
           {badge}
         </span>
@@ -907,7 +920,7 @@ export default function AdminDashboard() {
     return (
       <div className="min-h-screen flex items-center justify-center" style={{ background: S.bg }}>
         <div className="w-14 h-14 rounded-[32px] flex items-center justify-center" style={{ boxShadow: S.extruded }}>
-          <div className="w-6 h-6 border-2 border-[#5B4FE9] border-t-transparent rounded-full animate-spin" />
+          <div className="w-6 h-6 border-2 border-t-transparent rounded-full animate-spin" style={{ borderColor: S.accent, borderTopColor: 'transparent' }} />
         </div>
       </div>
     );
@@ -915,24 +928,25 @@ export default function AdminDashboard() {
 
   // ── Sidebar ───────────────────────────────────────────────────────────────
   function Sidebar() { return (
-    <aside className="flex flex-col h-full px-3 py-4 gap-3 overflow-y-auto no-scrollbar glass-sidebar" style={{ background: S.bg }}>
+    <aside className="flex flex-col h-full px-3 py-4 gap-3 overflow-y-auto no-scrollbar"
+      style={{ background: S.bg, borderRight: `1px solid ${isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.07)'}` }}>
       {/* Logo */}
-      <div className="flex items-center gap-2 px-2 mb-1">
-        <div className="w-9 h-9 rounded-xl flex items-center justify-center shrink-0"
-          style={{ boxShadow: S.small, background: isDark ? 'rgba(255,255,255,0.05)' : 'rgba(255,255,255,0.4)' }}>
+      <div className="flex items-center gap-2.5 px-2 mb-2">
+        <div className="w-10 h-10 rounded-xl flex items-center justify-center shrink-0"
+          style={{ boxShadow: S.small }}>
           <div className="w-6 h-6 rounded-lg flex items-center justify-center overflow-hidden p-0.5">
             <img src="/uettaxilalogo.webp" alt="University of Engineering and Technology Taxila official logo" className="w-full h-full object-contain" />
           </div>
         </div>
         <div className="min-w-0">
-          <p className="font-extrabold text-xs tracking-tight truncate" style={{ color: S.fg, fontFamily: "'Plus Jakarta Sans',sans-serif" }}>Admin Panel</p>
-          <p className="text-[10px]" style={{ color: S.muted }}>UET Taxila</p>
+          <p className="font-extrabold text-sm tracking-tight truncate" style={{ color: S.fg, fontFamily: "'Plus Jakarta Sans',sans-serif" }}>Admin Panel</p>
+          <p className="text-[10px] font-medium" style={{ color: S.muted }}>UET Taxila</p>
         </div>
       </div>
 
       {/* Resources nav */}
       <div className="space-y-1">
-        <p className="text-[9px] font-bold uppercase tracking-widest px-3 mb-1 opacity-60" style={{ color: S.muted }}>Resources</p>
+        <p className="text-[9px] font-bold uppercase tracking-widest px-3 mb-1" style={{ color: S.muted, opacity: 0.5 }}>Resources</p>
         <div className="space-y-0.5">
           {navItems.map(item => (
             <SideNavItem key={item.id} icon={item.icon} label={item.label}
@@ -945,7 +959,7 @@ export default function AdminDashboard() {
       {/* Management (Super Admin Only) */}
       {adminSession.role === 'super_admin' && (
         <div className="space-y-1">
-          <p className="text-[9px] font-bold uppercase tracking-widest px-3 mb-1 opacity-60" style={{ color: S.muted }}>Management</p>
+          <p className="text-[9px] font-bold uppercase tracking-widest px-3 mb-1" style={{ color: S.muted, opacity: 0.5 }}>Management</p>
           <div className="space-y-0.5">
             <SideNavItem 
               icon={<FolderTree className="w-4 h-4" />} 
@@ -960,9 +974,12 @@ export default function AdminDashboard() {
               onClick={() => { setActiveTab('moderators'); setSidebarOpen(false); }} 
             />
             <a href="/" target="_blank" rel="noopener noreferrer"
-              className={`w-full flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm font-medium transition-all duration-300 hover:translate-x-1 cursor-pointer ${isDark ? 'hover:bg-white/5' : 'hover:bg-white/40'}`}
-              style={{ color: S.fg, fontFamily: "'DM Sans',sans-serif" }}>
+              className="w-full flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm font-semibold transition-all duration-200 cursor-pointer"
+              style={{ color: S.muted, fontFamily: "'DM Sans',sans-serif" }}
+              onMouseEnter={e => { e.currentTarget.style.background = isDark ? 'rgba(255,255,255,0.04)' : 'rgba(0,0,0,0.03)'; e.currentTarget.style.color = S.fg; }}
+              onMouseLeave={e => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.color = S.muted; }}>
               <Home className="w-4 h-4" /> <span className="flex-1 truncate">Public Site</span>
+              <ArrowUpRight className="w-3 h-3 opacity-40" />
             </a>
           </div>
         </div>
@@ -972,30 +989,40 @@ export default function AdminDashboard() {
       <div className="flex-1" />
 
       {/* Session + logout */}
-      <div className="space-y-2 mt-auto pt-2" style={{ borderTop: `1px solid ${isDark ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.06)'}` }}>
+      <div className="space-y-1.5 mt-auto pt-3" style={{ borderTop: `1px solid ${isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.06)'}` }}>
+        {/* Theme Toggle */}
         <button onClick={toggleTheme}
-          className="w-full flex items-center justify-between px-4 py-2.5 rounded-xl text-sm font-bold transition-all duration-300 hover:opacity-80 active:scale-95 focus:outline-none"
-          style={{ fontFamily: "'DM Sans',sans-serif", color: S.fg }}>
+          className="w-full flex items-center justify-between px-4 py-2.5 rounded-xl text-sm font-semibold transition-all duration-200 active:scale-[0.97] focus:outline-none"
+          style={{ fontFamily: "'DM Sans',sans-serif", color: S.muted }}
+          onMouseEnter={e => { e.currentTarget.style.background = isDark ? 'rgba(255,255,255,0.04)' : 'rgba(0,0,0,0.03)'; e.currentTarget.style.color = S.fg; }}
+          onMouseLeave={e => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.color = S.muted; }}>
           <div className="flex items-center gap-3">
             {isDark ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
             <span>Theme</span>
           </div>
-          <span className="text-[10px] uppercase tracking-widest opacity-60">
+          <span className="text-[10px] font-bold uppercase tracking-widest px-2 py-0.5 rounded-md"
+            style={{ background: isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.05)', color: S.muted }}>
             {isDark ? 'Dark' : 'Light'}
           </span>
         </button>
+
+        {/* Session Info */}
         {sessionExpiry && (
-          <div className="px-3 py-2 rounded-xl text-[10px] flex items-center gap-2"
-            style={{ background: isDark ? 'rgba(255,255,255,0.05)' : 'rgba(255,255,255,0.4)', color: S.muted }}>
-            <div className="w-1.5 h-1.5 rounded-full bg-green-500 shrink-0" />
+          <div className="px-4 py-2.5 rounded-xl text-[10px] font-semibold flex items-center gap-2.5"
+            style={{ boxShadow: S.smallInset, color: S.fg }}>
+            <div className="w-2 h-2 rounded-full shrink-0 animate-pulse" style={{ backgroundColor: S.success, boxShadow: `0 0 6px ${S.success}` }} />
             <span className="truncate">
               {adminSession.role === 'super_admin' ? 'Super Admin' : `Mod: ${adminSession.department}`}
             </span>
           </div>
         )}
+
+        {/* Sign Out */}
         <button onClick={handleLogout}
-          className="w-full flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm font-bold text-red-500 transition-all duration-300 hover:bg-red-50 focus:outline-none focus:ring-2 focus:ring-red-400"
-          style={{ fontFamily: "'DM Sans',sans-serif" }}>
+          className="w-full flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm font-semibold transition-all duration-200 active:scale-[0.97] focus:outline-none"
+          style={{ fontFamily: "'DM Sans',sans-serif", color: S.danger }}
+          onMouseEnter={e => { e.currentTarget.style.background = isDark ? 'rgba(248,113,113,0.08)' : 'rgba(239,68,68,0.06)'; }}
+          onMouseLeave={e => { e.currentTarget.style.background = 'transparent'; }}>
           <LogOut className="w-4 h-4" /> Sign Out
         </button>
       </div>
@@ -1118,7 +1145,7 @@ export default function AdminDashboard() {
           {loading ? (
             <div className="flex flex-col items-center justify-center py-24 gap-6">
               <div className="w-16 h-16 rounded-[32px] flex items-center justify-center" style={{ boxShadow: S.extruded }}>
-                <div className="w-7 h-7 border-2 border-[#5B4FE9] border-t-transparent rounded-full animate-spin" />
+                <div className="w-7 h-7 border-2 border-t-transparent rounded-full animate-spin" style={{ borderColor: S.accent, borderTopColor: 'transparent' }} />
               </div>
               <p className="text-sm font-medium" style={{ color: S.muted }}>Loading content...</p>
             </div>
@@ -1133,7 +1160,7 @@ export default function AdminDashboard() {
           ) : filtered.length === 0 ? (
             <div className="rounded-[32px] p-16 text-center" style={{ background: S.bg, boxShadow: S.extruded }}>
               <div className="mb-4">
-                {activeTab === 'pending' ? <PartyPopper className="w-12 h-12 text-[#10B981] mx-auto" /> : activeTab === 'flagged' ? <Flag className="w-12 h-12 text-[#F97316] mx-auto" /> : searchQuery ? <Search className="w-12 h-12 text-[#4A3FD8] mx-auto" /> : <Inbox className="w-12 h-12 text-[#4A3FD8] mx-auto" />}
+                {activeTab === 'pending' ? <PartyPopper className="w-12 h-12 mx-auto" style={{ color: S.success }} /> : activeTab === 'flagged' ? <Flag className="w-12 h-12 mx-auto" style={{ color: S.warning }} /> : searchQuery ? <Search className="w-12 h-12 mx-auto" style={{ color: S.accent }} /> : <Inbox className="w-12 h-12 mx-auto" style={{ color: S.accent }} />}
               </div>
               <h3 className="font-extrabold text-xl mb-2 tracking-tight" style={{ color: S.fg, fontFamily: "'Plus Jakarta Sans',sans-serif" }}>
                 {searchQuery

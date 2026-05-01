@@ -190,7 +190,7 @@ export default function AdminLoginPage() {
                       ? <Shield className="w-4 h-4 transition-colors duration-300" style={{ color: isActive ? S.accent : S.muted }} />
                       : <Key className="w-4 h-4 transition-colors duration-300" style={{ color: isActive ? S.accent : S.muted }} />
                     }
-                    <span className="text-[13px] font-bold transition-colors duration-300" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: isActive ? 'var(--neu-accent)' : 'var(--neu-muted)' }}>
+                    <span className="text-[13px] font-bold transition-colors duration-300" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: isActive ? S.accent : S.muted }}>
                       {r === 'admin' ? 'Admin' : 'Moderator'}
                     </span>
                   </div>
@@ -308,7 +308,8 @@ export default function AdminLoginPage() {
 
             {/* Error Message */}
             {error && (
-              <div className="flex items-center gap-3 mt-4 text-xs font-bold text-red-500 bg-red-500/10 px-4 py-3 rounded-[12px] border border-red-500/20">
+              <div className="flex items-center gap-3 mt-4 text-xs font-bold px-4 py-3 rounded-[12px] border"
+                   style={{ color: S.danger, backgroundColor: isDark ? 'rgba(248, 113, 113, 0.1)' : 'rgba(239, 68, 68, 0.1)', borderColor: isDark ? 'rgba(248, 113, 113, 0.2)' : 'rgba(239, 68, 68, 0.2)' }}>
                 <AlertTriangle className="w-4 h-4 shrink-0" />
                 <span>{error}</span>
               </div>
@@ -318,7 +319,7 @@ export default function AdminLoginPage() {
             {attempts > 0 && !locked && (
               <div className="flex gap-2 justify-center py-2">
                 {Array.from({ length: 5 }).map((_, i) => (
-                  <div key={i} className={`h-1.5 flex-1 max-w-[12px] rounded-full transition-colors duration-300`} style={{ background: i < attempts ? '#EF4444' : 'transparent', boxShadow: i < attempts ? '0 0 8px rgba(239, 68, 68, 0.5)' : S.smallInset }} />
+                  <div key={i} className={`h-1.5 flex-1 max-w-[12px] rounded-full transition-colors duration-300`} style={{ background: i < attempts ? S.danger : 'transparent', boxShadow: i < attempts ? `0 0 8px ${S.danger}` : S.smallInset }} />
                 ))}
               </div>
             )}
